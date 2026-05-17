@@ -1,59 +1,51 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-// ─── Data placeholder (Thay thế bằng thông tin của bạn) ───
+// ─── Data placeholder (Đã được cập nhật) ───
 const PROFILE = {
-  name: "Nguyễn Văn A",
-  tagline: "Developer · Dreamer · Lifelong Learner",
-  avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Felix&backgroundColor=e8e0d4",
-  about: "Tôi là một sinh viên ngành Công nghệ thông tin, đam mê lập trình và luôn tìm kiếm cơ hội để học hỏi, sáng tạo. Tôi tin rằng công nghệ có thể thay đổi cuộc sống mọi người theo hướng tốt đẹp hơn.",
-  personality: "Hướng nội nhưng cởi mở với những ý tưởng mới. Kiên nhẫn, tỉ mỉ, và luôn cố gắng hoàn thiện bản thân mỗi ngày.",
-  philosophy: "\"Học không chỉ để biết, mà để trở thành phiên bản tốt hơn của chính mình mỗi ngày.\"",
-  currentWork: "Hiện đang là sinh viên năm 3 ngành CNTT, đồng thời nhận freelance thiết kế web cho các doanh nghiệp nhỏ.",
-  dream: "Xây dựng những sản phẩm công nghệ giải quyết vấn đề thực tế. Hiện đang phát triển web quản lý phòng trọ — ứng dụng đầu tiên giúp cô chủ trọ số hóa việc quản lý, từ đăng phòng đến thu tiền.",
-  futurePlan: "Trở thành Full-stack Developer, xây dựng startup công nghệ giải quyết bài toán nhà ở cho sinh viên và người lao động trẻ.",
-  email: "your.email@gmail.com",
-  github: "https://github.com/yourusername",
-  linkedin: "https://linkedin.com/in/yourusername",
+  name: "Đỗ Xuân Tuyên",
+  tagline: "Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu",
+  avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Tuyen&backgroundColor=e8e0d4",
+  about: "Tôi là sinh viên năm nhất tại trường Đại học Công nghệ (VNU-UET). Tôi có niềm yêu thích đặc biệt với phương pháp tiếp cận top-down: luôn tìm hiểu bức tranh tổng thể và kiến trúc hệ thống trước khi đi sâu vào chi tiết kỹ thuật. Ngoài việc code, tôi dành nhiều thời gian để tối ưu hóa không gian quản lý kiến thức cá nhân của mình.",
+  personality: "Đề cao tính tổ chức, kỷ luật logic và yêu thích sự tối giản. Luôn tò mò về sự giao thoa giữa công nghệ, toán học và tư duy triết học.",
+  philosophy: "\"Nắm vững bức tranh tổng thể trước khi đắm chìm vào các chi tiết kỹ thuật.\"",
+  currentWork: "Đang tập trung vào các môn khoa học cơ bản ở trường đại học, đồng thời tự phát triển các dự án phần mềm cá nhân và xây dựng hệ thống digital garden để viết blog.",
+  dream: "Hướng tới mục tiêu du học và xa hơn là theo đuổi chương trình Tiến sĩ (PhD) trong lĩnh vực Điện toán Đám mây (Cloud Computing) hoặc Điện toán Lượng tử (Quantum Computing).",
+  futurePlan: "Đạt mục tiêu IELTS 8.0, rèn luyện kỹ năng nghiên cứu học thuật và xây dựng các phần mềm có kiến trúc vững chắc.",
+  email: "your.email@gmail.com", // Đổi thành email của bạn
+  github: "https://github.com/yourusername", // Đổi thành link Github của bạn
+  linkedin: "https://linkedin.com/in/yourusername", // Đổi thành link LinkedIn của bạn
 };
 
 const TIMELINE = [
-  { year: "2003", title: "Sinh ra", desc: "Bắt đầu hành trình cuộc đời tại một vùng quê yên bình.", side: "left" },
-  { year: "2018", title: "Đam mê máy tính", desc: "Lần đầu tiên viết dòng code Hello World và biết rằng đây là con đường mình muốn đi.", side: "right" },
-  { year: "2021", title: "Vào đại học", desc: "Trở thành sinh viên ngành Công nghệ Thông tin, mở ra cánh cửa tri thức mới.", side: "left" },
-  { year: "2024", title: "Dự án đầu tiên", desc: "Hoàn thành dự án thực tế đầu tiên — website cho một quán cà phê địa phương.", side: "right" },
-  { year: "2026", title: "Web phòng trọ", desc: "Đang phát triển hệ thống quản lý phòng trọ — giải pháp thực tế cho cô chủ trọ.", side: "left" },
+  { year: "2005", title: "Sinh ra", desc: "Bắt đầu cuộc hành trình.", side: "left" }
 ];
 
 const SKILLS = [
-  { category: "Ngôn ngữ", items: ["JavaScript", "Python", "HTML/CSS", "SQL", "TypeScript"] },
-  { category: "Framework", items: ["React", "Node.js", "Express", "Tailwind CSS", "Flask"] },
-  { category: "Công cụ", items: ["Git & GitHub", "VS Code", "Figma", "Docker", "Postman"] },
-  { category: "Sở thích", items: ["Đọc sách", "Nghe nhạc", "Du lịch", "Viết blog", "Chạy bộ"] },
+  { category: "Ngôn ngữ & Nền tảng", items: ["Java", "JavaScript", "HTML/CSS"] },
+  { category: "Hệ điều hành & Công cụ", items: ["Linux (Ubuntu)", "Git & GitHub", "Obsidian", "VS Code"] },
+  { category: "Kiến thức", items: ["Mạng máy tính", "Toán rời rạc", "Vật lý đại cương", "Cấu trúc dữ liệu"] },
+  { category: "Sở thích", items: ["Đọc sách triết học", "Viết blog", "Tối ưu hóa quy trình", "Nghiên cứu kiến trúc"] },
 ];
 
 const LESSONS = [
-  { title: "Kiên trì là chìa khóa", desc: "Không có con đường tắt cho thành công. Mỗi dòng code sai đều dạy mình điều gì đó." },
-  { title: "Học từ thất bại", desc: "Bug không phải là kẻ thù — nó là người thầy tốt nhất trên hành trình lập trình." },
-  { title: "Chia sẻ là nhận lại", desc: "Viết blog, giúp bạn bè debug — càng chia sẻ, kiến thức càng sâu hơn." },
+  { title: "Tư duy Top-down", desc: "Việc hiểu rõ kiến trúc tổng thể giúp quá trình học các ngôn ngữ hay công cụ mới trở nên có hệ thống và bản chất hơn rất nhiều." },
+  { title: "Quản lý kiến thức (PKM)", desc: "Sử dụng các công cụ như Obsidian không chỉ để ghi chép, mà là để kết nối các luồng tư duy và hình thành một bộ não thứ hai." },
+  { title: "Sức mạnh của nền tảng", desc: "Logic, toán học và phương pháp luận chính là gốc rễ để tiến xa và giải quyết những bài toán phức tạp trong ngành công nghệ." },
 ];
 
 const BLOGS = [
-  { id: 1, title: "Hành trình học React từ zero", desc: "Chia sẻ những bước đầu tiên khi tiếp cận React, từ JSX đến hooks, và những sai lầm mình đã mắc phải.", date: "15/03/2026", readTime: "5 phút", likes: 12, content: "Nội dung chi tiết bài viết sẽ được thêm vào đây..." },
-  { id: 2, title: "Tại sao tôi chọn ngành IT", desc: "Câu chuyện từ một cậu bé thích vọc máy tính đến quyết định theo đuổi ngành Công nghệ thông tin.", date: "01/02/2026", readTime: "7 phút", likes: 24, content: "Nội dung chi tiết bài viết sẽ được thêm vào đây..." },
-  { id: 3, title: "Tips quản lý thời gian cho sinh viên IT", desc: "Làm sao để cân bằng giữa học, code, freelance và cuộc sống cá nhân?", date: "20/01/2026", readTime: "4 phút", likes: 18, content: "Nội dung chi tiết bài viết sẽ được thêm vào đây..." },
+  { id: 1, title: "Xây dựng hệ thống quản lý kiến thức", desc: "Cách tôi sử dụng Markdown và liên kết hai chiều để quản lý hàng tá môn học trên trường.", date: "15/05/2026", readTime: "5 phút", likes: 12, content: "..." },
+  { id: 2, title: "Tại sao nên dùng Linux để học code?", desc: "Trải nghiệm cá nhân khi chuyển sang sử dụng Ubuntu làm môi trường phát triển chính.", date: "01/04/2026", readTime: "7 phút", likes: 24, content: "..." },
 ];
 
 const BOOKS = [
-  { id: 1, title: "Atomic Habits", author: "James Clear", rating: 5, cover: "📗", review: "Cuốn sách thay đổi cách tôi xây dựng thói quen hàng ngày. Mỗi 1% cải thiện mỗi ngày sẽ tạo nên sự khác biệt lớn." },
-  { id: 2, title: "Clean Code", author: "Robert C. Martin", rating: 4, cover: "📘", review: "Bắt buộc đọc cho mọi developer. Dạy cách viết code sạch, dễ đọc và dễ bảo trì." },
-  { id: 3, title: "Nhà Giả Kim", author: "Paulo Coelho", rating: 5, cover: "📙", review: "Hành trình theo đuổi ước mơ của Santiago đã truyền cảm hứng cho tôi dám bước ra khỏi vùng an toàn." },
-  { id: 4, title: "Sapiens", author: "Yuval Noah Harari", rating: 4, cover: "📕", review: "Hiểu về lịch sử loài người giúp tôi nhìn nhận công nghệ và tương lai với góc nhìn rộng hơn." },
+  { id: 1, title: "Toán học rời rạc", author: "Kenneth H. Rosen", rating: 5, cover: "📘", review: "Cuốn sách gối đầu giường giúp rèn luyện tư duy logic toán học cực kỳ nền tảng cho sinh viên IT." },
+  { id: 2, title: "Calculus", author: "James Stewart", rating: 4, cover: "📙", review: "Góc nhìn trực quan về giải tích đa biến, rất hữu ích cho các hướng nghiên cứu sâu về sau." },
 ];
 
 const PROJECTS = [
-  { id: 1, name: "Portfolio Website", desc: "Website portfolio cá nhân với thiết kế Hybrid — scrollytelling + multi-page transitions.", tech: ["React", "Tailwind", "CSS Animations"], github: "https://github.com/yourusername/portfolio", demo: "#", status: "Hoàn thành" },
-  { id: 2, name: "Web Quản lý Phòng trọ", desc: "Hệ thống giúp chủ trọ quản lý phòng, khách thuê, hóa đơn và thông báo. Dự án thực tế đang phát triển.", tech: ["React", "Node.js", "MongoDB", "Express"], github: "https://github.com/yourusername/room-management", demo: "#", status: "Đang phát triển" },
-  { id: 3, name: "Todo App", desc: "Ứng dụng quản lý công việc với tính năng drag & drop, filter và dark mode.", tech: ["React", "LocalStorage", "CSS"], github: "https://github.com/yourusername/todo-app", demo: "#", status: "Hoàn thành" },
+  { id: 1, name: "Phần mềm Đấu giá Trực tuyến", desc: "Dự án phần mềm xây dựng bằng ngôn ngữ Java, áp dụng kiến trúc phân tầng (layered architecture) rõ ràng với DTOs và Entities. Toàn bộ quy trình làm việc nhóm được quản lý phiên bản thông qua Git.", tech: ["Java", "Git", "OOP", "Thiết kế phần mềm"], github: "#", demo: "#", status: "Đang phát triển" },
+  { id: 2, name: "Personal Portfolio & Digital Garden", desc: "Website cá nhân lưu trữ các bài review sách và kết quả học tập. Đây sẽ là nơi đồng bộ trực tiếp các ghi chép từ không gian làm việc cá nhân lên môi trường web.", tech: ["React", "Vite", "Markdown"], github: "#", demo: "#", status: "Đang phát triển" }
 ];
 
 const ASSIGNMENTS = [
@@ -64,7 +56,6 @@ const ASSIGNMENTS = [
   { id: 5, title: "Bài 5 — Sử dụng AI hỗ trợ sáng tạo nội dung", subject: "Bài 2 - Mục 5.4", desc: "Trưng bày sản phẩm nội dung số hoàn thiện (hình ảnh, video hoặc bài viết) được hỗ trợ bởi AI.", file: null, note: "" },
   { id: 6, title: "Bài 6 — Sử dụng AI có trách nhiệm", subject: "Bài 4 - Mục 6.4", desc: "Trình bày bộ nguyên tắc cá nhân về sử dụng AI có trách nhiệm dựa trên các nghiên cứu.", file: null, note: "" },
 ];
-
 // ─── Styles ───
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap');
