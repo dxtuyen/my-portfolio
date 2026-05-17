@@ -1,239 +1,116 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import "./App.css";
 
-// ─── Data placeholder (Đã được cập nhật) ───
 const PROFILE = {
-  name: "Đỗ Xuân Tuyên",
+  name: "Đỗ Xuân Tuyên", shortName: "Tuyên",
   tagline: "Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu",
-  avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Tuyen&backgroundColor=e8e0d4",
-  about: "Tôi là sinh viên năm nhất tại trường Đại học Công nghệ (VNU-UET). Tôi có niềm yêu thích đặc biệt với phương pháp tiếp cận top-down: luôn tìm hiểu bức tranh tổng thể và kiến trúc hệ thống trước khi đi sâu vào chi tiết kỹ thuật. Ngoài việc code, tôi dành nhiều thời gian để tối ưu hóa không gian quản lý kiến thức cá nhân của mình.",
-  personality: "Đề cao tính tổ chức, kỷ luật logic và yêu thích sự tối giản. Luôn tò mò về sự giao thoa giữa công nghệ, toán học và tư duy triết học.",
-  philosophy: "\"Nắm vững bức tranh tổng thể trước khi đắm chìm vào các chi tiết kỹ thuật.\"",
+  avatar: "https://api.dicebear.com/9.x/notionists/svg?seed=Tuyen&backgroundColor=transparent",
+  about: "Tôi là sinh viên năm nhất tại trường Đại học Công nghệ (VNU-UET). Tôi có niềm yêu thích đặc biệt với phương pháp tiếp cận top-down: luôn tìm hiểu bức tranh tổng thể và kiến trúc hệ thống trước khi đi sâu vào chi tiết kỹ thuật.",
+  about2: "Ngoài việc code, tôi dành nhiều thời gian để tối ưu hóa không gian quản lý kiến thức cá nhân và viết blog. Đề cao tính tổ chức, kỷ luật logic và yêu thích sự tối giản.",
+  philosophy: "Nắm vững bức tranh tổng thể trước khi đắm chìm vào các chi tiết kỹ thuật.",
   currentWork: "Đang tập trung vào các môn khoa học cơ bản ở trường đại học, đồng thời tự phát triển các dự án phần mềm cá nhân và xây dựng hệ thống digital garden để viết blog.",
-  dream: "Hướng tới mục tiêu du học và xa hơn là theo đuổi chương trình Tiến sĩ (PhD) trong lĩnh vực Điện toán Đám mây (Cloud Computing) hoặc Điện toán Lượng tử (Quantum Computing).",
+  dream: "Hướng tới mục tiêu du học và xa hơn là theo đuổi chương trình Tiến sĩ (PhD) trong lĩnh vực Điện toán Đám mây hoặc Điện toán Lượng tử.",
   futurePlan: "Đạt mục tiêu IELTS 8.0, rèn luyện kỹ năng nghiên cứu học thuật và xây dựng các phần mềm có kiến trúc vững chắc.",
-  email: "your.email@gmail.com", // Đổi thành email của bạn
-  github: "https://github.com/yourusername", // Đổi thành link Github của bạn
-  linkedin: "https://linkedin.com/in/yourusername", // Đổi thành link LinkedIn của bạn
+  email: "your.email@gmail.com", github: "https://github.com/yourusername", linkedin: "https://linkedin.com/in/yourusername",
 };
-
-const TIMELINE = [
-  { year: "2005", title: "Sinh ra", desc: "Bắt đầu cuộc hành trình.", side: "left" }
+const DEFAULT_TIMELINE = [
+  { year: "2005", title: "Sinh ra", desc: "Bắt đầu cuộc hành trình." },
+  { year: "2023", title: "Tốt nghiệp THPT", desc: "Hoàn thành chương trình trung học phổ thông." },
+  { year: "2025", title: "Vào VNU-UET", desc: "Bắt đầu hành trình tại Đại học Công nghệ — VNU." },
 ];
-
-const SKILLS = [
-  { category: "Ngôn ngữ & Nền tảng", items: ["Java", "JavaScript", "HTML/CSS"] },
+const DEFAULT_SKILLS = [
+  { category: "Ngôn ngữ & Nền tảng", items: ["Java", "JavaScript", "HTML / CSS"] },
   { category: "Hệ điều hành & Công cụ", items: ["Linux (Ubuntu)", "Git & GitHub", "Obsidian", "VS Code"] },
   { category: "Kiến thức", items: ["Mạng máy tính", "Toán rời rạc", "Vật lý đại cương", "Cấu trúc dữ liệu"] },
-  { category: "Sở thích", items: ["Đọc sách triết học", "Viết blog", "Tối ưu hóa quy trình", "Nghiên cứu kiến trúc"] },
+  { category: "Sở thích", items: ["Đọc sách triết học", "Viết blog", "Tối ưu hoá quy trình", "Nghiên cứu kiến trúc"] },
+];
+const DEFAULT_LESSONS = [
+  { icon: "▲", title: "Tư duy Top-down", desc: "Hiểu rõ kiến trúc tổng thể giúp quá trình học các ngôn ngữ hay công cụ mới trở nên có hệ thống hơn." },
+  { icon: "◆", title: "Quản lý kiến thức (PKM)", desc: "Obsidian không chỉ để ghi chép, mà là để kết nối các luồng tư duy và hình thành một bộ não thứ hai." },
+  { icon: "●", title: "Sức mạnh của nền tảng", desc: "Logic, toán học và phương pháp luận là gốc rễ để giải quyết những bài toán phức tạp." },
+];
+const DEFAULT_GALLERY = [
+  { id: 1, src: "https://picsum.photos/seed/uet-campus/600/400", caption: "Khuôn viên VNU-UET" },
+  { id: 2, src: "https://picsum.photos/seed/workspace/600/600", caption: "Không gian làm việc" },
+  { id: 3, src: "https://picsum.photos/seed/coding-night/600/400", caption: "Những đêm code" },
+  { id: 4, src: "https://picsum.photos/seed/team-project/600/400", caption: "Dự án nhóm" },
+  { id: 5, src: "https://picsum.photos/seed/books-shelf/600/600", caption: "Tủ sách yêu thích" },
+  { id: 6, src: "https://picsum.photos/seed/hanoi-life/600/400", caption: "Cuộc sống Hà Nội" },
+];
+const DEFAULT_BLOGS = [
+  { id: 1, title: "Xây dựng hệ thống quản lý kiến thức", desc: "Cách tôi sử dụng Markdown và liên kết hai chiều để quản lý hàng tá môn học.", date: "15.05.2026", readTime: "5 phút đọc", content: "Nội dung bài viết sẽ ở đây..." },
+  { id: 2, title: "Tại sao nên dùng Linux để học code?", desc: "Trải nghiệm cá nhân khi chuyển sang Ubuntu.", date: "01.04.2026", readTime: "7 phút đọc", content: "Nội dung bài viết sẽ ở đây..." },
+];
+const DEFAULT_BOOKS = [
+  { id: 1, title: "Toán học rời rạc", author: "Kenneth H. Rosen", rating: 5, cover: "📘", review: "Cuốn sách gối đầu giường giúp rèn luyện tư duy logic toán học." },
+  { id: 2, title: "Calculus", author: "James Stewart", rating: 4, cover: "📙", review: "Góc nhìn trực quan về giải tích đa biến." },
+];
+const DEFAULT_PROJECTS = [
+  { id: 1, name: "Phần mềm Đấu giá Trực tuyến", desc: "Dự án Java áp dụng kiến trúc phân tầng.", tech: ["Java", "Git", "OOP"], github: "#", demo: "#", status: "Đang phát triển" },
+  { id: 2, name: "Portfolio & Digital Garden", desc: "Website cá nhân lưu trữ blog và kết quả học tập.", tech: ["React", "Vite", "Markdown"], github: "#", demo: "#", status: "Đang phát triển" },
+];
+const DEFAULT_ASSIGNMENTS = [
+  { id: 1, title: "Bài 1 — Thao tác với tệp tin và thư mục", subject: "Mục 1.4", desc: "Trình bày cấu trúc thư mục tối ưu." },
+  { id: 2, title: "Bài 2 — Tìm kiếm thông tin học thuật", subject: "Mục 2.4", desc: "Kết quả tìm kiếm bằng toán tử nâng cao." },
+  { id: 3, title: "Bài 3 — Viết Prompt hiệu quả cho AI", subject: "Mục 2 - 3.4", desc: "So sánh Prompt ban đầu và Prompt cải tiến." },
+  { id: 4, title: "Bài 4 — Công cụ hợp tác trực tuyến", subject: "Bài 3 - Mục 4.4", desc: "Minh chứng sử dụng công cụ quản lý dự án nhóm." },
+  { id: 5, title: "Bài 5 — AI hỗ trợ sáng tạo nội dung", subject: "Bài 2 - Mục 5.4", desc: "Sản phẩm nội dung số được hỗ trợ bởi AI." },
+  { id: 6, title: "Bài 6 — Sử dụng AI có trách nhiệm", subject: "Bài 4 - Mục 6.4", desc: "Bộ nguyên tắc cá nhân về sử dụng AI." },
 ];
 
-const LESSONS = [
-  { title: "Tư duy Top-down", desc: "Việc hiểu rõ kiến trúc tổng thể giúp quá trình học các ngôn ngữ hay công cụ mới trở nên có hệ thống và bản chất hơn rất nhiều." },
-  { title: "Quản lý kiến thức (PKM)", desc: "Sử dụng các công cụ như Obsidian không chỉ để ghi chép, mà là để kết nối các luồng tư duy và hình thành một bộ não thứ hai." },
-  { title: "Sức mạnh của nền tảng", desc: "Logic, toán học và phương pháp luận chính là gốc rễ để tiến xa và giải quyết những bài toán phức tạp trong ngành công nghệ." },
-];
+// ─── localStorage Hook ───
+function useLocalData(key, defaultValue) {
+  const [data, setData] = useState(() => {
+    try { const s = localStorage.getItem("portfolio_" + key); return s ? JSON.parse(s) : defaultValue; } catch { return defaultValue; }
+  });
+  useEffect(() => { localStorage.setItem("portfolio_" + key, JSON.stringify(data)); }, [key, data]);
+  const add = (item) => { const n = { ...item, id: Date.now() }; setData(p => [n, ...p]); };
+  const remove = (id) => setData(p => p.filter(i => i.id !== id));
+  return { data, add, remove };
+}
 
-const BLOGS = [
-  { id: 1, title: "Xây dựng hệ thống quản lý kiến thức", desc: "Cách tôi sử dụng Markdown và liên kết hai chiều để quản lý hàng tá môn học trên trường.", date: "15/05/2026", readTime: "5 phút", likes: 12, content: "..." },
-  { id: 2, title: "Tại sao nên dùng Linux để học code?", desc: "Trải nghiệm cá nhân khi chuyển sang sử dụng Ubuntu làm môi trường phát triển chính.", date: "01/04/2026", readTime: "7 phút", likes: 24, content: "..." },
-];
-
-const BOOKS = [
-  { id: 1, title: "Toán học rời rạc", author: "Kenneth H. Rosen", rating: 5, cover: "📘", review: "Cuốn sách gối đầu giường giúp rèn luyện tư duy logic toán học cực kỳ nền tảng cho sinh viên IT." },
-  { id: 2, title: "Calculus", author: "James Stewart", rating: 4, cover: "📙", review: "Góc nhìn trực quan về giải tích đa biến, rất hữu ích cho các hướng nghiên cứu sâu về sau." },
-];
-
-const PROJECTS = [
-  { id: 1, name: "Phần mềm Đấu giá Trực tuyến", desc: "Dự án phần mềm xây dựng bằng ngôn ngữ Java, áp dụng kiến trúc phân tầng (layered architecture) rõ ràng với DTOs và Entities. Toàn bộ quy trình làm việc nhóm được quản lý phiên bản thông qua Git.", tech: ["Java", "Git", "OOP", "Thiết kế phần mềm"], github: "#", demo: "#", status: "Đang phát triển" },
-  { id: 2, name: "Personal Portfolio & Digital Garden", desc: "Website cá nhân lưu trữ các bài review sách và kết quả học tập. Đây sẽ là nơi đồng bộ trực tiếp các ghi chép từ không gian làm việc cá nhân lên môi trường web.", tech: ["React", "Vite", "Markdown"], github: "#", demo: "#", status: "Đang phát triển" }
-];
-
-const ASSIGNMENTS = [
-  { id: 1, title: "Bài 1 — Thao tác với tệp tin và thư mục", subject: "Mục 1.4", desc: "Trình bày cấu trúc thư mục tối ưu và quy tắc đặt tên tệp đã thiết lập, kèm ảnh chụp minh họa.", file: null, note: "" },
-  { id: 2, title: "Bài 2 — Tìm kiếm và đánh giá thông tin học thuật", subject: "Mục 2.4", desc: "Trình bày kết quả tìm kiếm học thuật bằng các toán tử nâng cao và bảng đánh giá nguồn tin.", file: null, note: "" },
-  { id: 3, title: "Bài 3 — Viết Prompt hiệu quả cho AI", subject: "Mục 2 - 3.4", desc: "Trình bày sự so sánh giữa Prompt ban đầu và Prompt cải tiến cùng kết quả đầu ra từ AI.", file: null, note: "" },
-  { id: 4, title: "Bài 4 — Sử dụng công cụ hợp tác trực tuyến", subject: "Bài 3 - Mục 4.4", desc: "Trình bày minh chứng về việc sử dụng công cụ quản lý dự án nhóm và cách thức phối hợp.", file: null, note: "" },
-  { id: 5, title: "Bài 5 — Sử dụng AI hỗ trợ sáng tạo nội dung", subject: "Bài 2 - Mục 5.4", desc: "Trưng bày sản phẩm nội dung số hoàn thiện (hình ảnh, video hoặc bài viết) được hỗ trợ bởi AI.", file: null, note: "" },
-  { id: 6, title: "Bài 6 — Sử dụng AI có trách nhiệm", subject: "Bài 4 - Mục 6.4", desc: "Trình bày bộ nguyên tắc cá nhân về sử dụng AI có trách nhiệm dựa trên các nghiên cứu.", file: null, note: "" },
-];
-// ─── Styles ───
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap');
-
-  :root {
-    --font-heading: 'Playfair Display', Georgia, serif;
-    --font-body: 'Source Sans 3', -apple-system, sans-serif;
-    --bg: #0f0f0f;
-    --bg2: #1a1a1a;
-    --bg3: #242424;
-    --text: #e8e0d4;
-    --text2: #a09890;
-    --accent: #c8956c;
-    --accent2: #e8b88a;
-    --border: rgba(200,149,108,0.15);
-    --card: rgba(26,26,26,0.8);
-  }
-
-  [data-theme="light"] {
-    --bg: #f5f0eb;
-    --bg2: #ebe4dc;
-    --bg3: #ddd5cb;
-    --text: #2c2420;
-    --text2: #6b5e54;
-    --accent: #a06b3c;
-    --accent2: #7a4f28;
-    --border: rgba(160,107,60,0.2);
-    --card: rgba(235,228,220,0.9);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body, #root {
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    overflow-x: hidden;
-    transition: background .5s, color .5s;
-  }
-
-  ::selection { background: var(--accent); color: var(--bg); }
-
-  .fade-section { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
-  .fade-section.visible { opacity: 1; transform: translateY(0); }
-
-  .slide-left { opacity: 0; transform: translateX(-60px); transition: all .7s ease; }
-  .slide-right { opacity: 0; transform: translateX(60px); transition: all .7s ease; }
-  .slide-left.visible, .slide-right.visible { opacity: 1; transform: translateX(0); }
-
-  @keyframes typing { from { width: 0 } to { width: 100% } }
-  @keyframes blink { 50% { border-color: transparent } }
-  @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
-  @keyframes fadeInUp { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:translateY(0) } }
-  @keyframes pageIn { from { opacity:0; transform:translateY(16px) } to { opacity:1; transform:translateY(0) } }
-  @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
-  @keyframes scaleIn { from { opacity:0; transform:scale(.95) } to { opacity:1; transform:scale(1) } }
-  @keyframes slideDown { from { opacity:0; transform:translateY(-10px) } to { opacity:1; transform:translateY(0) } }
-
-  .page-enter { animation: pageIn .5s ease forwards; }
-
-  .hero-name { font-family: var(--font-heading); font-size: clamp(2rem,6vw,4rem); font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
-  .hero-tagline { font-size: clamp(.9rem,2.5vw,1.15rem); color: var(--text2); font-weight: 300; letter-spacing: 0.08em; }
-
-  .section-title { font-family: var(--font-heading); font-size: clamp(1.5rem,4vw,2.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.3em; }
-  .section-subtitle { font-size: .95rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; margin-bottom: 0.5em; }
-
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; backdrop-filter: blur(10px); transition: transform .3s, border-color .3s, box-shadow .3s; }
-  .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 32px rgba(0,0,0,.15); }
-
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: .8rem 2rem; display: flex; align-items: center; justify-content: space-between; backdrop-filter: blur(16px); background: color-mix(in srgb, var(--bg) 80%, transparent); border-bottom: 1px solid var(--border); transition: all .3s; }
-  .nav-links { display: flex; align-items: center; gap: .2rem; }
-  nav a, nav button { background: none; border: none; color: var(--text2); cursor: pointer; font-family: var(--font-body); font-size: .85rem; padding: .4rem .8rem; border-radius: 6px; transition: color .2s, background .2s; text-decoration: none; }
-  nav a:hover, nav button:hover { color: var(--accent); background: var(--bg2); }
-  nav a.active { color: var(--accent); }
-
-  .nav-logo { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; color: var(--text); cursor: pointer; }
-
-  .music-player { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 99; background: var(--card); border: 1px solid var(--border); border-radius: 50px; padding: .5rem 1rem; display: flex; align-items: center; gap: .6rem; backdrop-filter: blur(16px); box-shadow: 0 4px 24px rgba(0,0,0,.2); cursor: pointer; transition: all .3s; font-size: .8rem; color: var(--text2); }
-  .music-player:hover { border-color: var(--accent); transform: scale(1.05); }
-  .music-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-  .music-dot.playing { animation: pulse 1.2s infinite; }
-
-  .timeline-container { position: relative; padding: 1rem 0; }
-  .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--border); transform: translateX(-50%); }
-  .timeline-item { position: relative; display: flex; align-items: flex-start; margin-bottom: 2.5rem; }
-  .timeline-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); position: absolute; left: 50%; transform: translateX(-50%); z-index: 2; }
-  .timeline-content { width: 42%; padding: 1rem 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 10px; }
-  .timeline-content.left { margin-right: auto; text-align: right; }
-  .timeline-content.right { margin-left: auto; }
-  .timeline-year { font-family: var(--font-heading); font-size: 1.3rem; color: var(--accent); font-weight: 600; }
-
-  .skill-tag { display: inline-block; padding: .35rem .9rem; margin: .25rem; border-radius: 20px; font-size: .82rem; border: 1px solid var(--border); color: var(--text2); background: var(--bg2); transition: all .3s; }
-  .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
-
-  .blog-card { cursor: pointer; }
-  .like-btn { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .7rem; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; font-size: .8rem; transition: all .2s; }
-  .like-btn:hover, .like-btn.liked { border-color: #e74c5e; color: #e74c5e; background: rgba(231,76,94,.08); }
-
-  .star { color: var(--bg3); cursor: pointer; font-size: 1rem; transition: color .2s; }
-  .star.filled { color: #e8a840; }
-
-  .status-badge { display: inline-block; padding: .2rem .6rem; border-radius: 12px; font-size: .7rem; font-weight: 500; }
-  .status-done { background: rgba(76,175,80,.12); color: #66bb6a; border: 1px solid rgba(76,175,80,.25); }
-  .status-wip { background: rgba(255,183,77,.12); color: #ffb74d; border: 1px solid rgba(255,183,77,.25); }
-  .status-todo { background: rgba(158,158,158,.12); color: #9e9e9e; border: 1px solid rgba(158,158,158,.25); }
-
-  .quote-block { font-family: var(--font-heading); font-size: clamp(1.2rem,3vw,1.8rem); font-style: italic; color: var(--text); text-align: center; padding: 2rem 1rem; position: relative; line-height: 1.6; }
-  .quote-block::before { content: '"'; font-size: 4rem; color: var(--accent); position: absolute; top: -.5rem; left: 50%; transform: translateX(-50%); opacity: .3; }
-
-  .scroll-indicator { animation: float 2.5s ease-in-out infinite; color: var(--text2); font-size: .8rem; letter-spacing: .1em; }
-
-  .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
-
-  .hamburger { display: none; }
-
-  @media (max-width: 768px) {
-    nav { padding: .6rem 1rem; }
-    .nav-links { display: none; position: fixed; top: 56px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1rem; flex-direction: column; gap: .5rem; }
-    .nav-links.open { display: flex !important; animation: slideDown .3s ease; }
-    .hamburger { display: block !important; }
-    .timeline-line { left: 20px; }
-    .timeline-dot { left: 20px; }
-    .timeline-content { width: calc(100% - 50px) !important; margin-left: 44px !important; text-align: left !important; }
-    .music-player { bottom: 1rem; right: 1rem; }
-  }
-`;
-
-// ─── Scroll Observer Hook ───
-function useScrollReveal() {
+// ─── Scroll Reveal ───
+function useReveal() {
   const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.15 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
+  useEffect(() => { const el = ref.current; if (!el) return; const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } }, { threshold: 0.1 }); obs.observe(el); return () => obs.disconnect(); }, []);
   return ref;
 }
-
-function FadeSection({ children, className = "", direction = "" }) {
-  const ref = useScrollReveal();
-  const cls = direction === "left" ? "slide-left" : direction === "right" ? "slide-right" : "fade-section";
-  return <div ref={ref} className={`${cls} ${className}`}>{children}</div>;
+function Reveal({ children, as: Tag = "div", className = "", ...rest }) {
+  const ref = useReveal();
+  return <Tag ref={ref} className={`reveal ${className}`} {...rest}>{children}</Tag>;
 }
 
-// ─── Hero Section ───
-function Hero({ onNavigate }) {
-  const [typed, setTyped] = useState("");
-  const text = PROFILE.tagline;
-  useEffect(() => {
-    let i = 0;
-    const iv = setInterval(() => { if (i <= text.length) { setTyped(text.slice(0, i)); i++; } else clearInterval(iv); }, 55);
-    return () => clearInterval(iv);
-  }, []);
+// ─── Navbar ───
+function Navbar({ page, onNavigate, theme, toggleTheme }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => { const f = () => setScrolled(window.scrollY > 50); window.addEventListener("scroll", f); return () => window.removeEventListener("scroll", f); }, []);
+  const items = [{ id: "home", label: "Trang chủ" }, { id: "blog", label: "Blog" }, { id: "books", label: "Tủ sách" }, { id: "projects", label: "Dự án" }, { id: "assignments", label: "Bài tập" }];
+  const go = (id) => { onNavigate(id); setMenuOpen(false); };
   return (
-    <section style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "2rem 1rem", position: "relative" }}>
-      <div style={{ animation: "scaleIn .8s ease" }}>
-        <img src={PROFILE.avatar} alt="avatar" style={{ width: 120, height: 120, borderRadius: "50%", border: `3px solid var(--accent)`, marginBottom: "1.5rem", background: "var(--bg2)" }} />
-        <p style={{ fontSize: ".8rem", color: "var(--accent)", letterSpacing: ".15em", textTransform: "uppercase", marginBottom: ".5rem", fontWeight: 500 }}>Xin chào, tôi là</p>
-        <h1 className="hero-name">{PROFILE.name}</h1>
-        <p className="hero-tagline" style={{ minHeight: "1.5em", marginTop: ".5rem" }}>
-          {typed}<span style={{ borderRight: "2px solid var(--accent)", animation: "blink 1s infinite", marginLeft: 2 }}>&nbsp;</span>
-        </p>
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem" }}>
-          <a href={PROFILE.github} target="_blank" rel="noreferrer" style={{ color: "var(--text2)", fontSize: ".85rem", textDecoration: "none", padding: ".5rem 1.2rem", border: "1px solid var(--border)", borderRadius: 8, transition: "all .2s" }} onMouseEnter={e => { e.target.style.borderColor = "var(--accent)"; e.target.style.color = "var(--accent)"; }} onMouseLeave={e => { e.target.style.borderColor = "var(--border)"; e.target.style.color = "var(--text2)"; }}>GitHub</a>
-          <button onClick={() => onNavigate("blog")} style={{ color: "var(--bg)", background: "var(--accent)", fontSize: ".85rem", padding: ".5rem 1.2rem", border: "none", borderRadius: 8, cursor: "pointer", fontFamily: "var(--font-body)", transition: "opacity .2s" }} onMouseEnter={e => e.target.style.opacity = ".85"} onMouseLeave={e => e.target.style.opacity = "1"}>Đọc Blog</button>
-        </div>
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="nav-logo" onClick={() => go("home")}><span className="bracket">&lt;</span><span>{PROFILE.shortName}</span><span className="bracket">/&gt;</span></div>
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        {items.map((item, i) => (<button key={item.id} className={`nav-link ${page === item.id ? "active" : ""}`} onClick={() => go(item.id)}><span className="num">0{i + 1}.</span>{item.label}</button>))}
+        <button className={`nav-link ${page === "admin" ? "active" : ""}`} onClick={() => go("admin")} style={{ color: "var(--accent)" }}>⚙ Quản lý</button>
       </div>
-      <div className="scroll-indicator" style={{ position: "absolute", bottom: "2rem" }}>
-        ↓ cuộn xuống
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <button className="theme-toggle" onClick={toggleTheme} title="Đổi giao diện">{theme === "dark" ? "☀" : "☾"}</button>
+        <button className="hamburger" onClick={() => setMenuOpen(o => !o)}>{menuOpen ? "✕" : "☰"}</button>
       </div>
+    </nav>
+  );
+}
+
+// ─── Hero ───
+function Hero({ onNavigate }) {
+  return (
+    <section className="hero container">
+      <Reveal><p className="hero-greeting">Xin chào, tôi là</p></Reveal>
+      <Reveal><h1 className="hero-name">{PROFILE.name}.</h1></Reveal>
+      <Reveal><h2 className="hero-subtitle">Tôi xây dựng và học hỏi.</h2></Reveal>
+      <Reveal><p className="hero-blurb">{PROFILE.tagline}. Hiện đang là sinh viên năm nhất tại <a href="https://uet.vnu.edu.vn" target="_blank" rel="noreferrer">VNU-UET</a>, tập trung vào tư duy hệ thống, kiến trúc phần mềm và quản lý kiến thức cá nhân.</p></Reveal>
+      <Reveal><div className="hero-actions"><button className="btn-primary" onClick={() => onNavigate("projects")}>Xem các dự án →</button><button className="btn-secondary" onClick={() => onNavigate("blog")}>Đọc Blog</button></div></Reveal>
     </section>
   );
 }
@@ -241,392 +118,152 @@ function Hero({ onNavigate }) {
 // ─── About ───
 function About() {
   return (
-    <section style={{ padding: "5rem 0" }} className="container">
-      <FadeSection>
-        <p className="section-subtitle">Về tôi</p>
-        <h2 className="section-title">Câu chuyện của tôi</h2>
-      </FadeSection>
-      <FadeSection>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "2rem", marginTop: "1.5rem" }}>
-          <div className="quote-block">{PROFILE.philosophy}</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem" }}>
-            <div className="card">
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", marginBottom: ".5rem", color: "var(--accent)" }}>Giới thiệu</h3>
-              <p style={{ color: "var(--text2)", fontSize: ".9rem" }}>{PROFILE.about}</p>
-            </div>
-            <div className="card">
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", marginBottom: ".5rem", color: "var(--accent)" }}>Tính cách</h3>
-              <p style={{ color: "var(--text2)", fontSize: ".9rem" }}>{PROFILE.personality}</p>
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
-  );
-}
-
-// ─── Timeline ───
-function Timeline() {
-  return (
-    <section style={{ padding: "5rem 0" }} className="container">
-      <FadeSection>
-        <p className="section-subtitle">Hồi kí</p>
-        <h2 className="section-title">Dòng thời gian cuộc đời</h2>
-      </FadeSection>
-      <div className="timeline-container" style={{ marginTop: "2rem" }}>
-        <div className="timeline-line" />
-        {TIMELINE.map((item, i) => (
-          <FadeSection key={i} direction={item.side}>
-            <div className="timeline-item">
-              <div className="timeline-dot" style={{ top: "1rem" }} />
-              <div className={`timeline-content ${item.side}`}>
-                <span className="timeline-year">{item.year}</span>
-                <h4 style={{ fontFamily: "var(--font-heading)", margin: ".3rem 0", fontSize: "1.05rem" }}>{item.title}</h4>
-                <p style={{ color: "var(--text2)", fontSize: ".85rem" }}>{item.desc}</p>
-              </div>
-            </div>
-          </FadeSection>
-        ))}
+    <section className="container">
+      <Reveal as="h2" className="section-title"><span className="section-num">01.</span>Về tôi</Reveal>
+      <div className="about-grid">
+        <Reveal className="about-text">
+          <p>{PROFILE.about}</p><p>{PROFILE.about2}</p>
+          <div className="philosophy-quote">"{PROFILE.philosophy}"</div>
+          <p>Luôn tò mò về sự giao thoa giữa <span className="accent">công nghệ</span>, <span className="accent">toán học</span> và <span className="accent">tư duy triết học</span>.</p>
+        </Reveal>
+        <Reveal><div className="avatar-wrap"><img src={PROFILE.avatar} alt="avatar" className="avatar-img" /></div></Reveal>
       </div>
     </section>
   );
 }
 
-// ─── Skills ───
+// ─── Gallery ───
+function GallerySection({ gallery }) {
+  const [lightbox, setLightbox] = useState(null);
+  if (!gallery.length) return null;
+  return (
+    <section className="container">
+      <Reveal as="h2" className="section-title"><span className="section-num">02.</span>Khoảnh khắc</Reveal>
+      <div className="gallery-grid">
+        {gallery.map((img, i) => (
+          <Reveal key={img.id}><div className={`gallery-item ${i === 1 || i === 4 ? "tall" : ""}`} onClick={() => setLightbox(img)}><img src={img.src} alt={img.caption} loading="lazy" /><div className="gallery-overlay"><span className="gallery-caption">{img.caption}</span></div></div></Reveal>
+        ))}
+      </div>
+      {lightbox && (<div className="lightbox" onClick={() => setLightbox(null)}><button className="lightbox-close" onClick={() => setLightbox(null)}>✕</button><img src={lightbox.src} alt={lightbox.caption} /><p className="lightbox-caption">{lightbox.caption}</p></div>)}
+    </section>
+  );
+}
+
+// ─── Timeline, Skills, Dreams, CurrentWork, Contact ───
+function TimelineSection() {
+  return (<section className="container"><Reveal as="h2" className="section-title"><span className="section-num">03.</span>Hành trình</Reveal><div className="timeline">{DEFAULT_TIMELINE.map((item, i) => (<Reveal key={i} className="timeline-item"><div className="timeline-year">{item.year}</div><h4 className="timeline-title">{item.title}</h4><p className="timeline-desc">{item.desc}</p></Reveal>))}</div></section>);
+}
 function SkillsSection() {
-  return (
-    <section style={{ padding: "5rem 0" }} className="container">
-      <FadeSection>
-        <p className="section-subtitle">Năng lực</p>
-        <h2 className="section-title">Kỹ năng & Sở thích</h2>
-      </FadeSection>
-      <div style={{ marginTop: "1.5rem" }}>
-        {SKILLS.map((group, i) => (
-          <FadeSection key={i}>
-            <div style={{ marginBottom: "1.5rem" }}>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", color: "var(--accent)", marginBottom: ".5rem" }}>{group.category}</h3>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {group.items.map((s, j) => <span key={j} className="skill-tag" style={{ animationDelay: `${j * 80}ms` }}>{s}</span>)}
-              </div>
-            </div>
-          </FadeSection>
-        ))}
-      </div>
-    </section>
-  );
+  return (<section className="container"><Reveal as="h2" className="section-title"><span className="section-num">04.</span>Năng lực & Sở thích</Reveal><div className="skills-grid">{DEFAULT_SKILLS.map((g, i) => (<Reveal key={i} className="skill-group"><h4>{g.category}</h4><ul className="skill-list">{g.items.map((s, j) => <li key={j}>{s}</li>)}</ul></Reveal>))}</div></section>);
 }
-
-// ─── Dreams & Lessons ───
 function Dreams() {
-  return (
-    <section style={{ padding: "5rem 0" }} className="container">
-      <FadeSection>
-        <p className="section-subtitle">Tương lai</p>
-        <h2 className="section-title">Ước mơ & Bài học tâm đắc</h2>
-      </FadeSection>
-      <FadeSection>
-        <div className="card" style={{ marginTop: "1.5rem", borderLeft: "3px solid var(--accent)" }}>
-          <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.1rem", marginBottom: ".5rem" }}>Ước mơ & Dự định</h3>
-          <p style={{ color: "var(--text2)", fontSize: ".9rem", marginBottom: ".8rem" }}>{PROFILE.dream}</p>
-          <p style={{ color: "var(--text2)", fontSize: ".9rem" }}>{PROFILE.futurePlan}</p>
-        </div>
-      </FadeSection>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem", marginTop: "1.5rem" }}>
-        {LESSONS.map((l, i) => (
-          <FadeSection key={i}>
-            <div className="card" style={{ height: "100%" }}>
-              <span style={{ fontSize: "1.5rem", display: "block", marginBottom: ".5rem" }}>{["💡", "🔥", "🤝"][i]}</span>
-              <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", marginBottom: ".3rem" }}>{l.title}</h4>
-              <p style={{ color: "var(--text2)", fontSize: ".85rem" }}>{l.desc}</p>
-            </div>
-          </FadeSection>
-        ))}
-      </div>
-    </section>
-  );
+  return (<section className="container"><Reveal as="h2" className="section-title"><span className="section-num">05.</span>Ước mơ & Bài học</Reveal><Reveal><div className="card" style={{ borderLeft: "3px solid var(--accent)" }}><h3>Ước mơ & Dự định</h3><p style={{ marginBottom: "0.8rem" }}>{PROFILE.dream}</p><p>{PROFILE.futurePlan}</p></div></Reveal><div className="lessons-grid">{DEFAULT_LESSONS.map((l, i) => (<Reveal key={i}><div className="card"><span className="card-icon">{l.icon}</span><h4>{l.title}</h4><p>{l.desc}</p></div></Reveal>))}</div></section>);
 }
-
-// ─── Current Work ───
 function CurrentWork() {
-  return (
-    <section style={{ padding: "5rem 0" }} className="container">
-      <FadeSection>
-        <p className="section-subtitle">Hiện tại</p>
-        <h2 className="section-title">Công việc đang làm</h2>
-        <div className="card" style={{ marginTop: "1.5rem" }}>
-          <p style={{ color: "var(--text2)", fontSize: ".95rem" }}>{PROFILE.currentWork}</p>
-        </div>
-      </FadeSection>
-    </section>
-  );
+  return (<section className="container"><Reveal as="h2" className="section-title"><span className="section-num">06.</span>Hiện tại đang làm</Reveal><Reveal><div className="card"><p style={{ color: "var(--text-2)", fontSize: "1.05rem", lineHeight: 1.7 }}>{PROFILE.currentWork}</p></div></Reveal></section>);
 }
-
-// ─── Contact ───
 function Contact() {
+  const links = [
+    { label: "Email", href: "mailto:" + PROFILE.email, value: PROFILE.email, icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> },
+    { label: "GitHub", href: PROFILE.github, value: PROFILE.github.replace("https://github.com/", "@"), icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg> },
+    { label: "LinkedIn", href: PROFILE.linkedin, value: PROFILE.name, icon: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg> },
+  ];
   return (
-    <section style={{ padding: "5rem 0 3rem" }} className="container">
-      <FadeSection>
-        <div style={{ textAlign: "center" }}>
-          <p className="section-subtitle">Liên hệ</p>
-          <h2 className="section-title">Kết nối với tôi</h2>
-          <p style={{ color: "var(--text2)", margin: "1rem 0 2rem", fontSize: ".95rem" }}>Bạn có ý tưởng muốn hợp tác? Hãy liên hệ với tôi!</p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            {[
-              { label: "Email", href: `mailto:${PROFILE.email}`, icon: "✉" },
-              { label: "GitHub", href: PROFILE.github, icon: "⌨" },
-              { label: "LinkedIn", href: PROFILE.linkedin, icon: "💼" },
-            ].map((l, i) => (
-              <a key={i} href={l.href} target="_blank" rel="noreferrer" className="card" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: ".6rem", padding: ".8rem 1.5rem" }}>
-                <span>{l.icon}</span>
-                <span style={{ color: "var(--text)", fontSize: ".9rem" }}>{l.label}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </FadeSection>
+    <section className="contact-section container">
+      <Reveal><p className="contact-eyebrow">07. Liên hệ</p></Reveal>
+      <Reveal><h2 className="contact-title">Hãy cùng kết nối</h2></Reveal>
+      <Reveal><p className="contact-text">Hộp thư của tôi luôn rộng mở. Cho dù bạn có câu hỏi, ý tưởng hợp tác, hay chỉ muốn trò chuyện — tôi sẽ phản hồi sớm nhất có thể.</p></Reveal>
+      <Reveal><div className="contact-links">{links.map((l, i) => (<a key={i} href={l.href} target="_blank" rel="noreferrer" className="contact-link-item"><span className="contact-icon">{l.icon}</span><span className="contact-link-label">{l.label}</span><span className="contact-link-value">{l.value}</span></a>))}</div></Reveal>
     </section>
   );
 }
 
-// ─── Blog Page ───
-function BlogPage() {
-  const [likes, setLikes] = useState(() => BLOGS.reduce((acc, b) => ({ ...acc, [b.id]: b.likes }), {}));
-  const [liked, setLiked] = useState({});
+// ─── Pages ───
+function HomePage({ onNavigate, gallery }) {
+  return (<><Hero onNavigate={onNavigate} /><About /><GallerySection gallery={gallery} /><TimelineSection /><SkillsSection /><Dreams /><CurrentWork /><Contact /></>);
+}
+function BlogPage({ blogs }) {
   const [openId, setOpenId] = useState(null);
-
-  const toggleLike = (id, e) => {
-    e.stopPropagation();
-    setLiked(p => ({ ...p, [id]: !p[id] }));
-    setLikes(p => ({ ...p, [id]: p[id] + (liked[id] ? -1 : 1) }));
-  };
-
-  if (openId) {
-    const blog = BLOGS.find(b => b.id === openId);
-    return (
-      <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-        <button onClick={() => setOpenId(null)} style={{ background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontSize: ".9rem", fontFamily: "var(--font-body)", marginBottom: "1.5rem" }}>← Quay lại</button>
-        <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "2rem", marginBottom: ".5rem" }}>{blog.title}</h1>
-        <div style={{ color: "var(--text2)", fontSize: ".85rem", marginBottom: "2rem", display: "flex", gap: "1rem", alignItems: "center" }}>
-          <span>{blog.date}</span>
-          <span>·</span>
-          <span>{blog.readTime}</span>
-          <button className={`like-btn ${liked[blog.id] ? "liked" : ""}`} onClick={(e) => toggleLike(blog.id, e)}>♥ {likes[blog.id]}</button>
-        </div>
-        <div style={{ color: "var(--text2)", fontSize: ".95rem", lineHeight: 1.8 }}>
-          <p>{blog.desc}</p>
-          <br />
-          <p style={{ color: "var(--text2)", fontStyle: "italic" }}>[ Nội dung bài viết chi tiết — bạn hãy thay thế đoạn này bằng bài viết thật của mình ]</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-      <p className="section-subtitle">Blog</p>
-      <h2 className="section-title">Bài viết của tôi</h2>
-      <div style={{ display: "grid", gap: "1.2rem", marginTop: "1.5rem" }}>
-        {BLOGS.map(b => (
-          <div key={b.id} className="card blog-card" onClick={() => setOpenId(b.id)}>
-            <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem", marginBottom: ".4rem" }}>{b.title}</h3>
-            <p style={{ color: "var(--text2)", fontSize: ".88rem", marginBottom: ".8rem" }}>{b.desc}</p>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: ".8rem", color: "var(--text2)" }}>
-              <div style={{ display: "flex", gap: ".8rem" }}>
-                <span>{b.date}</span>
-                <span>· {b.readTime}</span>
-              </div>
-              <button className={`like-btn ${liked[b.id] ? "liked" : ""}`} onClick={(e) => toggleLike(b.id, e)}>♥ {likes[b.id]}</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  const blog = openId ? blogs.find(b => b.id === openId) : null;
+  if (blog) return (<div className="container page-header"><button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button><h1 className="blog-detail-title">{blog.title}</h1><div className="blog-meta"><span>{blog.date}</span><span className="dot">·</span><span>{blog.readTime}</span></div><div className="blog-detail-body" style={{ marginTop: "2rem" }}>{blog.content.split("\n").map((p, i) => <p key={i} style={{ marginBottom: "1rem" }}>{p}</p>)}</div></div>);
+  return (<div className="container page-header"><p className="section-eyebrow">// Blog</p><h1 className="page-title">Những bài viết</h1><p className="page-subtitle">Suy nghĩ, ghi chép, và bài học rút ra.</p><div className="blog-list">{blogs.map(b => (<div key={b.id} className="blog-item" onClick={() => setOpenId(b.id)}><div className="blog-item-inner"><div className="blog-meta"><span>{b.date}</span><span className="dot">·</span><span>{b.readTime}</span></div><h3>{b.title}</h3><p>{b.desc}</p></div></div>))}{!blogs.length && <p style={{ color: "var(--text-2)" }}>Chưa có bài viết. Vào ⚙ Quản lý để thêm.</p>}</div></div>);
 }
-
-// ─── Books Page ───
-function BooksPage() {
+function BooksPage({ books }) {
   const [openId, setOpenId] = useState(null);
-
-  if (openId) {
-    const book = BOOKS.find(b => b.id === openId);
-    return (
-      <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-        <button onClick={() => setOpenId(null)} style={{ background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontSize: ".9rem", fontFamily: "var(--font-body)", marginBottom: "1.5rem" }}>← Quay lại</button>
-        <div style={{ textAlign: "center", margin: "1rem 0 2rem" }}>
-          <span style={{ fontSize: "4rem" }}>{book.cover}</span>
-          <h1 style={{ fontFamily: "var(--font-heading)", fontSize: "1.8rem", marginTop: ".5rem" }}>{book.title}</h1>
-          <p style={{ color: "var(--text2)", fontStyle: "italic" }}>{book.author}</p>
-          <div style={{ margin: ".5rem 0" }}>{[1,2,3,4,5].map(s => <span key={s} className={`star ${s <= book.rating ? "filled" : ""}`}>★</span>)}</div>
-        </div>
-        <div className="card">
-          <h3 style={{ fontFamily: "var(--font-heading)", marginBottom: ".5rem" }}>Review của tôi</h3>
-          <p style={{ color: "var(--text2)", fontSize: ".95rem", lineHeight: 1.8 }}>{book.review}</p>
-          <br />
-          <p style={{ color: "var(--text2)", fontStyle: "italic", fontSize: ".85rem" }}>[ Thêm blog review chi tiết tại đây ]</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-      <p className="section-subtitle">Tủ sách</p>
-      <h2 className="section-title">Những cuốn sách đã đọc</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.2rem", marginTop: "1.5rem" }}>
-        {BOOKS.map(b => (
-          <div key={b.id} className="card blog-card" onClick={() => setOpenId(b.id)} style={{ textAlign: "center" }}>
-            <span style={{ fontSize: "3rem", display: "block", marginBottom: ".5rem" }}>{b.cover}</span>
-            <h4 style={{ fontFamily: "var(--font-heading)", fontSize: "1rem", marginBottom: ".2rem" }}>{b.title}</h4>
-            <p style={{ color: "var(--text2)", fontSize: ".8rem", fontStyle: "italic" }}>{b.author}</p>
-            <div style={{ margin: ".4rem 0" }}>{[1,2,3,4,5].map(s => <span key={s} className={`star ${s <= b.rating ? "filled" : ""}`}>★</span>)}</div>
-            <p style={{ color: "var(--text2)", fontSize: ".8rem", marginTop: ".3rem" }}>Đọc review →</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  const book = openId ? books.find(b => b.id === openId) : null;
+  if (book) return (<div className="container page-header"><button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button><div className="book-detail-header"><span className="book-detail-cover">{book.cover}</span><div><h1 className="book-detail-title">{book.title}</h1><p className="book-detail-author">{book.author}</p><span className="book-stars">{"★".repeat(book.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - book.rating)}</span></span></div></div><p className="book-review">{book.review}</p></div>);
+  return (<div className="container page-header"><p className="section-eyebrow">// Tủ sách</p><h1 className="page-title">Tủ sách của tôi</h1><p className="page-subtitle">Những cuốn sách đã đồng hành cùng tôi.</p><div className="books-grid">{books.map(b => (<div key={b.id} className="book-card" onClick={() => setOpenId(b.id)}><span className="book-cover-emoji">{b.cover}</span><h4>{b.title}</h4><p className="book-author">{b.author}</p><span className="book-stars">{"★".repeat(b.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - b.rating)}</span></span><p className="book-cta">Đọc review →</p></div>))}{!books.length && <p style={{ color: "var(--text-2)" }}>Chưa có sách. Vào ⚙ Quản lý để thêm.</p>}</div></div>);
 }
-
-// ─── Projects Page ───
-function ProjectsPage() {
-  return (
-    <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-      <p className="section-subtitle">Dự án</p>
-      <h2 className="section-title">Các dự án của tôi</h2>
-      <div style={{ display: "grid", gap: "1.2rem", marginTop: "1.5rem" }}>
-        {PROJECTS.map(p => (
-          <div key={p.id} className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: ".5rem" }}>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.15rem" }}>{p.name}</h3>
-              <span className={`status-badge ${p.status === "Hoàn thành" ? "status-done" : p.status === "Đang phát triển" ? "status-wip" : "status-todo"}`}>{p.status}</span>
-            </div>
-            <p style={{ color: "var(--text2)", fontSize: ".88rem", margin: ".5rem 0 .8rem" }}>{p.desc}</p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: ".4rem", marginBottom: ".8rem" }}>
-              {p.tech.map((t, i) => <span key={i} className="skill-tag" style={{ fontSize: ".75rem", padding: ".2rem .6rem" }}>{t}</span>)}
-            </div>
-            <div style={{ display: "flex", gap: "1rem", fontSize: ".85rem" }}>
-              <a href={p.github} target="_blank" rel="noreferrer" style={{ color: "var(--accent)", textDecoration: "none" }}>⌨ GitHub</a>
-              {p.demo !== "#" && <a href={p.demo} target="_blank" rel="noreferrer" style={{ color: "var(--accent)", textDecoration: "none" }}>🌐 Demo</a>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+function ProjectsPage({ projects }) {
+  return (<div className="container page-header"><p className="section-eyebrow">// Dự án</p><h1 className="page-title">Những thứ tôi đã xây dựng</h1><p className="page-subtitle">Các dự án cá nhân và nhóm.</p><div className="projects-list">{projects.map(p => (<div key={p.id} className="project-card"><div className="project-header"><h3 className="project-title">{p.name}</h3><span className={`badge ${p.status === "Hoàn thành" ? "badge-done" : p.status === "Đang phát triển" ? "badge-wip" : "badge-todo"}`}>{p.status}</span></div><p className="project-desc">{p.desc}</p><div className="tech-tags">{p.tech.map((t, i) => <span key={i} className="tech-tag">{t}</span>)}</div><div className="project-links"><a href={p.github} target="_blank" rel="noreferrer">⌨ GitHub</a>{p.demo !== "#" && <a href={p.demo} target="_blank" rel="noreferrer">🌐 Demo</a>}</div></div>))}</div></div>);
 }
-
-// ─── Assignments Page ───
 function AssignmentsPage() {
   const [notes, setNotes] = useState({});
+  return (<div className="container page-header"><p className="section-eyebrow">// Bài tập</p><h1 className="page-title">Kết quả bài tập</h1><p className="page-subtitle">Các bài tập của môn CNTT & AI.</p><div style={{ display: "grid", gap: "1.2rem" }}>{DEFAULT_ASSIGNMENTS.map(a => (<div key={a.id} className="assignment-card"><div className="project-header"><h3 className="project-title" style={{ fontSize: "1.15rem" }}>{a.title}</h3><span className="badge badge-todo">Chưa nộp</span></div><p className="assignment-subject">{a.subject}</p><p className="project-desc" style={{ marginBottom: "0.5rem" }}>{a.desc}</p><div className="assignment-actions"><span className="assignment-chip">📎 Upload file</span><span className="assignment-chip">🔗 Thêm link</span></div><textarea className="assignment-notes" placeholder="Ghi chú..." value={notes[a.id] || ""} onChange={e => setNotes(p => ({ ...p, [a.id]: e.target.value }))} /></div>))}</div></div>);
+}
+
+// ─── Admin Page ───
+function AdminPage({ galleryStore, blogStore, bookStore, projectStore }) {
+  const [tab, setTab] = useState("gallery");
+  const tabs = [{ id: "gallery", label: "🖼 Ảnh" }, { id: "blog", label: "✏️ Blog" }, { id: "books", label: "📚 Sách" }, { id: "projects", label: "🛠 Dự án" }];
   return (
-    <div className="container page-enter" style={{ paddingTop: "6rem", paddingBottom: "3rem" }}>
-      <p className="section-subtitle">Bài tập</p>
-      <h2 className="section-title">Kết quả bài tập (6 bài)</h2>
-      <p style={{ color: "var(--text2)", fontSize: ".9rem", marginBottom: "1.5rem" }}>Tập hợp và trình bày các bài tập đã hoàn thành trong môn "Nhập môn Công nghệ số và Ứng dụng Trí tuệ nhân tạo".</p>
-      <div style={{ display: "grid", gap: "1rem" }}>
-        {ASSIGNMENTS.map(a => (
-          <div key={a.id} className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: ".5rem" }}>
-              <h3 style={{ fontFamily: "var(--font-heading)", fontSize: "1.05rem" }}>{a.title}</h3>
-              <span className="status-badge status-todo">Chưa nộp</span>
-            </div>
-            <p style={{ color: "var(--text2)", fontSize: ".8rem", fontStyle: "italic", margin: ".2rem 0 .5rem" }}>{a.subject}</p>
-            <p style={{ color: "var(--text2)", fontSize: ".85rem", marginBottom: ".8rem" }}>{a.desc}</p>
-            <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontSize: ".8rem", color: "var(--text2)", padding: ".3rem .8rem", border: "1px dashed var(--border)", borderRadius: 6 }}>📎 Upload file tại đây</span>
-              <span style={{ fontSize: ".8rem", color: "var(--text2)", padding: ".3rem .8rem", border: "1px dashed var(--border)", borderRadius: 6 }}>🔗 Thêm link</span>
-            </div>
-            <textarea
-              placeholder="Ghi chú cho bài tập này..."
-              value={notes[a.id] || ""}
-              onChange={e => setNotes(p => ({ ...p, [a.id]: e.target.value }))}
-              style={{ width: "100%", marginTop: ".8rem", padding: ".6rem .8rem", background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--text)", fontFamily: "var(--font-body)", fontSize: ".85rem", resize: "vertical", minHeight: 60 }}
-            />
-          </div>
-        ))}
+    <div className="container page-header">
+      <p className="section-eyebrow">// Quản lý nội dung</p>
+      <h1 className="page-title">Bảng điều khiển</h1>
+      <p className="page-subtitle">Thêm ảnh, viết blog, quản lý sách và dự án — không cần sửa code.</p>
+      <div className="admin-tabs">{tabs.map(t => (<button key={t.id} className={`admin-tab ${tab === t.id ? "active" : ""}`} onClick={() => setTab(t.id)}>{t.label}</button>))}</div>
+      <div className="admin-panel">
+        {tab === "gallery" && <GalleryAdmin store={galleryStore} />}
+        {tab === "blog" && <BlogAdmin store={blogStore} />}
+        {tab === "books" && <BooksAdmin store={bookStore} />}
+        {tab === "projects" && <ProjectsAdmin store={projectStore} />}
       </div>
     </div>
   );
 }
-
-// ─── Homepage ───
-function HomePage({ onNavigate }) {
-  return (
-    <div>
-      <Hero onNavigate={onNavigate} />
-      <About />
-      <Timeline />
-      <SkillsSection />
-      <Dreams />
-      <CurrentWork />
-      <Contact />
-    </div>
-  );
+function GalleryAdmin({ store }) {
+  const [url, setUrl] = useState(""); const [caption, setCaption] = useState("");
+  const handleAdd = () => { if (!url.trim()) return; store.add({ src: url.trim(), caption: caption.trim() || "Ảnh mới" }); setUrl(""); setCaption(""); };
+  return (<div><div className="admin-form"><h3 className="admin-form-title">Thêm ảnh mới</h3><input type="text" placeholder="URL ảnh (dán link ảnh vào đây)" value={url} onChange={e => setUrl(e.target.value)} className="admin-input" /><input type="text" placeholder="Chú thích ảnh" value={caption} onChange={e => setCaption(e.target.value)} className="admin-input" /><button onClick={handleAdd} className="btn-primary" style={{ width: "100%" }}>+ Thêm ảnh</button></div><h3 className="admin-form-title" style={{ marginTop: "2rem" }}>Ảnh hiện có ({store.data.length})</h3><div className="admin-list">{store.data.map(img => (<div key={img.id} className="admin-list-item"><img src={img.src} alt={img.caption} className="admin-thumb" /><div className="admin-list-info"><strong>{img.caption}</strong><span className="admin-list-meta">{img.src.substring(0, 50)}...</span></div><button className="admin-delete" onClick={() => store.remove(img.id)}>✕</button></div>))}</div></div>);
+}
+function BlogAdmin({ store }) {
+  const [form, setForm] = useState({ title: "", desc: "", content: "", readTime: "5 phút đọc" });
+  const handleAdd = () => { if (!form.title.trim()) return; const d = new Date(); const date = String(d.getDate()).padStart(2,"0") + "." + String(d.getMonth()+1).padStart(2,"0") + "." + d.getFullYear(); store.add({ ...form, date }); setForm({ title: "", desc: "", content: "", readTime: "5 phút đọc" }); };
+  return (<div><div className="admin-form"><h3 className="admin-form-title">Viết bài mới</h3><input type="text" placeholder="Tiêu đề bài viết" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="admin-input" /><input type="text" placeholder="Mô tả ngắn" value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} className="admin-input" /><input type="text" placeholder="Thời gian đọc (vd: 5 phút đọc)" value={form.readTime} onChange={e => setForm(f => ({ ...f, readTime: e.target.value }))} className="admin-input" /><textarea placeholder="Nội dung bài viết... Xuống dòng bằng Enter để tạo đoạn mới." value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} className="admin-textarea" rows={10} /><button onClick={handleAdd} className="btn-primary" style={{ width: "100%" }}>+ Đăng bài</button></div><h3 className="admin-form-title" style={{ marginTop: "2rem" }}>Bài viết ({store.data.length})</h3><div className="admin-list">{store.data.map(b => (<div key={b.id} className="admin-list-item"><div className="admin-list-info"><strong>{b.title}</strong><span className="admin-list-meta">{b.date} · {b.readTime}</span></div><button className="admin-delete" onClick={() => store.remove(b.id)}>✕</button></div>))}</div></div>);
+}
+function BooksAdmin({ store }) {
+  const [form, setForm] = useState({ title: "", author: "", rating: 5, cover: "📘", review: "" });
+  const emojis = ["📘", "📙", "📕", "📗", "📓", "📔", "📒"];
+  const handleAdd = () => { if (!form.title.trim()) return; store.add(form); setForm({ title: "", author: "", rating: 5, cover: "📘", review: "" }); };
+  return (<div><div className="admin-form"><h3 className="admin-form-title">Thêm sách mới</h3><input type="text" placeholder="Tên sách" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="admin-input" /><input type="text" placeholder="Tác giả" value={form.author} onChange={e => setForm(f => ({ ...f, author: e.target.value }))} className="admin-input" /><div style={{ display: "flex", gap: "1rem", alignItems: "center" }}><label style={{ color: "var(--text-2)", fontSize: "0.95rem" }}>Bìa:</label><div style={{ display: "flex", gap: "0.4rem" }}>{emojis.map(e => (<button key={e} onClick={() => setForm(f => ({ ...f, cover: e }))} style={{ fontSize: "1.5rem", background: form.cover === e ? "var(--accent-tint)" : "transparent", border: form.cover === e ? "1px solid var(--accent)" : "1px solid var(--border)", borderRadius: 6, padding: "0.3rem 0.5rem", cursor: "pointer" }}>{e}</button>))}</div></div><div style={{ display: "flex", gap: "1rem", alignItems: "center" }}><label style={{ color: "var(--text-2)", fontSize: "0.95rem" }}>Đánh giá:</label><div style={{ display: "flex", gap: "0.2rem" }}>{[1,2,3,4,5].map(n => (<button key={n} onClick={() => setForm(f => ({ ...f, rating: n }))} style={{ fontSize: "1.3rem", background: "none", border: "none", cursor: "pointer", color: n <= form.rating ? "#e8a840" : "var(--bg-3)" }}>★</button>))}</div></div><textarea placeholder="Review / nhận xét" value={form.review} onChange={e => setForm(f => ({ ...f, review: e.target.value }))} className="admin-textarea" rows={5} /><button onClick={handleAdd} className="btn-primary" style={{ width: "100%" }}>+ Thêm sách</button></div><h3 className="admin-form-title" style={{ marginTop: "2rem" }}>Tủ sách ({store.data.length})</h3><div className="admin-list">{store.data.map(b => (<div key={b.id} className="admin-list-item"><span style={{ fontSize: "1.8rem" }}>{b.cover}</span><div className="admin-list-info"><strong>{b.title}</strong><span className="admin-list-meta">{b.author} · {"★".repeat(b.rating)}</span></div><button className="admin-delete" onClick={() => store.remove(b.id)}>✕</button></div>))}</div></div>);
+}
+function ProjectsAdmin({ store }) {
+  const [form, setForm] = useState({ name: "", desc: "", tech: "", github: "#", demo: "#", status: "Đang phát triển" });
+  const handleAdd = () => { if (!form.name.trim()) return; store.add({ ...form, tech: form.tech.split(",").map(t => t.trim()).filter(Boolean) }); setForm({ name: "", desc: "", tech: "", github: "#", demo: "#", status: "Đang phát triển" }); };
+  return (<div><div className="admin-form"><h3 className="admin-form-title">Thêm dự án mới</h3><input type="text" placeholder="Tên dự án" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="admin-input" /><textarea placeholder="Mô tả dự án" value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} className="admin-textarea" rows={3} /><input type="text" placeholder="Công nghệ (cách nhau bằng dấu phẩy)" value={form.tech} onChange={e => setForm(f => ({ ...f, tech: e.target.value }))} className="admin-input" /><input type="text" placeholder="GitHub link" value={form.github} onChange={e => setForm(f => ({ ...f, github: e.target.value }))} className="admin-input" /><select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="admin-input"><option value="Đang phát triển">Đang phát triển</option><option value="Hoàn thành">Hoàn thành</option><option value="Tạm dừng">Tạm dừng</option></select><button onClick={handleAdd} className="btn-primary" style={{ width: "100%" }}>+ Thêm dự án</button></div><h3 className="admin-form-title" style={{ marginTop: "2rem" }}>Dự án ({store.data.length})</h3><div className="admin-list">{store.data.map(p => (<div key={p.id} className="admin-list-item"><div className="admin-list-info"><strong>{p.name}</strong><span className="admin-list-meta">{Array.isArray(p.tech) ? p.tech.join(", ") : p.tech} · {p.status}</span></div><button className="admin-delete" onClick={() => store.remove(p.id)}>✕</button></div>))}</div></div>);
 }
 
 // ─── Main App ───
 export default function App() {
   const [page, setPage] = useState("home");
   const [theme, setTheme] = useState("dark");
-  const [musicPlaying, setMusicPlaying] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const navigate = useCallback((p) => {
-    setPage(p);
-    setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  const navItems = [
-    { id: "home", label: "Trang chủ" },
-    { id: "blog", label: "Blog" },
-    { id: "books", label: "Tủ sách" },
-    { id: "projects", label: "Dự án" },
-    { id: "assignments", label: "Bài tập" },
-  ];
-
+  const galleryStore = useLocalData("gallery", DEFAULT_GALLERY);
+  const blogStore = useLocalData("blogs", DEFAULT_BLOGS);
+  const bookStore = useLocalData("books", DEFAULT_BOOKS);
+  const projectStore = useLocalData("projects", DEFAULT_PROJECTS);
+  useEffect(() => { document.documentElement.setAttribute("data-theme", theme); }, [theme]);
+  const navigate = useCallback((p) => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }, []);
+  const toggleTheme = useCallback(() => { setTheme(t => t === "dark" ? "light" : "dark"); }, []);
   return (
-    <div data-theme={theme}>
-      <style>{styles}</style>
-
-      {/* Navigation */}
-      <nav>
-        <span className="nav-logo" onClick={() => navigate("home")}>{PROFILE.name.split(" ").pop()}</span>
-        <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-          {navItems.map(n => (
-            <a key={n.id} href="#" className={page === n.id ? "active" : ""} onClick={e => { e.preventDefault(); navigate(n.id); }}>{n.label}</a>
-          ))}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
-          <button onClick={() => setTheme(t => t === "dark" ? "light" : "dark")} title="Toggle theme" style={{ fontSize: "1rem" }}>
-            {theme === "dark" ? "☀" : "🌙"}
-          </button>
-          <button className="hamburger" onClick={() => setMenuOpen(p => !p)} style={{ fontSize: "1.2rem" }}>
-            {menuOpen ? "✕" : "☰"}
-          </button>
-        </div>
-      </nav>
-
-      {/* Pages */}
-      {page === "home" && <HomePage onNavigate={navigate} />}
-      {page === "blog" && <BlogPage />}
-      {page === "books" && <BooksPage />}
-      {page === "projects" && <ProjectsPage />}
+    <>
+      <Navbar page={page} onNavigate={navigate} theme={theme} toggleTheme={toggleTheme} />
+      {page === "home" && <HomePage onNavigate={navigate} gallery={galleryStore.data} />}
+      {page === "blog" && <BlogPage blogs={blogStore.data} />}
+      {page === "books" && <BooksPage books={bookStore.data} />}
+      {page === "projects" && <ProjectsPage projects={projectStore.data} />}
       {page === "assignments" && <AssignmentsPage />}
-
-      {/* Footer */}
-      <footer style={{ textAlign: "center", padding: "2rem 1rem", borderTop: "1px solid var(--border)", color: "var(--text2)", fontSize: ".8rem" }}>
-        <p>Thiết kế & phát triển bởi {PROFILE.name}</p>
-        <p style={{ marginTop: ".3rem", fontSize: ".75rem" }}>Portfolio © 2026 · Built with React</p>
-      </footer>
-
-      {/* Music Player */}
-      <div className="music-player" onClick={() => setMusicPlaying(p => !p)}>
-        <div className={`music-dot ${musicPlaying ? "playing" : ""}`} />
-        <span>{musicPlaying ? "Đang phát nhạc" : "Bật nhạc"}</span>
-        <span style={{ fontSize: "1rem" }}>{musicPlaying ? "⏸" : "▶"}</span>
-      </div>
-    </div>
+      {page === "admin" && <AdminPage galleryStore={galleryStore} blogStore={blogStore} bookStore={bookStore} projectStore={projectStore} />}
+      <footer><p>Thiết kế & phát triển bởi <span className="signature">{PROFILE.name}</span></p><p>Portfolio © 2026 · Built with React & Vite</p></footer>
+    </>
   );
 }
