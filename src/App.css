@@ -286,7 +286,9 @@ nav.navbar.scrolled {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 7rem 0 4rem;
+  /* Thay vì dùng padding: 4rem 0, hãy tách riêng ra để không ghi đè lề 2 bên */
+  padding-top: 7rem; 
+  padding-bottom: 4rem;
 }
 
 .hero-greeting {
