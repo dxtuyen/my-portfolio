@@ -492,12 +492,14 @@ nav.navbar.scrolled {
   position: relative;
   z-index: 2;
   background: var(--bg-2);
-  filter: grayscale(100%) contrast(1);
-  transition: filter 0.25s ease;
+  /* Đã xóa dòng filter: grayscale(100%)... để ảnh giữ nguyên màu gốc */
+  transition: transform 0.25s ease;
 }
 
-.avatar-wrap:hover .avatar-img { filter: none; }
-
+/* Tùy chọn: Bạn có thể thêm một chút hiệu ứng phóng to nhẹ khi di chuột vào */
+.avatar-wrap:hover .avatar-img { 
+  transform: scale(1.02); 
+}
 .philosophy-quote {
   border-left: 3px solid var(--accent);
   padding: 1rem 0 1rem 1.5rem;
@@ -1174,7 +1176,9 @@ footer .signature {
 /* ─── Cover image / Banner ─── */
 .cover-banner {
   width: 100%;
-  height: 220px;
+  /* Tăng chiều cao lên 50% chiều cao màn hình để thấy được toàn cảnh */
+  height: 50vh; 
+  min-height: 400px; /* Đảm bảo trên điện thoại ảnh không bị quá lùn */
   background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg-3) 100%);
   position: relative;
   overflow: hidden;
@@ -1402,4 +1406,62 @@ footer .signature {
   border-color: #e24b4a;
   color: #e24b4a;
   background: rgba(226, 75, 74, 0.1);
+}
+/* ─── Welcome Prompt Modal ─── */
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 25, 47, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.welcome-modal {
+  background: var(--card-bg);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(0);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-modal h2 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  color: var(--heading);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.welcome-modal p {
+  color: var(--text-2);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 2.2rem;
+}
+
+.welcome-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .welcome-modal { padding: 2.5rem 1.5rem; }
+  .welcome-actions { flex-direction: column; }
+  .welcome-actions button { width: 100%; justify-content: center; }
 }
