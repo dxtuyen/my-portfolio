@@ -6,6 +6,9 @@ import coverImg from "./IMG_20260312_165016.jpg";
 // 1. Import file nhạc giống như import ảnh
 import bgMusic from "./yiruma.mp3"; 
 
+// Import file báo cáo Bài 2 (đặt file PDF cùng thư mục với App.jsx)
+import bai2File from "./BaoCao_Bai2_5G.pdf";
+
 // 2. Gán trực tiếp biến bgMusic vào (KHÔNG dùng dấu ngoặc kép "")
 const MUSIC_URL = bgMusic;
 const PROFILE = {
@@ -128,14 +131,49 @@ const DEFAULT_BOOKS = [
   { id: 37, title: "Mắt biếc", author: "Nguyễn Nhật Ánh", rating: 4, cover: "🚂", review: "Ký ức tuổi thơ êm đềm và mối tình đơn phương trong trẻo nhưng đầy day dứt. Một nỗi buồn man mác về những điều tuyệt đẹp không thể níu giữ." }
 ];
 
-const DEFAULT_PROJECTS = [
-  { id: 1, name: "Phần mềm Đấu giá Trực tuyến", desc: "Hệ thống áp dụng kiến trúc phân tầng, tích hợp hệ quản trị cơ sở dữ liệu để tối ưu hóa hiệu năng.", tech: ["Java", "OOP", "Git"], github: PROFILE.github, demo: "#", status: "Hoàn thành" },
-  { id: 2, name: "Hệ thống Quản lý Web Phòng trọ", desc: "Nền tảng hỗ trợ tự động hóa quy trình quản lý thông tin khách thuê, hợp đồng điện tử.", tech: ["Python", "Database", "Web Development"], github: PROFILE.github, demo: "#", status: "Đang phát triển" },
-];
-
 const DEFAULT_ASSIGNMENTS = [
-  { id: 1, title: "Bài 1 — Thao tác với tệp tin và thư mục", subject: "Mục 1.4", desc: "Trình bày cấu trúc thư mục tối ưu." },
-  { id: 2, title: "Bài 2 — Tìm kiếm thông tin học thuật", subject: "Mục 2.4", desc: "Kết quả tìm kiếm bằng toán tử nâng cao." },
+  {
+    id: 1,
+    title: "Bài 1: Quản lý Hệ thống File",
+    topic: "Thao tác với tệp tin và thư mục trên Windows 11",
+    description: "Rèn luyện các kỹ năng nền tảng về tổ chức không gian lưu trữ cá nhân, thao tác quản lý tệp tin và cấu trúc thư mục tối ưu.",
+    fileUrl: "/assets/BaoCao_Bai1_ThaoTacFile.pdf"
+  },
+  {
+    id: 2,
+    title: "Bài 2: Nghiên cứu Thông tin Học thuật",
+    topic: "Công nghệ mạng 5G và ứng dụng trong truyền thông dữ liệu",
+    description: "Đánh giá mức độ tin cậy của 11 nguồn tài liệu học thuật theo tiêu chuẩn phân loại khắt khe. Trích dẫn chuẩn Harvard.",
+    fileUrl: "/assets/BaoCao_Bai2_5G.pdf"
+  },
+  {
+    id: 3,
+    title: "Bài 3: Prompt Engineering",
+    topic: "Phân tích tác vụ học tập với Large Language Models",
+    description: "Nghiên cứu cách áp dụng các kỹ thuật nâng cao (Role Play, Chain-of-Thought, Few-shot) để tối ưu hóa truy vấn AI trong các bài toán IT.",
+    fileUrl: "/assets/bai3.docx"
+  },
+  {
+    id: 4,
+    title: "Bài 4: Hệ thống Hợp tác Trực tuyến",
+    topic: "Quản lý luồng công việc số hóa",
+    description: "Tích hợp Trello, Slack và Google Workspace để vận hành dự án nhóm. Xử lý các thách thức về phân mảnh thông tin và xung đột đồng bộ.",
+    fileUrl: "/assets/bai4.pdf"
+  },
+  {
+    id: 5,
+    title: "Bài 5: Visualizing Concepts",
+    topic: "Trực quan hóa 4 trụ cột OOP bằng AI sinh tạo",
+    description: "Sử dụng AI sinh tạo ảnh để thiết kế infographic minh họa các khái niệm lập trình. Áp dụng quy trình tinh chỉnh Human-in-the-loop.",
+    fileUrl: "/assets/tuần5cns.docx"
+  },
+  {
+    id: 6,
+    title: "Bài 6: AI Ethics & Policies",
+    topic: "Sử dụng AI có trách nhiệm trong học thuật",
+    description: "Phân tích ranh giới đạo đức khi ứng dụng AI, thiết lập bộ nguyên tắc 'Zero-Trust' và giữ vững tính bản thể trong kỷ nguyên số.",
+    fileUrl: "/assets/bai6.docx"
+  }
 ];
 
 // ─── Scroll Reveal Hook ───
@@ -564,7 +602,7 @@ function ProjectsPage({ projects }) {
 
 function AssignmentsPage() {
   const [notes, setNotes] = useState({});
-  return (<div className="container page-header"><p className="section-eyebrow">// Bài tập</p><h1 className="page-title">Kết quả bài tập</h1><p className="page-subtitle">Các bài tập thực hành môn Công nghệ thông tin và Trí tuệ nhân tạo.</p><div style={{ display: "grid", gap: "1.2rem" }}>{DEFAULT_ASSIGNMENTS.map(a => (<div key={a.id} className="assignment-card"><div className="project-header"><h3 className="project-title" style={{ fontSize: "1.15rem" }}>{a.title}</h3><span className="badge badge-todo">Chưa nộp</span></div><p className="assignment-subject">{a.subject}</p><p className="project-desc" style={{ marginBottom: "0.5rem" }}>{a.desc}</p><div className="assignment-actions"><span className="assignment-chip">📎 Upload file</span><span className="assignment-chip">🔗 Thêm link</span></div><textarea className="assignment-notes" placeholder="Ghi chú thuật toán..." value={notes[a.id] || ""} onChange={e => setNotes(p => ({ ...p, [a.id]: e.target.value }))} /></div>))}</div></div>);
+  return (<div className="container page-header"><p className="section-eyebrow">// Bài tập</p><h1 className="page-title">Kết quả bài tập</h1><p className="page-subtitle">Các bài tập thực hành môn Công nghệ thông tin và Trí tuệ nhân tạo.</p><div style={{ display: "grid", gap: "1.2rem" }}>{DEFAULT_ASSIGNMENTS.map(a => (<div key={a.id} className="assignment-card"><div className="project-header"><h3 className="project-title" style={{ fontSize: "1.15rem" }}>{a.title}</h3><span className={`badge ${a.submitted ? "badge-done" : "badge-todo"}`}>{a.submitted ? "Đã nộp" : "Chưa nộp"}</span></div><p className="assignment-subject">{a.subject}</p><p className="project-desc" style={{ marginBottom: "0.5rem" }}>{a.desc}</p><div className="assignment-actions">{a.file ? (<><a href={a.file} target="_blank" rel="noreferrer" className="assignment-chip" style={{ textDecoration: "none" }}>📄 Xem {a.fileName}</a><a href={a.file} download={a.fileName} className="assignment-chip" style={{ textDecoration: "none" }}>⬇️ Tải xuống</a></>) : (<><span className="assignment-chip">📎 Upload file</span><span className="assignment-chip">🔗 Thêm link</span></>)}</div><textarea className="assignment-notes" placeholder="Ghi chú thuật toán..." value={notes[a.id] || ""} onChange={e => setNotes(p => ({ ...p, [a.id]: e.target.value }))} /></div>))}</div></div>);
 }
 
 // ─── Main App Structure ───
