@@ -275,37 +275,60 @@ function AudioPlayer() {
   );
 }
 
-// ─── Navbar ───
 function Navbar({ page, onNavigate, theme, toggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => { 
     const f = () => setScrolled(window.scrollY > 50); 
     window.addEventListener("scroll", f); 
     return () => window.removeEventListener("scroll", f); 
   }, []);
+
+  // ĐÃ CẬP NHẬT: Thêm mục summary vào mảng điều hướng
   const items = [
     { id: "home", label: "Trang chủ" }, 
     { id: "blog", label: "Blog" }, 
     { id: "books", label: "Tủ sách" }, 
     { id: "projects", label: "Dự án" }, 
-    { id: "assignments", label: "Bài tập" }
+    { id: "assignments", label: "Bài tập" },
+    { id: "summary", label: "Tổng kết" } // Dòng mới thêm ở đây
   ];
+
   const go = (id) => { onNavigate(id); setMenuOpen(false); };
+
   return (
     <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
-      <div className="nav-logo" onClick={() => go("home")}><span className="bracket">&lt;</span><span>{PROFILE.shortName}</span><span className="bracket">/&gt;</span></div>
-      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
-        {items.map((item, i) => (<button key={item.id} className={`nav-link ${page === item.id ? "active" : ""}`} onClick={() => go(item.id)}><span className="num">0{i + 1}.</span>{item.label}</button>))}
+      <div className="nav-logo" onClick={() => go("home")}>
+        <span className="bracket">&lt;</span>
+        <span>{PROFILE.shortName}</span>
+        <span className="bracket">/&gt;</span>
       </div>
+      
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        {items.map((item, i) => (
+          <button 
+            key={item.id} 
+            className={`nav-link ${page === item.id ? "active" : ""}`} 
+            onClick={() => go(item.id)}
+          >
+            <span className="num">0{i + 1}.</span>
+            {item.label}
+          </button>
+        ))}
+      </div>
+      
       <div style={{ display: "flex", alignItems: "center" }}>
-        <button className="theme-toggle" onClick={toggleTheme} title="Đổi giao diện">{theme === "dark" ? "☀" : "☾"}</button>
-        <button className="hamburger" onClick={() => setMenuOpen(o => !o)}>{menuOpen ? "✕" : "☰"}</button>
+        <button className="theme-toggle" onClick={toggleTheme} title="Đổi giao diện">
+          {theme === "dark" ? "☀" : "☾"}
+        </button>
+        <button className="hamburger" onClick={() => setMenuOpen(o => !o)}>
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </div>
     </nav>
   );
 }
-
 // ─── Hero ───
 function Hero({ onNavigate }) {
   return (
@@ -678,7 +701,58 @@ function AssignmentsSection({ assignments }) {
     </section>
   );
 }
-// ─── Main App Structure ───
+
+// ─── Trang Tổng Kết Dự Án (Retrospective Page) ───
+function SummaryPage() {
+  return (
+    <div className="container page-header">
+      <p className="section-eyebrow">// Nhìn lại hành trình</p>
+      <h1 className="page-title">Tổng Kết Dự Án</h1>
+      <p className="page-subtitle">Những cột mốc kinh nghiệm và bài học thực tế gặt hái được từ dự án.</p>
+
+      <div className="summary-grid">
+        {/* Khối bài học đạt được */}
+        <div className="summary-card learned-card">
+          <h3 className="summary-card-title">💡 Điều Học Được</h3>
+          <ul className="summary-list">
+            <li>
+              <strong>Triển khai & Công cụ:</strong> Học được cách tự triển khai hoàn chỉnh một trang web và làm chủ các công cụ lập trình cần thiết.
+            </li>
+            <li>
+              <strong>Thương hiệu cá nhân:</strong> Biết cách tổ chức, sắp xếp thông tin bài viết và dự án để xây dựng hình ảnh chuyên nghiệp trên không gian số.
+            </li>
+            <li>
+              <strong>Tối ưu hóa cùng AI:</strong> Biết cách phối hợp và sử dụng các công cụ AI một cách hiệu quả để hỗ trợ giải quyết các bài toán kỹ thuật.
+            </li>
+          </ul>
+        </div>
+
+        {/* Khối thử thách khó khăn */}
+        <div className="summary-card challenges-card">
+          <h3 className="summary-card-title">⚠️ Khó Khăn Đã Vượt Qua</h3>
+          <ul className="summary-list">
+            <li>
+              <strong>Khối lượng công việc:</strong> Quá trình xây dựng một portfolio cá nhân có rất nhiều công đoạn, đòi hỏi nhiều kỹ thuật đan xen và tiêu tốn khá nhiều thời gian thực hiện. Và khôi lượng môn học lớn khiến tôi nhiều lúc burnout.
+            </li>
+            <li>
+              <strong>Áp lực ý tưởng:</strong> Gặp phải những thời điểm bị bí ý tưởng trong việc sắp xếp bố cục giao diện cũng như cô đọng nội dung hiển thị.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Kết luận tối giản */}
+      <div className="takeaway-section">
+        <h3>🎯 Kết Luận</h3>
+        <p>
+          Dù việc tự tay xây dựng mọi công đoạn tốn nhiều thời gian và công sức, nhưng việc kiên trì giải quyết từng lỗi giao diện, cấu trúc dữ liệu đã giúp tôi hiểu sâu sắc hơn về quy trình phát triển sản phẩm thực tế.
+        </p>
+      </div>
+    </div>
+  );
+}	
+
+// ─── Main App Structure (Đã thêm trang Tổng Kết) ───
 export default function App() {
   const [page, setPage] = useState("home");
   const [theme, setTheme] = useState("dark");
@@ -688,19 +762,24 @@ export default function App() {
   const toggleTheme = useCallback(() => { setTheme(t => t === "dark" ? "light" : "dark"); }, []);
   
   return (
-    <> {/* Sử dụng thẻ rỗng để không phá vỡ Layout gốc */}
+    <> 
+      {/* Thanh điều hướng toàn trang */}
       <Navbar page={page} onNavigate={navigate} theme={theme} toggleTheme={toggleTheme} />
       
+      {/* Các tab nội dung giao diện */}
       {page === "home" && <HomePage onNavigate={navigate} />}
       {page === "blog" && <BlogPage blogs={DEFAULT_BLOGS} />}
       {page === "books" && <BooksPage books={DEFAULT_BOOKS} />}
       {page === "projects" && <ProjectsPage projects={DEFAULT_PROJECTS} />}
-      
-      {/* Tab Bài tập */}
       {page === "assignments" && <AssignmentsPage assignments={DEFAULT_ASSIGNMENTS} />}
       
+      {/* ĐÂY CHÍNH LÀ PHẦN BỔ SUNG: Kích hoạt tab Tổng kết */}
+      {page === "summary" && <SummaryPage />}
+      
+      {/* Trình phát nhạc nền */}
       <AudioPlayer />
       
+      {/* Chân trang */}
       <footer>
         <p>Thiết kế & phát triển bởi <span className="signature">{PROFILE.name}</span></p>
         <p>Portfolio © 2026 · Built with React & Vite</p>

@@ -1730,3 +1730,86 @@ footer .signature {
 .btn-view-file:hover {
   opacity: 0.8;
 }
+
+/* ─── Summary Page (Giao diện thẻ bài tối giản) ─── */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.summary-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Đường viền màu highlight tinh tế ở đỉnh thẻ */
+.learned-card {
+  border-top: 4px solid #5cb85c; /* Màu xanh dịu cho điều học được */
+}
+
+.challenges-card {
+  border-top: 4px solid #d9534f; /* Màu đỏ dịu cho khó khăn */
+}
+
+.summary-card-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.summary-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.summary-list li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.summary-list li strong {
+  color: var(--text-color);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.takeaway-section {
+  background: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.takeaway-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+}
+
+.takeaway-section p {
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto;
+}
