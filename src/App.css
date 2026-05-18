@@ -1666,3 +1666,67 @@ footer .signature {
   border-color: var(--accent);
   background: var(--accent-tint);
 }
+/* ─── Assignments Page ─── */
+.assignments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.assignment-card {
+  background: var(--card-bg); /* Dùng biến thay vì màu cứng */
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.assignment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.assignment-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color); /* Đồng bộ màu chữ */
+}
+
+.assignment-topic {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.assignment-topic strong {
+  color: var(--text-color);
+}
+
+.assignment-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.btn-view-file {
+  align-self: flex-start;
+  background: var(--primary-color); /* Nút bấm theo màu chủ đạo của web */
+  color: var(--bg-color); /* Chữ nổi bật trên nút */
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.btn-view-file:hover {
+  opacity: 0.8;
+}

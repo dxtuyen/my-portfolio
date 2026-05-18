@@ -6,8 +6,7 @@ import coverImg from "./IMG_20260312_165016.jpg";
 // 1. Import file nhạc giống như import ảnh
 import bgMusic from "./yiruma.mp3"; 
 
-// Import file báo cáo Bài 2 (đặt file PDF cùng thư mục với App.jsx)
-import bai2File from "./BaoCao_Bai2_5G.pdf";
+
 
 // 2. Gán trực tiếp biến bgMusic vào (KHÔNG dùng dấu ngoặc kép "")
 const MUSIC_URL = bgMusic;
@@ -129,6 +128,28 @@ const DEFAULT_BOOKS = [
   { id: 35, title: "Truyện Kiều", author: "Nguyễn Du", rating: 5, cover: "🪕", review: "Kiệt tác thơ Nôm của dân tộc. Bức tranh hiện thực xã hội tàn nhẫn và triết lý 'Tài mệnh tương đố' được thể hiện qua ngôn từ nghệ thuật đạt đến đỉnh cao." },
   { id: 36, title: "Số đỏ", author: "Vũ Trọng Phụng", rating: 4, cover: "🎩", review: "Tuyệt tác trào phúng sắc lẹm, châm biếm sâu cay sự kệch cỡm, lố lăng của tầng lớp thượng lưu rởm đời trong xã hội thực dân nửa phong kiến." },
   { id: 37, title: "Mắt biếc", author: "Nguyễn Nhật Ánh", rating: 4, cover: "🚂", review: "Ký ức tuổi thơ êm đềm và mối tình đơn phương trong trẻo nhưng đầy day dứt. Một nỗi buồn man mác về những điều tuyệt đẹp không thể níu giữ." }
+];
+
+// Dán mảng này vào cùng khu vực với các mảng dữ liệu khác ở đầu file
+const DEFAULT_PROJECTS = [
+  {
+    id: 1,
+    name: "Phần mềm Đấu giá Trực tuyến",
+    status: "Hoàn thành",
+    desc: "Hệ thống áp dụng kiến trúc phân tầng, tích hợp hệ quản trị cơ sở dữ liệu để tối ưu hóa hiệu năng.",
+    tech: ["Java", "OOP", "Git"],
+    github: "https://github.com/your-username/dau-gia-truc-tuyen", // Bạn thay link thật của bạn vào đây
+    demo: "#" // Để "#" thì nút Demo sẽ tự động ẩn đi như trong ảnh
+  },
+  {
+    id: 2,
+    name: "Hệ thống Quản lý Web Phòng trọ",
+    status: "Đang phát triển",
+    desc: "Nền tảng hỗ trợ tự động hóa quy trình quản lý thông tin khách thuê, hợp đồng điện tử.",
+    tech: ["Python", "Database", "Web Development"],
+    github: "https://github.com/your-username/quan-ly-phong-tro", // Bạn thay link thật của bạn vào đây
+    demo: "#"
+  }
 ];
 
 const DEFAULT_ASSIGNMENTS = [
@@ -600,11 +621,63 @@ function ProjectsPage({ projects }) {
   return (<div className="container page-header"><p className="section-eyebrow">// Dự án</p><h1 className="page-title">Những thứ tôi đã xây dựng</h1><p className="page-subtitle">Các dự án cá nhân và nhóm áp dụng quy trình thực thi hệ thống và tối ưu cấu trúc dữ liệu.</p><div className="projects-list">{projects.map(p => (<div key={p.id} className="project-card"><div className="project-header"><h3 className="project-title">{p.name}</h3><span className={`badge ${p.status === "Hoàn thành" ? "badge-done" : p.status === "Đang phát triển" ? "badge-wip" : "badge-todo"}`}>{p.status}</span></div><p className="project-desc">{p.desc}</p><div className="tech-tags">{p.tech.map((t, i) => <span key={i} className="tech-tag">{t}</span>)}</div><div className="project-links"><a href={p.github} target="_blank" rel="noreferrer">⌨ GitHub</a>{p.demo !== "#" && <a href={p.demo} target="_blank" rel="noreferrer">🌐 Demo</a>}</div></div>))}</div></div>);
 }
 
-function AssignmentsPage() {
-  const [notes, setNotes] = useState({});
-  return (<div className="container page-header"><p className="section-eyebrow">// Bài tập</p><h1 className="page-title">Kết quả bài tập</h1><p className="page-subtitle">Các bài tập thực hành môn Công nghệ thông tin và Trí tuệ nhân tạo.</p><div style={{ display: "grid", gap: "1.2rem" }}>{DEFAULT_ASSIGNMENTS.map(a => (<div key={a.id} className="assignment-card"><div className="project-header"><h3 className="project-title" style={{ fontSize: "1.15rem" }}>{a.title}</h3><span className={`badge ${a.submitted ? "badge-done" : "badge-todo"}`}>{a.submitted ? "Đã nộp" : "Chưa nộp"}</span></div><p className="assignment-subject">{a.subject}</p><p className="project-desc" style={{ marginBottom: "0.5rem" }}>{a.desc}</p><div className="assignment-actions">{a.file ? (<><a href={a.file} target="_blank" rel="noreferrer" className="assignment-chip" style={{ textDecoration: "none" }}>📄 Xem {a.fileName}</a><a href={a.file} download={a.fileName} className="assignment-chip" style={{ textDecoration: "none" }}>⬇️ Tải xuống</a></>) : (<><span className="assignment-chip">📎 Upload file</span><span className="assignment-chip">🔗 Thêm link</span></>)}</div><textarea className="assignment-notes" placeholder="Ghi chú thuật toán..." value={notes[a.id] || ""} onChange={e => setNotes(p => ({ ...p, [a.id]: e.target.value }))} /></div>))}</div></div>);
-}
+// Giao diện phần Bài tập & Báo cáo (Đã chuẩn hóa thành Page)
+function AssignmentsPage({ assignments }) {
+  return (
+    <div className="container page-header">
+      <p className="section-eyebrow">// Bài tập</p>
+      <h1 className="page-title">Bài Tập & Báo Cáo</h1>
+      <p className="page-subtitle">Các bài tập thực hành ứng dụng công nghệ và trí tuệ nhân tạo.</p>
 
+      <div className="assignments-grid">
+        {assignments.map((item) => (
+          <div key={item.id} className="assignment-card">
+            <h3 className="assignment-title">{item.title}</h3>
+            <p className="assignment-topic">
+              <strong>Chủ đề:</strong> {item.topic}
+            </p>
+            <p className="assignment-desc">{item.description}</p>
+            <a 
+              href={item.fileUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-view-file"
+            >
+              Xem tài liệu
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+// Giao diện phần Bài tập & Báo cáo
+function AssignmentsSection({ assignments }) {
+  return (
+    <section className="assignments-section" id="assignments">
+      <h2 className="section-title">Bài Tập & Báo Cáo</h2>
+      <div className="assignments-grid">
+        {assignments.map((item) => (
+          <div key={item.id} className="assignment-card">
+            <h3 className="assignment-title">{item.title}</h3>
+            <p className="assignment-topic">
+              <strong>Chủ đề:</strong> {item.topic}
+            </p>
+            <p className="assignment-desc">{item.description}</p>
+            <a 
+              href={item.fileUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-view-file"
+            >
+              Xem tài liệu
+            </a>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 // ─── Main App Structure ───
 export default function App() {
   const [page, setPage] = useState("home");
@@ -615,15 +688,17 @@ export default function App() {
   const toggleTheme = useCallback(() => { setTheme(t => t === "dark" ? "light" : "dark"); }, []);
   
   return (
-    <>
+    <> {/* Sử dụng thẻ rỗng để không phá vỡ Layout gốc */}
       <Navbar page={page} onNavigate={navigate} theme={theme} toggleTheme={toggleTheme} />
+      
       {page === "home" && <HomePage onNavigate={navigate} />}
       {page === "blog" && <BlogPage blogs={DEFAULT_BLOGS} />}
       {page === "books" && <BooksPage books={DEFAULT_BOOKS} />}
       {page === "projects" && <ProjectsPage projects={DEFAULT_PROJECTS} />}
-      {page === "assignments" && <AssignmentsPage />}
       
-      {/* Trình phát nhạc tự động chèn ở đây */}
+      {/* Tab Bài tập */}
+      {page === "assignments" && <AssignmentsPage assignments={DEFAULT_ASSIGNMENTS} />}
+      
       <AudioPlayer />
       
       <footer>
