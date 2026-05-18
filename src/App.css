@@ -1012,7 +1012,58 @@ nav.navbar.scrolled {
   line-height: 1.8;
   max-width: 680px;
 }
+/* ─── Search & Filter Bar ─── */
+.search-filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
 
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-tint);
+}
+
+.search-input::placeholder {
+  color: var(--text-3);
+}
+
+.filter-select {
+  padding: 0.9rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.filter-select:focus {
+  border-color: var(--accent);
+}
+
+.filter-select option {
+  background: var(--bg-2);
+  color: var(--text);
+}
 /* ─── Projects ─── */
 .projects-list { display: grid; gap: 1.5rem; }
 
@@ -1466,4 +1517,152 @@ footer .signature {
   .welcome-modal { padding: 2.5rem 1.5rem; }
   .welcome-actions { flex-direction: column; }
   .welcome-actions button { width: 100%; justify-content: center; }
+}
+
+  
+/* ─── Bố cục Grid cho trang Blog ─── */
+.blog-page-layout {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr; /* Chia tỉ lệ cột danh sách và cột sidebar */
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2rem;
+}
+
+/* ─── Ghim cố định Sidebar khi cuộn trang ─── */
+.blog-sidebar {
+  position: sticky;
+  top: 100px; /* Ghim cách mép trên màn hình 100px khi người dùng cuộn xuống */
+  z-index: 10;
+}
+
+/* Tinh chỉnh lại khối Newsletter để vừa vặn trong không gian dọc */
+.newsletter-section {
+  padding: 2.2rem 1.8rem;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: left; /* Căn trái nhìn sẽ chuyên nghiệp hơn khi ở bên cạnh */
+  transition: border-color 0.25s ease;
+}
+
+.newsletter-section:hover {
+  border-color: var(--accent);
+}
+
+.newsletter-section h3 {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  font-size: 1.35rem;
+  color: var(--heading);
+  margin-bottom: 0.6rem;
+}
+
+.newsletter-section p {
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+/* Biến form thành hàng dọc để vừa khít cột bên cạnh */
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+}
+
+.newsletter-form input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.newsletter-form button {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  border-radius: 6px;
+  justify-content: center;
+}
+
+/* ─── Xử lý hiển thị mượt mà trên Di Động (Mobile) ─── */
+@media (max-width: 768px) {
+  .blog-page-layout {
+    grid-template-columns: 1fr; /* Chuyển thành 1 cột duy nhất */
+    gap: 2.5rem;
+  }
+  
+  .blog-sidebar {
+    position: static; /* Hủy tính năng ghim trên điện thoại để tránh lỗi giao diện */
+    order: -1; /* ĐẨY CẢ KHỐI LÊN TRÊN ĐẦU trước danh sách các bài blog */
+  }
+  
+  .newsletter-section {
+    text-align: center; /* Trả về căn giữa trên mobile cho đẹp mắt */
+    padding: 2.5rem 1.5rem;
+  }
+}
+/* ─── Newsletter Success Modal (Hiệu ứng đẹp hơn) ─── */
+.newsletter-success-modal {
+  text-align: center;
+  border-color: var(--accent); /* Làm nổi bật viền bằng màu cyan */
+  background: color-mix(in srgb, var(--accent-tint) 15%, var(--bg-2)); /* Thêm một chút màu nhấn vào nền */
+  animation: modalSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Hiệu ứng trượt lên */
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Vòng tròn chứa dấu tích thành công */
+.success-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  font-size: 2rem;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+}
+
+.newsletter-success-modal h3 {
+  color: var(--accent); /* Đổi màu tiêu đề cảm ơn thành màu nhấn */
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.newsletter-success-modal p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: var(--text); /* Làm màu chữ đậm hơn để dễ đọc */
+}
+
+/* Nút ẩn để quay lại form đăng ký (cho UX tốt hơn) */
+.back-to-form-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-to-form-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-tint);
 }

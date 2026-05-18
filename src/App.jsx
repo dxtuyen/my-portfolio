@@ -17,7 +17,7 @@ const PROFILE = {
   
  about: "Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Tôi có tính cách tò mò, luôn muốn tìm hiểu về mọi thứ chỉ vì niềm vui thuần túy của việc khám phá tri thức.",
   about2: "Ngoài việc học tập khoa học công nghệ, tôi dành thời gian tối ưu hóa không gian quản lý kiến thức cá nhân và trau dồi kỹ năng mềm. Tôi thích tư duy logic, tính kỷ luật và theo đuổi chủ nghĩa tối giản. Luôn tò mò và bị hấp dẫn bởi sự giao thoa giữa công nghệ và toán học",
-  philosophy: "Mọi việc sẽ trở nên thích thú nhất khi ta thực hiện bằng sự chú tâm triệt để và tận hưởng giá trị tự thân của chính công việc đó.",
+  philosophy: "Tôi muốn học ngày càng nhiều hơn để thấy cái đẹp trọng sự thiết yếu, và vì vậy tôi cũng trở thành người làm cho sự vật đẹp đẽ hơn - Nietzsche.",
   
   currentWork: "Tập trung vào các môn khoa học cơ bản và lập trình tại trường, đồng thời xây dựng các dự án cá nhân.",
   dream: "Trở thành một chuyên gia trong lĩnh vực Điện toán Đám mây (Cloud Computing), dùng công nghệ để giải quyết các vấn đề xã hội và nâng cao đời sống con người.",
@@ -36,26 +36,44 @@ const DEFAULT_TIMELINE = [
 const DEFAULT_SKILLS = [
   { category: "Tư duy & Kỹ năng", items: ["Mô hình hóa toán học", "Tư duy hệ thống & logic", "Giải quyết vấn đề thực tế"] },
   { category: "Ngôn ngữ & Công cụ", items: ["Python", "Java", "Git & GitHub", "VS Code"] },
-  { category: "Sở thích", items: ["Đọc sách triết học", "Tối ưu hoá năng suất (Productivity)", "Học hỏi tri thức mới"] },
+  { category: "Sở thích", items: ["Đọc sách ", "Tối ưu hoá năng suất (Productivity)", "Học hỏi tri thức mới"] },
 ];
 
 const DEFAULT_LESSONS = [
-  { icon: "▲", title: "Tư duy biện chứng", desc: "Nhìn nhận sự vật trong trạng thái vận động và mối liên hệ phổ biến để giải quyết vấn đề một cách toàn diện." },
-  { icon: "◆", title: "Sự chú tâm triệt để", desc: "Mọi việc sẽ vui và đạt hiệu quả cao nhất khi ta làm nó bằng sự tập trung tuyệt đối và vì giá trị tự thân của nó." },
-  { icon: "●", title: "Cân bằng & Tối giản", desc: "Chú trọng sức khỏe thể chất, tinh thần và duy trì một không gian làm việc, quản lý kiến thức tinh gọn." },
+  { icon: "▲", title: "Tư duy dẫn dắt", desc: "Đề cao tư duy biện chứng, nhìn mọi thứ dưới góc nhìn đa chiều, phù hợp thực tế ." },
+  { icon: "◆", title: "Làm việc hiệu quả", desc: "Mọi việc sẽ vui và đạt hiệu quả cao nhất khi ta làm nó bằng sự tập trung tuyệt đối và loại bỏ sao nhãng. " },
+  { icon: "●", title: "Cân bằng & Tối giản", desc: "Chú trọng sức khỏe thể chất, tinh thần và duy trì một không gian làm việc, quản lý kiến thức tinh gọn. Trân trọng những khoảnh khắc bên người thân gia đình bạn bè và các mỗi quan hệ." },
 ];
 
 const DEFAULT_BLOGS = [
-  { id: 1, title: "Quản lý cảm xúc qua lăng kính siêu nhận thức", desc: "Thay vì kìm nén, tôi chọn cách quan sát cảm xúc của mình như một hệ thống logic độc lập và gỡ rối chúng trên những trang giấy.", date: "18.05.2026", readTime: "4 phút đọc", content: "Hành trình quản lý cảm xúc của tôi không bắt đầu bằng việc cố gắng triệt tiêu những suy nghĩ tiêu cực, mà bằng việc tĩnh tâm quan sát chúng.\n\nGần đây, tôi đã quyết định rời xa bàn phím đôi chút để chuyển sang viết nhật ký trên giấy. Việc nắn nót từng nét chữ trên trang giấy trắng tạo ra một nhịp điệu chậm rãi, buộc tâm trí tôi phải hạ nhiệt. Đây chính là lúc tôi thực hành 'siêu nhận thức' (metacognition) — tư duy về chính tư duy của mình.\n\nKhi một cảm xúc mạnh trỗi dậy, thay vì phản ứng ngay lập tức hay bị cuốn theo nó, tôi đặt bút xuống và viết nó ra. Bằng góc nhìn biện chứng và triết lý Khắc kỷ (Stoicism), tôi bóc tách vấn đề: Đâu là thứ mình có thể kiểm soát? Đâu là biến số nằm ngoài tầm tay? Cảm xúc này bắt nguồn từ bản chất sự việc hay từ góc nhìn chủ quan của tôi?\n\nGiấy và bút trở thành công cụ để tôi 'debug' chính tâm trí mình. Bằng cách tách rời bản ngã khỏi cảm xúc nhất thời, tôi biến những mớ bòng bong trong lòng thành các chuỗi logic mạch lạc. Cảm xúc không còn là kẻ thù cần loại bỏ, mà trở thành một tín hiệu dữ liệu cần được phân tích và thấu hiểu." },
+{ 
+    id: 5, 
+    title: "Từ Monolithic đến Serverless: Cuộc tiến hóa của kiến trúc hệ thống", 
+    desc: "Chúng ta thường nghe nhiều về Cloud, Microservices hay Serverless. Nhưng tại sao thế giới công nghệ lại dịch chuyển theo hướng này? Hãy cùng nhìn lại bức tranh tổng thể.", 
+    date: "18.05.2026", 
+    readTime: "8 phút đọc", 
+    content: `Khi mới bước chân vào con đường lập trình, hầu hết chúng ta đều bắt đầu với kiến trúc Monolithic (Nguyên khối). Bạn viết code giao diện, xử lý logic, kết nối cơ sở dữ liệu... và đóng gói tất cả vào chung một dự án duy nhất. Nhấn "Run" và mọi thứ hoạt động. Giai đoạn đầu, Monolithic là một sự lựa chọn tuyệt vời: dễ phát triển, dễ test và dễ deploy.\n\nNhưng hãy tưởng tượng một hệ thống thương mại điện tử vào ngày Black Friday. Lượng người dùng đổ xô vào xem hàng khiến tính năng "Tìm kiếm" bị quá tải. Với Monolithic, để hệ thống không sập, bạn phải mở rộng (scale) toàn bộ ứng dụng. Điều này giống như việc bạn chỉ cần thêm một cái bếp lò, nhưng lại phải xây thêm cả một nhà hàng mới vậy. Vô cùng lãng phí tài nguyên.\n\nĐó là lúc ngành công nghiệp phần mềm chuyển mình sang Microservices.\n\nThay vì một khối khổng lồ, Microservices chia ứng dụng thành các dịch vụ nhỏ, độc lập. Dịch vụ thanh toán riêng, dịch vụ giỏ hàng riêng, dịch vụ xác thực người dùng riêng. Lúc này, tính năng nào bị quá tải thì ta chỉ cần cấp thêm tài nguyên cho tính năng đó. Hơn nữa, nếu dịch vụ "Gửi email" bị sập, người dùng vẫn có thể tiếp tục mua hàng bình thường.\n\nTuy nhiên, "Bữa trưa không có gì là miễn phí". Đánh đổi lớn nhất của Microservices chính là sự phức tạp về hạ tầng mạng (Network). Các dịch vụ giờ đây không thể gọi hàm trực tiếp trong code nữa, mà phải giao tiếp với nhau qua API. Độ trễ mạng (latency), lỗi kết nối, rớt gói tin bắt đầu xuất hiện. Việc theo dõi (monitor) một luồng request đi qua hàng chục service khác nhau trở thành một bài toán đau đầu, đòi hỏi phải có những công cụ điều phối khổng lồ như Kubernetes hay Docker Swarm.\n\nĐứng trước bài toán hạ tầng ngày càng cồng kềnh đó, Điện toán đám mây (Cloud Computing) đã tung ra một đòn bẩy mới: Serverless.\n\nĐừng để cái tên đánh lừa, Serverless không có nghĩa là "không có máy chủ". Nó có nghĩa là bạn (nhà phát triển) không cần phải quan tâm đến máy chủ nữa. Bạn chỉ cần viết một đoạn code logic (Function), đẩy lên các nền tảng như AWS Lambda hay Google Cloud Functions. Khi có người dùng truy cập, nhà cung cấp Cloud sẽ tự động cấp phát tài nguyên để chạy đoạn code đó. Khi không có ai dùng, hệ thống tắt đi và bạn không tốn một xu nào. Trọng tâm của lập trình viên được trả về đúng nguyên thủy của nó: Viết code tạo ra giá trị, thay vì ngồi cấu hình server.\n\nNhìn lại toàn bộ quá trình tiến hóa này, ta thấy một nguyên lý biện chứng rất rõ ràng: Mọi giải pháp kiến trúc đều giải quyết một nỗi đau cũ, nhưng đồng thời lại sinh ra một bài toán mới. Không có giải pháp nào là "viên đạn bạc" (silver bullet) hoàn hảo cho mọi trường hợp. Một startup mới mở không nên đâm đầu vào Kubernetes, và một gã khổng lồ công nghệ không thể ôm khư khư cục Monolithic. Lựa chọn kiến trúc tốt nhất, suy cho cùng, là sự thấu hiểu sâu sắc bài toán hiện tại của chính mình.` 
+  },
+  { id: 1, title: "Quản lý cảm xúc qua lăng kính siêu nhận thức", desc: "Thay vì kìm nén, tôi chọn cách quan sát cảm xúc của mình như một hệ thống logic độc lập và gỡ rối chúng trên những trang giấy.", date: "18.05.2026", readTime: "4 phút đọc", content: "Hành trình quản lý cảm xúc của tôi trải qua thời gian dài, tôi đã từng rất khó làm chủ được suy nghĩ và cảm xúc của mình, khi con tim không nghe theo lý trí, dần dần tôi bắt đầu đi tới kết luận như các thiền giả Đông phương đã dạy, đừng bắt đầu bằng việc cố gắng triệt tiêu những suy nghĩ tiêu cực, mà bằng việc tĩnh tâm quan sát chúng.\n\nGần đây, tôi đã quyết định trở lại thói quen chuyển sang viết nhật ký trên giấy. Việc nắn nót từng nét chữ trên trang giấy trắng tạo ra một nhịp điệu chậm rãi, buộc tâm trí tôi phải hạ nhiệt và bình tĩnh khi có cảm xúc mạnh nào trong này. Đây chính là lúc tôi thực hành 'siêu nhận thức' (metacognition) — tư duy về chính tư duy của mình.\n\nKhi một cảm xúc mạnh trỗi dậy, thay vì phản ứng ngay lập tức hay bị cuốn theo nó, tôi đặt bút xuống và viết nó ra. Bằng góc nhìn biện chứng và triết lý Khắc kỷ (Stoicism), tôi tự hỏi: Đâu là thứ mình có thể kiểm soát? Đâu là biến số nằm ngoài tầm tay? Cảm xúc này bắt nguồn từ bản chất sự việc hay từ góc nhìn chủ quan của tôi?\n\nGiấy và bút trở thành công cụ để tôi 'debug' chính tâm trí mình. Bằng cách tách rời bản ngã khỏi cảm xúc nhất thời, tôi biến những mớ bòng bong trong lòng thành các chuỗi logic mạch lạc. Cảm xúc không còn là kẻ thù cần loại bỏ, mà trở thành một tín hiệu dữ liệu cần được phân tích và thấu hiểu." },
   { id: 2, title: "Ứng dụng AI: Trợ lý tư duy trong kỷ nguyên số", desc: "Cách tôi không để AI nghĩ thay mình, mà dùng nó để mở rộng không gian quản lý tri thức và đối thoại phản biện.", date: "10.05.2026", readTime: "5 phút đọc", content: "Sự bùng nổ của Trí tuệ Nhân tạo (AI) khiến nhiều người lo sợ về việc mất đi khả năng tư duy độc lập. Tuy nhiên, với phương pháp tiếp cận top-down, tôi nhìn nhận AI không phải là một cỗ máy đẻ ra đáp án, mà là một 'bộ vi xử lý phụ' đắc lực cho hệ thống quản lý kiến thức cá nhân (PKM) của mình.\n\nTôi hiếm khi dùng AI để viết hộ một đoạn mã hoàn chỉnh hay giải quyết trọn vẹn một bài toán khó. Thay vào đó, tôi đưa cho nó cấu trúc tổng thể và yêu cầu nó phản biện các lỗ hổng logic trong suy nghĩ của mình. Trong không gian của Obsidian, khi tôi kết nối các ghi chú rời rạc, tôi thường dùng AI để gợi ý những góc nhìn đối lập mà bản thân có thể đã bỏ qua.\n\nAI giúp tôi tra cứu các định lý toán học phức tạp, giải thích các khái niệm triết học trừu tượng một cách trực quan, và tự động hóa những khâu tìm kiếm thông tin lặp đi lặp lại. Nhờ đó, tôi có thể dành 100% sự chú tâm cho việc kiến giải bản chất vấn đề.\n\nSử dụng AI đúng cách cũng giống như việc bạn có một người cộng sự không biết mệt mỏi. Nó không thay thế tư duy, mà đóng vai trò như một bức tường để tôi đập những ý tưởng của mình vào, nghe âm thanh dội lại để gọt giũa chúng sắc bén hơn, thỏa mãn niềm vui thuần túy của việc thấu hiểu thế giới." },
+  
   { id: 3, title: "Xây dựng hệ thống Digital Garden", desc: "Cách tôi sử dụng Markdown và liên kết hai chiều để quản lý hàng tá môn học và ý tưởng cá nhân.", date: "01.04.2026", readTime: "5 phút đọc", content: "Việc học không bao giờ là một đường thẳng. Nó là một mạng lưới chằng chịt của các khái niệm, định lý và sự liên tưởng. Đó là lý do tôi xây dựng Digital Garden (Khu vườn kỹ thuật số) của riêng mình.\n\nThay vì ghi chép theo cấu trúc thư mục truyền thống, cứng nhắc, tôi sử dụng các công cụ hỗ trợ liên kết hai chiều (bidirectional linking). Khi tôi học về một thuật toán mạng máy tính, tôi có thể dễ dàng liên kết nó với một khái niệm toán rời rạc mà tôi đã ghi chú từ tháng trước. Sự kết nối này giúp tôi nhìn thấy bức tranh tổng thể (big picture) rõ ràng hơn bao giờ hết.\n\nDigital Garden không chỉ là nơi lưu trữ, nó là 'bộ não thứ hai' (second brain). Nơi đây, các ý tưởng được gieo mầm, chăm sóc và tự do phát triển, giúp tôi duy trì tính kỷ luật trong học tập nhưng vẫn giữ được sự phóng khoáng trong tư duy." }
 ];
 
 const DEFAULT_BOOKS = [
   // ─── Công nghệ & Khoa học Máy tính ───
   { id: 1, title: "Just for Fun", author: "Linus Torvalds & David Diamond", rating: 4, cover: "🐧", review: "Hành trình tạo ra hạt nhân Linux thay đổi thế giới từ một dự án cá nhân. Cuốn sách truyền cảm hứng mãnh liệt về tinh thần tự do nguồn mở, sự tò mò vô tận và niềm vui thuần túy khi tự tay xây dựng một hệ thống từ con số không." },
-
-  // ─── Triết học & Tư tưởng ───
+{ id: 38, title: "Cái tôi là kẻ thù", author: "Ryan Holiday", rating: 4, cover: "🛡️", review: "Cuốn này thực sự tát cho mình mấy cú tỉnh người. Nó chỉ ra rằng kẻ ngáng đường lớn nhất không phải ai khác mà chính là sự kiêu ngạo và ảo tưởng của bản thân." },
+  { id: 39, title: "Chiến tranh và hòa bình", author: "Leo Tolstoy", rating: 5, cover: "🏇", review: "Đồ sộ và hơi ngợp lúc đầu, nhưng đọc rồi mới thấy Tolstoy miêu tả tâm lý con người và sự tàn khốc của thời cuộc quá đỉnh." },
+  { id: 40, title: "Tư bản", author: "Karl Marx", rating: 5, cover: "📕", review: "Khá khó nhằn nhưng cực kỳ đáng đọc để thực sự hiểu cách dòng tiền, thặng dư và sự bóc lột vận hành dưới lăng kính kinh tế - triết học." },
+  { id: 41, title: "Lược sử thời gian", author: "Stephen Hawking", rating: 5, cover: "⏳", review: "Đọc để thấy vũ trụ kỳ diệu thế nào và bản thân mình nhỏ bé ra sao. Lối viết của Hawking giải thích vật lý lượng tử dễ hiểu hơn mình tưởng rất nhiều." },
+  { id: 42, title: "Khi lỗi thuộc về những vì sao", author: "John Green", rating: 4, cover: "🌌", review: "Một câu chuyện tình buồn nhưng đẹp. Đọc xong tự dưng thấy trân trọng hơn những khoảnh khắc bình dị và sức khỏe hiện tại của mình." },
+  { id: 43, title: "Tuổi thơ dữ dội", author: "Phùng Quán", rating: 5, cover: "💣", review: "Đọc mà rớt nước mắt. Câu chuyện về những cậu bé Vệ quốc quân can trường làm mình thấy cực kỳ tự hào, xúc động và trân trọng hòa bình." },
+  { id: 44, title: "Gen vị kỷ", author: "Richard Dawkins", rating: 5, cover: "🧬", review: "Cuốn sách thay đổi hoàn toàn góc nhìn của mình về tiến hóa và bản chất con người. Hóa ra rất nhiều hành vi của chúng ta đều bị chi phối bởi bộ gen sinh tồn." },
+  { id: 45, title: "The Evolving Self", author: "Mihaly Csikszentmihalyi", rating: 4, cover: "🌱", review: "Một quyển sách khá sâu của tác giả cuốn 'Flow'. Đọc để hiểu tâm thức con người đã tiến hóa thế nào và cách để sống một cuộc đời có định hướng hơn." },
+  { id: 46, title: "Stolen Focus", author: "Johann Hari", rating: 5, cover: "📱", review: "Nói trúng phóc căn bệnh hiện đại: sự mất tập trung. Nó giúp mình nhận ra các hệ thống mạng xã hội đang đánh cắp sự chú ý của chúng ta tinh vi cỡ nào." },
+  { id: 47, title: "Deep Work", author: "Cal Newport", rating: 5, cover: "🎯", review: "Kim chỉ nam cho năng suất của mình. Áp dụng xong mấy phương pháp làm việc sâu trong này, mình thấy hiệu quả học tập và code tăng lên hẳn." },
+ // ─── Triết học & Tư tưởng ───
   { id: 2, title: "Zarathustra đã nói như thế", author: "Friedrich Nietzsche", rating: 4, cover: "📓", review: "Tác phẩm triết học mang đậm tính văn chương với tuyên ngôn 'Thượng đế đã chết'. Sách thách thức các giá trị đạo đức truyền thống và đề cao ý chí vươn tới hình mẫu 'Siêu nhân' (Übermensch)." },
   { id: 3, title: "Suy tưởng (Meditations)", author: "Marcus Aurelius", rating: 5, cover: "🏛️", review: "Những ghi chép cá nhân của vị Hoàng đế La Mã quyền lực nhất thế giới, chứa đựng cốt lõi của Chủ nghĩa Khắc kỷ: tập trung vào những gì ta có thể kiểm soát và bình thản trước mọi biến động." },
   { id: 4, title: "Những bức thư của Seneca", author: "Seneca", rating: 4, cover: "📜", review: "Tập hợp những lá thư gửi người bạn Lucilius, bàn về cách sử dụng thời gian, đối mặt với cái chết và cách giữ tâm trí tĩnh lặng giữa một xã hội đầy nhiễu nhương." },
@@ -315,32 +333,218 @@ function HomePage({ onNavigate }) {
   );
 }
 
+// 1. Thêm 'Confetti' vào danh sách import ở ĐẦU FILE App.jsx
+import Confetti from 'react-confetti';
+
+// ─── Component BlogPage Đã Nâng Cấp Hiệu Ứng ───
 function BlogPage({ blogs }) {
   const [openId, setOpenId] = useState(null);
-  const blog = openId ? blogs.find(b => b.id === openId) : null;
-  if (blog) return (<div className="container page-header"><button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button><h1 className="blog-detail-title">{blog.title}</h1><div className="blog-meta"><span>{blog.date}</span><span className="dot">·</span><span>{blog.readTime}</span></div><div className="blog-detail-body" style={{ marginTop: "2rem" }}>{blog.content.split("\n").map((p, i) => <p key={i} style={{ marginBottom: "1rem" }}>{p}</p>)}</div></div>);
-  return (<div className="container page-header"><p className="section-eyebrow">// Blog</p><h1 className="page-title">Những bài viết</h1><p className="page-subtitle">Suy nghĩ, ghi chép, và bài học rút ra.</p><div className="blog-list">{blogs.map(b => (<div key={b.id} className="blog-item" onClick={() => setOpenId(b.id)}><div className="blog-item-inner"><div className="blog-meta"><span>{b.date}</span><span className="dot">·</span><span>{b.readTime}</span></div><h3>{b.title}</h3><p>{b.desc}</p></div></div>))}</div></div>);
-}
+  const [email, setEmail] = useState("");
+  
+  // Trạng thái hiển thị giao diện Cảm ơn (thay vì Form)
+  const [showThankYou, setShowThankYou] = useState(false); 
+  
+  // Trạng thái kích hoạt tung pháo hoa
+  const [runConfetti, setRunConfetti] = useState(false);
 
+  const blog = openId ? blogs.find(b => b.id === openId) : null;
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault(); 
+    if (email) {
+      try {
+        const response = await fetch("https://formspree.io/f/mdajozlj", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ email: email }) 
+        });
+        
+        if (response.ok) {
+          setEmail(""); // Xóa trắng email
+          
+          // --- KÍCH HOẠT HIỆU ỨNG ---
+          setShowThankYou(true); // 1. Hiện hộp chữ cảm ơn
+          setRunConfetti(true);  // 2. Bắt đầu tung pháo hoa
+
+          // Tự động tắt pháo hoa sau 5 giây (để không bị lag trang)
+          setTimeout(() => {
+            setRunConfetti(false);
+          }, 5000);
+        }
+      } catch (error) {
+        console.error("Lỗi gửi form:", error);
+      }
+    }
+  };
+
+  if (blog) return (
+    <div className="container page-header">
+      <button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button>
+      <h1 className="blog-detail-title">{blog.title}</h1>
+      <div className="blog-meta">
+        <span>{blog.date}</span><span className="dot">·</span><span>{blog.readTime}</span>
+      </div>
+      <div className="blog-detail-body" style={{ marginTop: "2rem" }}>
+        {blog.content.split("\n").map((p, i) => <p key={i} style={{ marginBottom: "1rem" }}>{p}</p>)}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="container page-header">
+      
+      {/* ─── HỢP PHÁO HOA GIẤY (Chỉ hiện khi runConfetti là true) ─── */}
+      {runConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={300} // Số lượng mảnh pháo hoa
+          recycle={false}      // Không tự động tạo thêm mảnh mới sau khi rơi hết
+          gravity={0.2}        // Tốc độ rơi
+          colors={['#64ffda', '#ccd6f6', '#112240', '#4caf50', '#ffeb3b']} // Màu sắc pháo (có màu nhấn cyan của bạn)
+        />
+      )}
+
+      <p className="section-eyebrow">// Blog</p>
+      <h1 className="page-title">Những bài viết</h1>
+      <p className="page-subtitle">Suy nghĩ, ghi chép, và bài học rút ra.</p>
+      
+      <div className="blog-page-layout">
+        <div className="blog-main-content">
+          <div className="blog-list">
+            {blogs.map(b => (
+              <div key={b.id} className="blog-item" onClick={() => setOpenId(b.id)}>
+                <div className="blog-item-inner">
+                  <div className="blog-meta">
+                    <span>{b.date}</span><span className="dot">·</span><span>{b.readTime}</span>
+                  </div>
+                  <h3>{b.title}</h3>
+                  <p>{b.desc}</p>
+                </div>
+              </div>
+            ))}
+            {!blogs.length && <p style={{ color: "var(--text-2)" }}>Chưa có bài viết.</p>}
+          </div>
+        </div>
+
+        <aside className="blog-sidebar">
+          
+          {/* ─── LOGIC HIỂN THỊ CÔNG ĐĂNG KÝ HOẶC CẢM ƠN ─── */}
+          {showThankYou ? (
+            
+            // ─── GIAO DIỆN CẢM ƠN 🎉 (Sẽ hiện thay vì Form)
+            <div className="newsletter-section newsletter-success-modal">
+              <div className="success-icon-wrap">
+                <span className="success-check-icon">✓</span>
+              </div>
+              <h3>Cảm ơn bạn!</h3>
+              <p>Hành động của bạn là nguồn động lực rất lớn đối với mình. Những bài viết mới nhất về công nghệ, triết học và cuộc sống sẽ được gửi ngay đến hộp thư của bạn.</p>
+              <button className="back-to-form-btn" onClick={() => setShowThankYou(false)}>Quay lại</button>
+            </div>
+
+          ) : (
+            
+            // ─── GIAO DIỆN FORM ĐĂNG KÝ 🔇 (Giữ nguyên cấu trúc cũ)
+            <div className="newsletter-section">
+              <h3>Đăng ký nhận bài viết mới</h3>
+              <p>Để lại email để không bỏ lỡ những góc nhìn mới nhất về công nghệ, triết học và cuộc sống.</p>
+              <form onSubmit={handleSubscribe} className="newsletter-form">
+                <input 
+                  type="email" 
+                  placeholder="Địa chỉ email của bạn..." 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                />
+                <button type="submit">Đăng ký</button>
+              </form>
+            </div>
+
+          )}
+        </aside>
+      </div>
+    </div>
+  );
+}
 function BooksPage({ books }) {
   const [openId, setOpenId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterRating, setFilterRating] = useState(0);
+
   const book = openId ? books.find(b => b.id === openId) : null;
-  if (book) return (<div className="container page-header"><button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button><div className="book-detail-header"><span className="book-detail-cover">{book.cover}</span><div><h1 className="book-detail-title">{book.title}</h1><p className="book-detail-author">{book.author}</p><span className="book-stars">{"★".repeat(book.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - book.rating)}</span></span></div></div><p className="book-review">{book.review}</p></div>);
+
+  // Xử lý logic lọc dữ liệu
+  const filteredBooks = books.filter(b => {
+    // 1. Kiểm tra xem tên sách hoặc tên tác giả có chứa từ khóa không (không phân biệt hoa thường)
+    const matchText = b.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                      b.author.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // 2. Kiểm tra xem số sao của sách có lớn hơn hoặc bằng mức lọc không
+    const matchRating = filterRating === 0 || b.rating >= filterRating;
+    
+    return matchText && matchRating;
+  });
+
+  if (book) return (
+    <div className="container page-header">
+      <button className="back-link" onClick={() => setOpenId(null)}>← Quay lại</button>
+      <div className="book-detail-header">
+        <span className="book-detail-cover">{book.cover}</span>
+        <div>
+          <h1 className="book-detail-title">{book.title}</h1>
+          <p className="book-detail-author">{book.author}</p>
+          <span className="book-stars">{"★".repeat(book.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - book.rating)}</span></span>
+        </div>
+      </div>
+      <p className="book-review">{book.review}</p>
+    </div>
+  );
+
   return (
     <div className="container page-header">
       <p className="section-eyebrow">// Tủ sách</p>
       <h1 className="page-title">Tủ sách của tôi</h1>
       <p className="page-subtitle">Nơi lưu trữ những tư tưởng lớn, nghiên cứu khoa học và văn học kinh điển.</p>
+      
+      {/* ─── Thanh tìm kiếm và lọc ─── */}
+      <div className="search-filter-bar">
+        <input 
+          type="text" 
+          placeholder="🔍 Tìm tên sách hoặc tác giả..." 
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+        <select 
+          value={filterRating} 
+          onChange={e => setFilterRating(Number(e.target.value))}
+          className="filter-select"
+        >
+          <option value={0}>Tất cả số sao</option>
+          <option value={5}>Chỉ sách 5 sao</option>
+          <option value={4}>Từ 4 sao trở lên</option>
+        </select>
+      </div>
+
       <div className="books-grid">
-        {books.map(b => (
-          <div key={b.id} className="book-card" onClick={() => setOpenId(b.id)}>
-            <span className="book-cover-emoji">{b.cover}</span>
-            <h4>{b.title}</h4>
-            <p className="book-author">{b.author}</p>
-            <span className="book-stars">{"★".repeat(b.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - b.rating)}</span></span>
-            <p className="book-cta">Đọc review →</p>
+        {filteredBooks.length > 0 ? (
+          filteredBooks.map(b => (
+            <div key={b.id} className="book-card" onClick={() => setOpenId(b.id)}>
+              <span className="book-cover-emoji">{b.cover}</span>
+              <h4>{b.title}</h4>
+              <p className="book-author">{b.author}</p>
+              <span className="book-stars">{"★".repeat(b.rating)}<span style={{ color: "var(--bg-3)" }}>{"★".repeat(5 - b.rating)}</span></span>
+              <p className="book-cta">Đọc review →</p>
+            </div>
+          ))
+        ) : (
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "3rem 0", color: "var(--text-2)" }}>
+            <p>Không tìm thấy cuốn sách nào phù hợp với bộ lọc.</p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
