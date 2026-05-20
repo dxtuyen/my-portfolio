@@ -201,10 +201,11 @@ function isActive(href: string): boolean {
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      padding: var(--space-7) var(--space-6);
+      padding: 100px var(--space-6) 50vh; 
+     		
       gap: var(--space-4);
       transform: translateX(100%);
-      transition: transform var(--transition-base);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-lg);
     }
     .nav-links.is-open {
@@ -220,3 +221,61 @@ function isActive(href: string): boolean {
     }
   }
 </style>
+
+<script>
+  function initMobileMenu() {
+    const menu = document.querySelector('[data-menu]'); 
+    const hamburgerBtn = document.querySelector('[data-menu-toggle]');
+
+    if (!menu || !hamburgerBtn) return;
+
+    // CHỐT CHẶN BẢO VỆ: Chống lỗi Astro gắn sự kiện nhiều lần gây kẹt nút
+    if (hamburgerBtn.dataset.initialized === 'true') return;
+    hamburgerBtn.dataset.initialized = 'true';
+
+    // Hàm thực thi việc Mở/Đóng để dùng chung
+    const toggleMenu = (forceClose = false) => {
+      const isOpen = menu.classList.contains('is-open');
+      if (isOpen || forceClose) {
+        menu.classList.remove('is-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+      } else {
+        menu.classList.add('is-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+      }
+    };
+
+    // 1. Click 1 lần vào chỗ mở thanh sẽ đóng/mở thanh (Toggle)
+    hamburgerBtn.addEventListener('click', (event) => {
+      event.stopPropagation(); 
+      toggleMenu();
+    });
+
+    // 2. Click ra ngoài để tắt
+    document.addEventListener('click', (event) => {
+      if (window.innerWidth >= 768) return; 
+
+      const isOpen = menu.classList.contains('is-open');
+      if (!isOpen) return; // Nếu menu đang đóng thì bỏ qua luôn cho nhẹ máy
+      
+      const clickedInsideMenu = menu.contains(event.target);
+      const clickedOnHamburger = hamburgerBtn.contains(event.target);
+      
+      // Nếu click ra vùng ngoài menu VÀ ngoài nút hamburger -> Ép đóng (forceClose = true)
+      if (!clickedInsideMenu && !clickedOnHamburger) {
+        toggleMenu(true);
+      }
+    });
+
+    // 3. Phím ESC để tắt
+    document.addEventListener('keydown', (event) => {
+      if (window.innerWidth >= 768) return; 
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) {
+        toggleMenu(true);
+      }
+    });
+  }
+
+  // Khởi chạy khi Astro tải trang
+  document.addEventListener('astro:page-load', initMobileMenu);
+</script>
