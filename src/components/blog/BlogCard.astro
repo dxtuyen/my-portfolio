@@ -13,7 +13,9 @@ export interface Props {
 
 const { entry } = Astro.props;
 const { title, description, date, readTime, tags } = entry.data;
-const href = `/blog/${entry.slug}`;
+
+// ĐÃ SỬA: Đổi entry.slug thành entry.id
+const href = `/blog/${entry.id}`;
 ---
 
 <article class="card reveal">
@@ -94,19 +96,4 @@ const href = `/blog/${entry.slug}`;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-4);
-  }
-  .tag {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-accent);
-    background: var(--color-accent-soft);
-    padding: 2px 8px;
-    border-radius: var(--radius-pill);
-  }
-  .read-more {
-    color: var(--color-accent);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-  }
-</style>
+    margin-bottom: var(--space-

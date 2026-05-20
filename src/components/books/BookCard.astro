@@ -11,7 +11,9 @@ export interface Props {
 
 const { entry } = Astro.props;
 const { title, author, rating, cover, category } = entry.data;
-const href = `/books/${entry.slug}`;
+
+// ĐÃ SỬA: Đổi entry.slug thành entry.id
+const href = `/books/${entry.id}`; 
 
 // Render rating thành 5 sao "lấp đầy / rỗng"
 const stars = Array.from({ length: 5 }, (_, i) => i < rating);
