@@ -1,21 +1,12 @@
 ---
 /**
- * Navbar — thanh điều hướng toàn site.
- *
- * Cấu trúc:
- *  - Logo (tên ngắn của user) ở trái → click về Home
- *  - Mảng `navItems` ở giữa (desktop) hoặc dropdown (mobile)
- *  - Theme toggle + Hamburger ở phải
- *
- * Active link được tính từ `Astro.url.pathname`. Bài/sách chi tiết
- * (vd /blog/abc) cũng được match với mục cha (/blog).
+ * Navbar — thanh điều hướng toàn site (Hỗ trợ hiệu ứng X và Vuốt chạm Mobile).
  */
 import { profile } from '../../data/profile';
 import { navItems } from '../../data/navigation';
 
 const currentPath = Astro.url.pathname;
 
-/** Một item được "active" nếu path hiện tại bắt đầu bằng href của nó. */
 function isActive(href: string): boolean {
   if (href === '/') return currentPath === '/';
   return currentPath.startsWith(href);
@@ -46,29 +37,31 @@ function isActive(href: string): boolean {
     }
   </ul>
 
-<div class="nav-actions">
-  
-  <theme-toggle>
+  <div class="nav-actions">
+    <theme-toggle>
+      <button
+        type="button"
+        class="theme-toggle"
+        data-theme-toggle
+        aria-label="Chuyển đổi giao diện sáng/tối"
+      >
+        ☀
+      </button>
+    </theme-toggle>
+    
     <button
       type="button"
-      class="theme-toggle"
-      data-theme-toggle
-      aria-label="Chuyển đổi giao diện sáng/tối"
+      class="hamburger"
+      data-menu-toggle
+      aria-label="Mở menu"
+      aria-expanded="false"
+      aria-controls="menu"
     >
-      ☀
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
     </button>
-  </theme-toggle>
-  <button
-    type="button"
-    class="hamburger"
-    data-menu-toggle
-    aria-label="Mở menu"
-    aria-expanded="false"
-    aria-controls="menu"
-  >
-    ☰
-  </button>
-</div>
+  </div>
 </nav>
 
 <style>
@@ -82,10 +75,7 @@ function isActive(href: string): boolean {
     align-items: center;
     justify-content: space-between;
     padding: var(--space-4) var(--space-5);
-    transition:
-      background var(--transition-base),
-      box-shadow var(--transition-base),
-      padding var(--transition-base);
+    transition: background var(--transition-base), box-shadow var(--transition-base), padding var(--transition-base);
   }
 
   .navbar.is-scrolled {
@@ -96,7 +86,6 @@ function isActive(href: string): boolean {
     padding-block: var(--space-3);
   }
 
-  /* ─── Logo ─── */
   .nav-logo {
     font-family: var(--font-mono);
     font-size: var(--text-lg);
@@ -107,16 +96,9 @@ function isActive(href: string): boolean {
     gap: 2px;
     text-decoration: none;
   }
-  .nav-logo:hover {
-    color: var(--color-accent);
-  }
-  .bracket {
-    color: var(--color-accent);
-  }
+  .bracket { color: var(--color-accent); }
 
-  /* ─── Links ─── */
   .nav-links {
-    display: none; /* hidden on mobile by default */
     list-style: none;
     padding: 0;
     margin: 0;
@@ -124,9 +106,7 @@ function isActive(href: string): boolean {
   }
 
   @media (min-width: 768px) {
-    .nav-links {
-      display: flex;
-    }
+    .nav-links { display: flex; }
   }
 
   .nav-link {
@@ -138,32 +118,19 @@ function isActive(href: string): boolean {
     font-size: var(--text-sm);
     color: var(--color-text);
     text-decoration: none;
-    transition:
-      color var(--transition-fast),
-      background var(--transition-fast);
+    transition: color var(--transition-fast), background var(--transition-fast);
   }
-  .nav-link:hover,
-  .nav-link.active {
-    color: var(--color-accent);
-  }
-  .nav-link.active {
-    background: var(--color-accent-soft);
-  }
-  .num {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-accent);
-  }
+  .nav-link:hover, .nav-link.active { color: var(--color-accent); }
+  .nav-link.active { background: var(--color-accent-soft); }
+  .num { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-accent); }
 
-  /* ─── Actions ─── */
   .nav-actions {
     display: flex;
     align-items: center;
     gap: var(--space-2);
   }
 
-  .theme-toggle,
-  .hamburger {
+  .theme-toggle {
     width: 40px;
     height: 40px;
     display: inline-flex;
@@ -174,21 +141,72 @@ function isActive(href: string): boolean {
     font-size: var(--text-lg);
     transition: background var(--transition-fast);
   }
-  .theme-toggle:hover,
-  .hamburger:hover {
-    background: var(--color-accent-soft);
-  }
+  .theme-toggle:hover { background: var(--color-accent-soft); }
+
+  /* ─── CSS HIỆU ỨNG BIẾN HÌNH HAMBURGER THÀNH DẤU X ─── */
   .hamburger {
+    width: 40px;
+    height: 40px;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+  .hamburger:hover { background: var(--color-accent-soft); }
+
+  .hamburger-box {
+    width: 24px;
+    height: 18px;
+    display: inline-block;
+    position: relative;
+  }
+
+  .hamburger-inner,
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-accent);
+    position: absolute;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hamburger-inner {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .hamburger-inner::before,
+  .hamburger-inner::after {
+    content: "";
+    display: block;
+  }
+
+  .hamburger-inner::before { top: -8px; }
+  .hamburger-inner::after { bottom: -8px; }
+
+  /* Khi menu mở: Xoay các nét cắt tạo thành dấu X hoàn hảo */
+  .hamburger[aria-expanded="true"] .hamburger-inner {
+    transform: rotate(45deg);
+  }
+  .hamburger[aria-expanded="true"] .hamburger-inner::before {
+    top: 0;
+    opacity: 0; /* Ẩn thanh giữa */
+  }
+  .hamburger[aria-expanded="true"] .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
   }
 
   @media (min-width: 768px) {
-    .hamburger {
-      display: none;
-    }
+    .hamburger { display: none; }
   }
 
-  /* ─── Mobile menu (overlay) ─── */
+  /* ─── Mobile menu CSS (Đã fix lỗi cao và tối ưu cuộn) ─── */
   @media (max-width: 767px) {
     .nav-links {
       position: fixed;
@@ -201,29 +219,26 @@ function isActive(href: string): boolean {
       overscroll-behavior: contain;
       -webkit-overflow-scrolling: touch;
       will-change: transform;
-
       background: var(--color-bg-elevated);
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
-
-      /* 2. SỬA ĐOẠN PADDING NÀY: */
-      /* Top: 100px (tránh đè logo), Ngang: var(--space-6), Bottom: 150px (vừa đủ để kéo mục cuối lên) */
-      padding: 100px var(--space-6) 150px; 
       
-      /* Thêm tính năng đệm cuộn chuẩn Native để trình duyệt xử lý khoảng trống dưới đáy */
+      /* ĐÃ SỬA: Khoảng đệm lý tưởng ban đầu bình thường, có thể cuộn lên giữa trang */
+      padding: 100px var(--space-6) 150px; 
       scroll-padding-bottom: 100px;
-
+      
       gap: var(--space-4);
       transform: translateX(100%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-lg);
-      }
+    }
+    
     .nav-links.is-open {
-      display: flex;
       transform: translateX(0);
     }
+    
     .nav-link {
       font-size: var(--text-md);
       flex-direction: column;
@@ -236,16 +251,14 @@ function isActive(href: string): boolean {
 
 <script>
   function initMobileMenu() {
-    const menu = document.querySelector('[data-menu]'); 
-    const hamburgerBtn = document.querySelector('[data-menu-toggle]');
+    const menu = document.querySelector('[data-menu]') as HTMLElement; 
+    const hamburgerBtn = document.querySelector('[data-menu-toggle]') as HTMLElement;
 
     if (!menu || !hamburgerBtn) return;
 
-    // CHỐT CHẶN BẢO VỆ: Chống lỗi Astro gắn sự kiện nhiều lần gây kẹt nút
     if (hamburgerBtn.dataset.initialized === 'true') return;
     hamburgerBtn.dataset.initialized = 'true';
 
-    // Hàm thực thi việc Mở/Đóng để dùng chung
     const toggleMenu = (forceClose = false) => {
       const isOpen = menu.classList.contains('is-open');
       if (isOpen || forceClose) {
@@ -257,37 +270,64 @@ function isActive(href: string): boolean {
       }
     };
 
-    // 1. Click 1 lần vào chỗ mở thanh sẽ đóng/mở thanh (Toggle)
+    // 1. Click nút Hamburger (Biến hình X / Menu)
     hamburgerBtn.addEventListener('click', (event) => {
       event.stopPropagation(); 
       toggleMenu();
     });
 
-    // 2. Click ra ngoài để tắt
+    // 2. Click ra ngoài để đóng
     document.addEventListener('click', (event) => {
       if (window.innerWidth >= 768) return; 
-
       const isOpen = menu.classList.contains('is-open');
-      if (!isOpen) return; // Nếu menu đang đóng thì bỏ qua luôn cho nhẹ máy
+      if (!isOpen) return;
       
-      const clickedInsideMenu = menu.contains(event.target);
-      const clickedOnHamburger = hamburgerBtn.contains(event.target);
-      
-      // Nếu click ra vùng ngoài menu VÀ ngoài nút hamburger -> Ép đóng (forceClose = true)
-      if (!clickedInsideMenu && !clickedOnHamburger) {
+      if (!menu.contains(event.target as Node) && !hamburgerBtn.contains(event.target as Node)) {
         toggleMenu(true);
       }
     });
 
-    // 3. Phím ESC để tắt
+    // 3. Phím ESC để đóng
     document.addEventListener('keydown', (event) => {
       if (window.innerWidth >= 768) return; 
       if (event.key === 'Escape' && menu.classList.contains('is-open')) {
         toggleMenu(true);
       }
     });
+
+    // ─── LẬP TRÌNH HÀNH VI VUỐT CHẠM (TOUCH GESTURES) ───
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Bắt đầu chạm ngón tay
+    document.addEventListener('touchstart', (e) => {
+      if (window.innerWidth >= 768) return;
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    // Nhấc ngón tay lên
+    document.addEventListener('touchend', (e) => {
+      if (window.innerWidth >= 768) return;
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      const isOpen = menu.classList.contains('is-open');
+
+      // Ngưỡng vuốt tối thiểu (đơn vị pixel) để tránh kích hoạt nhầm khi cuộn dọc
+      const minSwipeThreshold = 60; 
+
+      if (isOpen && swipeDistance > minSwipeThreshold) {
+        // Vuốt từ trái sang phải (Swipe Right) -> Đóng menu
+        toggleMenu(true);
+      } else if (!isOpen && swipeDistance < -minSwipeThreshold && touchStartX > window.innerWidth * 0.8) {
+        // Vuốt từ lề phải sang trái (Swipe Left từ mép màn hình) -> Mở menu
+        toggleMenu();
+      }
+    }
   }
 
-  // Khởi chạy khi Astro tải trang
   document.addEventListener('astro:page-load', initMobileMenu);
 </script>
