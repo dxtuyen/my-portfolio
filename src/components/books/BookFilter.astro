@@ -3,14 +3,14 @@
  * BookFilter — search + category filter cho trang /books.
  *
  * Hoạt động hoàn toàn client-side:
- *  - Type vào input → filter theo title + author (data-search attr)
- *  - Click category button → chỉ hiện sách của category đó
- *  - Click "Tất cả" → reset
+ * - Type vào input → filter theo title + author (data-search attr)
+ * - Click category button → chỉ hiện sách của category đó
+ * - Click "Tất cả" → reset
  *
- * Logic được viết inline trong <script> dưới đây.
+ * Đã nâng cấp lên Web Component (<book-filter-controller>) 
+ * để tương thích hoàn hảo với Astro View Transitions (ClientRouter).
  */
 
-// Danh sách category — label tiếng Việt
 const categories = [
   { value: 'all', label: 'Tất cả' },
   { value: 'tech', label: 'Công nghệ' },
@@ -22,34 +22,36 @@ const categories = [
 ];
 ---
 
-<div class="book-filter reveal">
-  <input
-    type="search"
-    placeholder="Tìm theo tên sách hoặc tác giả..."
-    class="search-input"
-    data-book-search
-    aria-label="Tìm kiếm sách"
-  />
+<book-filter-controller>
+  <div class="book-filter reveal">
+    <input
+      type="search"
+      placeholder="Tìm theo tên sách hoặc tác giả..."
+      class="search-input"
+      data-book-search
+      aria-label="Tìm kiếm sách"
+    />
 
-  <div class="categories" role="tablist" aria-label="Lọc theo thể loại">
-    {
-      categories.map((cat, idx) => (
-        <button
-          type="button"
-          class:list={['cat-btn', { active: idx === 0 }]}
-          data-cat-btn
-          data-cat={cat.value}
-          role="tab"
-          aria-selected={idx === 0 ? 'true' : 'false'}
-        >
-          {cat.label}
-        </button>
-      ))
-    }
+    <div class="categories" role="tablist" aria-label="Lọc theo thể loại">
+      {
+        categories.map((cat, idx) => (
+          <button
+            type="button"
+            class:list={['cat-btn', { active: idx === 0 }]}
+            data-cat-btn
+            data-cat={cat.value}
+            role="tab"
+            aria-selected={idx === 0 ? 'true' : 'false'}
+          >
+            {cat.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="results-count" data-results-count></p>
   </div>
-
-  <p class="results-count" data-results-count></p>
-</div>
+</book-filter-controller>
 
 <style>
   .book-filter {
@@ -104,30 +106,36 @@ const categories = [
 </style>
 
 <script>
-  /**
-   * Client-side filter logic.
-   * Đọc data-attribute trên mỗi BookCard để filter ngay trong DOM,
-   * không cần render lại.
-   */
-  function init(): void {
-    const searchInput = document.querySelector<HTMLInputElement>('[data-book-search]');
-    const catBtns = document.querySelectorAll<HTMLButtonElement>('[data-cat-btn]');
-    const countEl = document.querySelector<HTMLElement>('[data-results-count]');
-    const cards = document.querySelectorAll<HTMLElement>('.book-card');
-    if (!searchInput || catBtns.length === 0 || cards.length === 0) return;
+  // Viết logic theo dạng Class Kế thừa (OOP)
+  class BookFilterController extends HTMLElement {
+    // connectedCallback tự động chạy mỗi khi Component xuất hiện trên màn hình
+    connectedCallback() {
+      // Dùng `this.querySelector` để chỉ tìm các phần tử NẰM TRONG bộ lọc này
+      this.searchInput = this.querySelector('[data-book-search]');
+      this.catBtns = this.querySelectorAll('[data-cat-btn]');
+      this.countEl = this.querySelector('[data-results-count]');
+      
+      if (!this.searchInput || this.catBtns.length === 0) return;
 
-    let activeCategory = 'all';
-    let searchTerm = '';
+      this.activeCategory = 'all';
+      this.searchTerm = '';
 
-    /** Áp dụng filter hiện tại lên toàn bộ card. */
-    function applyFilters(): void {
+      this.bindEvents();
+      this.applyFilters();
+    }
+
+    applyFilters() {
+      // Dùng `document.querySelectorAll` vì các cuốn sách (book-card) 
+      // nằm ngoài Component này, ở một lưới (grid) riêng biệt trên DOM
+      const cards = document.querySelectorAll('.book-card');
       let visibleCount = 0;
-      cards.forEach((card) => {
-        const cat = card.dataset.category ?? '';
-        const search = card.dataset.search ?? '';
 
-        const matchCat = activeCategory === 'all' || cat === activeCategory;
-        const matchSearch = searchTerm === '' || search.includes(searchTerm);
+      cards.forEach((card) => {
+        const cat = card.getAttribute('data-category') ?? '';
+        const search = card.getAttribute('data-search') ?? '';
+
+        const matchCat = this.activeCategory === 'all' || cat === this.activeCategory;
+        const matchSearch = this.searchTerm === '' || search.includes(this.searchTerm);
 
         if (matchCat && matchSearch) {
           card.classList.remove('is-hidden');
@@ -137,39 +145,41 @@ const categories = [
         }
       });
 
-      if (countEl) {
-        countEl.textContent =
+      if (this.countEl) {
+        this.countEl.textContent =
           visibleCount === cards.length
             ? `Hiển thị ${visibleCount} cuốn sách.`
             : `Tìm thấy ${visibleCount} / ${cards.length} cuốn sách.`;
       }
     }
 
-    searchInput.addEventListener('input', (e) => {
-      searchTerm = (e.target as HTMLInputElement).value.trim().toLowerCase();
-      applyFilters();
-    });
-
-    catBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        catBtns.forEach((b) => {
-          b.classList.remove('active');
-          b.setAttribute('aria-selected', 'false');
-        });
-        btn.classList.add('active');
-        btn.setAttribute('aria-selected', 'true');
-        activeCategory = btn.dataset.cat ?? 'all';
-        applyFilters();
+    bindEvents() {
+      // Sự kiện gõ phím tìm kiếm
+      this.searchInput.addEventListener('input', (e) => {
+        this.searchTerm = e.target.value.trim().toLowerCase();
+        this.applyFilters();
       });
-    });
 
-    // Trạng thái khởi tạo
-    applyFilters();
+      // Sự kiện click nút danh mục
+      this.catBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          // Xoá trạng thái active của tất cả nút
+          this.catBtns.forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          
+          // Thêm trạng thái active cho nút vừa bấm
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+          
+          this.activeCategory = btn.getAttribute('data-cat') ?? 'all';
+          this.applyFilters();
+        });
+      });
+    }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // Khai báo Component với trình duyệt
+  customElements.define('book-filter-controller', BookFilterController);
 </script>
