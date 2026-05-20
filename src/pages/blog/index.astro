@@ -1,0 +1,61 @@
+---
+/**
+ * Blog list page — danh sách tất cả bài viết, mới nhất lên đầu.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/shared/PageHeader.astro';
+import BlogCard from '../../components/blog/BlogCard.astro';
+import NewsletterForm from '../../components/blog/NewsletterForm.astro';
+import { getCollection } from 'astro:content';
+import { byDateDesc } from '../../lib/date';
+
+// Lấy tất cả bài blog, lọc draft trên production, sort theo ngày giảm dần.
+const posts = (await getCollection('blog', (entry) => !entry.data.draft)).sort(
+  byDateDesc,
+);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Những suy nghĩ về công nghệ, triết học, tâm lý và hành trình học hỏi của tôi."
+>
+  <div class="container">
+    <PageHeader
+      eyebrow="// Blog"
+      title="Những bài viết của tôi"
+      subtitle="Suy nghĩ về công nghệ, triết học, tâm lý và hành trình học hỏi."
+    />
+
+    {
+      posts.length === 0 ? (
+        <p class="empty">Chưa có bài viết nào. Hãy quay lại sau!</p>
+      ) : (
+        <div class="post-grid">
+          {posts.map((post) => (
+            <BlogCard entry={post} />
+          ))}
+        </div>
+      )
+    }
+
+    <NewsletterForm />
+  </div>
+</BaseLayout>
+
+<style>
+  .post-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  @media (min-width: 640px) {
+    .post-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+  }
+  .empty {
+    color: var(--color-text-muted);
+    text-align: center;
+    padding: var(--space-7);
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+/**
+ * Projects list page.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/shared/PageHeader.astro';
+import ProjectCard from '../../components/projects/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  title="Dự án"
+  description="Những dự án cá nhân tôi đã và đang xây dựng."
+>
+  <div class="container">
+    <PageHeader
+      eyebrow="// Dự án"
+      title="Những điều tôi đã xây"
+      subtitle="Mỗi dự án là một bài học, một thử nghiệm, một bước chân trên hành trình học hỏi."
+    />
+
+    <div class="projects-grid">
+      {projects.map((p) => <ProjectCard entry={p} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  @media (min-width: 640px) {
+    .projects-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+  }
+</style>

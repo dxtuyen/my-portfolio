@@ -1,0 +1,75 @@
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  Modern CSS Reset
+ *  Based on Josh Comeau's reset, slightly adapted.
+ *  Reset chỉ làm những việc thật cần — không "tẩy trắng" mọi thứ.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* Box-sizing & margins */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+/* Better default font rendering */
+html,
+body {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Media should scale by default */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Form elements should inherit font */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Prevent text overflow on long words */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Improve isolation for portal-like elements */
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,27 @@
+---
+/**
+ * Home page — ghép các section module lại theo thứ tự.
+ *
+ * Mỗi section là một component độc lập trong `components/home/`,
+ * dữ liệu lấy từ `data/*.ts` hoặc `content/*` collection.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import About from '../components/home/About.astro';
+import Timeline from '../components/home/Timeline.astro';
+import Skills from '../components/home/Skills.astro';
+import Dreams from '../components/home/Dreams.astro';
+import CurrentWork from '../components/home/CurrentWork.astro';
+import Contact from '../components/home/Contact.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout title={profile.name} description={profile.tagline}>
+  <Hero />
+  <About />
+  <Timeline />
+  <Skills />
+  <Dreams />
+  <CurrentWork />
+  <Contact />
+</BaseLayout>

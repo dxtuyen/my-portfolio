@@ -1,0 +1,90 @@
+---
+/**
+ * About — section "Về tôi": text bên trái, avatar bên phải.
+ * Grid 2 cột trên desktop, stack trên mobile.
+ */
+import { profile } from '../../data/profile';
+---
+
+<section class="container section">
+  <h2 class="section-title reveal">
+    <span class="section-number">01.</span>Về tôi
+  </h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>{profile.about}</p>
+      <p>{profile.about2}</p>
+      <blockquote class="philosophy">
+        "{profile.philosophy}"
+      </blockquote>
+    </div>
+    <div class="avatar-wrap reveal">
+      <img src={profile.avatar} alt={`Ảnh đại diện của ${profile.name}`} loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    color: var(--color-heading);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .about-grid {
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-7);
+      align-items: start;
+    }
+  }
+
+  .about-text > p {
+    color: var(--color-text-soft);
+    margin-bottom: var(--space-4);
+    line-height: var(--leading-relaxed);
+  }
+
+  .philosophy {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-4);
+    font-style: italic;
+    color: var(--color-text-muted);
+    margin-top: var(--space-5);
+    line-height: var(--leading-relaxed);
+  }
+
+  .avatar-wrap {
+    position: relative;
+    max-width: 280px;
+    margin-inline: auto;
+  }
+  .avatar-wrap img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-accent);
+    transition: transform var(--transition-base);
+  }
+  .avatar-wrap:hover img {
+    transform: translate(-4px, -4px);
+  }
+  .avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    z-index: -1;
+    transform: translate(8px, 8px);
+    transition: transform var(--transition-base);
+  }
+  .avatar-wrap:hover::after {
+    transform: translate(4px, 4px);
+  }
+</style>

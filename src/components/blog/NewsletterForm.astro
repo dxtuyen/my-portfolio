@@ -1,0 +1,166 @@
+---
+/**
+ * NewsletterForm — form đăng ký nhận email khi có bài mới.
+ *
+ * Sử dụng Formspree (https://formspree.io/) làm backend nhận email —
+ * không cần tự setup server. Khi user submit:
+ *  - JS bắt event submit
+ *  - Gửi POST tới Formspree endpoint
+ *  - Hiện thông báo cảm ơn, ẩn form
+ *
+ * Đổi endpoint: sửa biến `FORMSPREE_ENDPOINT` bên dưới.
+ */
+
+// Formspree endpoint của bạn (lấy từ project gốc)
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mdajozlj';
+---
+
+<aside class="newsletter reveal">
+  <div class="newsletter-content">
+    <h2 class="title">Đăng ký nhận bài viết mới</h2>
+    <p class="subtitle">
+      Khi có bài blog mới, tôi sẽ gửi cho bạn qua email — không spam, không
+      thông tin rác. Có thể huỷ bất cứ lúc nào.
+    </p>
+    <form
+      class="form"
+      data-newsletter-form
+      action={FORMSPREE_ENDPOINT}
+      method="POST"
+    >
+      <input
+        type="email"
+        name="email"
+        placeholder="email-cua-ban@example.com"
+        required
+        aria-label="Email của bạn"
+        class="input"
+      />
+      <button type="submit" class="submit-btn">Đăng ký</button>
+    </form>
+    <p class="status" data-newsletter-status hidden></p>
+  </div>
+</aside>
+
+<style>
+  .newsletter {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-block: var(--space-8);
+  }
+  .newsletter-content {
+    max-width: 540px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .title {
+    color: var(--color-heading);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-3);
+  }
+  .subtitle {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+    font-size: var(--text-sm);
+  }
+  .form {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .input {
+    flex: 1;
+    min-width: 220px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    transition: border-color var(--transition-fast);
+  }
+  .input:focus {
+    border-color: var(--color-accent);
+    outline: none;
+  }
+  .submit-btn {
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+  .submit-btn:hover:not(:disabled) {
+    background: var(--color-accent-strong);
+  }
+  .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .status {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+  }
+  .status.success {
+    color: var(--color-accent);
+  }
+  .status.error {
+    color: #f87171;
+  }
+</style>
+
+<script>
+  /**
+   * Newsletter form submission.
+   * Inline trong component — không tách file riêng vì logic ngắn.
+   */
+  function init(): void {
+    const form = document.querySelector<HTMLFormElement>('[data-newsletter-form]');
+    const status = document.querySelector<HTMLElement>('[data-newsletter-status]');
+    if (!form || !status) return;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
+      status.hidden = true;
+      status.classList.remove('success', 'error');
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' },
+        });
+
+        if (response.ok) {
+          status.textContent = '✓ Cảm ơn bạn đã đăng ký! Hẹn gặp lại trong bài viết mới.';
+          status.classList.add('success');
+          status.hidden = false;
+          form.reset();
+        } else {
+          throw new Error('Server error');
+        }
+      } catch {
+        status.textContent = '✗ Đăng ký không thành công. Vui lòng thử lại sau.';
+        status.classList.add('error');
+        status.hidden = false;
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+</script>

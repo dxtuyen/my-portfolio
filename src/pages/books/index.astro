@@ -1,0 +1,50 @@
+---
+/**
+ * Books list page — tủ sách cá nhân với search + filter category.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/shared/PageHeader.astro';
+import BookCard from '../../components/books/BookCard.astro';
+import BookFilter from '../../components/books/BookFilter.astro';
+import { getCollection } from 'astro:content';
+
+// Lấy tất cả sách, sort theo `order` rồi theo title.
+const books = (await getCollection('books')).sort((a, b) => {
+  const orderA = a.data.order ?? 999;
+  const orderB = b.data.order ?? 999;
+  if (orderA !== orderB) return orderA - orderB;
+  return a.data.title.localeCompare(b.data.title);
+});
+---
+
+<BaseLayout
+  title="Tủ sách"
+  description="Những cuốn sách đã định hình tư duy của tôi — từ công nghệ, triết học đến văn học."
+>
+  <div class="container">
+    <PageHeader
+      eyebrow="// Tủ sách"
+      title="Tủ sách cá nhân"
+      subtitle={`${books.length} cuốn sách đã định hình tư duy và cảm xúc của tôi.`}
+    />
+
+    <BookFilter />
+
+    <div class="books-grid">
+      {books.map((book) => <BookCard entry={book} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-4);
+  }
+  @media (max-width: 480px) {
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

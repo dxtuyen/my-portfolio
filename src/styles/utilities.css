@@ -1,0 +1,70 @@
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  Utilities
+ *  Class tiện dụng được dùng đi dùng lại nhiều chỗ.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* Container — căn giữa nội dung, padding hai bên responsive. */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--space-7);
+  }
+}
+
+/* Reading-width container (cho blog post detail) */
+.container-reading {
+  width: 100%;
+  max-width: var(--container-reading);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* Visually hidden — ẩn về mặt thị giác nhưng vẫn cho screen reader đọc. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*
+ * Reveal-on-scroll — element bắt đầu mờ + dịch xuống, được class
+ * `is-visible` (do JS thêm khi vào viewport) đẩy lên fade-in.
+ * Tham khảo: src/scripts/reveal.ts cho phần JS quan sát.
+ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms ease-out;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section spacing standard */
+.section {
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-block: var(--space-9);
+  }
+}

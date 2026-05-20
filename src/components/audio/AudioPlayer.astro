@@ -1,0 +1,229 @@
+---
+const MUSIC_URL = '/music/background.mp3';
+---
+
+<audio-player-controller>
+  <div class="welcome-overlay" data-welcome-overlay hidden>
+    <div class="welcome-modal" role="dialog" aria-labelledby="welcome-title">
+      <h2 id="welcome-title">Chào mừng bạn!</h2>
+      <p>
+        Bạn có muốn bật một chút nhạc nền để trải nghiệm không gian này trọn vẹn hơn không?
+      </p>
+      <div class="welcome-actions">
+        <button type="button" class="btn-primary" data-welcome-accept>
+          🎵 Bật nhạc
+        </button>
+        <button type="button" class="btn-secondary" data-welcome-decline>
+          🔇 Không, cảm ơn
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="audio-player">
+    <audio data-audio src={MUSIC_URL} loop preload="metadata" transition:persist></audio>
+    <button
+      type="button"
+      class="audio-toggle-btn"
+      data-audio-toggle
+      aria-label="Bật/tắt nhạc nền"
+      title="Bật/tắt nhạc nền"
+    >
+      🔇
+    </button>
+  </div>
+</audio-player-controller>
+
+<style>
+  /* ─── Welcome modal ─── */
+  .welcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-modal, 9999);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--color-bg, #000) 80%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--space-4, 1rem);
+    animation: fade-in 300ms ease-out;
+  }
+
+  /* Đảm bảo thuộc tính ẩn hoạt động mạnh hơn display: flex */
+  .welcome-overlay[hidden] {
+    display: none !important;
+  }
+
+  .welcome-modal {
+    background: var(--color-bg-elevated, #1a1a1a);
+    border: 1px solid var(--color-border, #333);
+    border-radius: var(--radius-lg, 8px);
+    padding: var(--space-7, 2rem) var(--space-6, 1.5rem);
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.5));
+  }
+
+  .welcome-modal h2 {
+    color: var(--color-heading, #fff);
+    margin-bottom: var(--space-3, 0.75rem);
+  }
+
+  .welcome-modal p {
+    color: var(--color-text-muted, #aaa);
+    margin-bottom: var(--space-5, 1.5rem);
+  }
+
+  .welcome-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3, 0.75rem);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-family: var(--font-sans, sans-serif);
+    font-size: var(--text-sm, 0.875rem);
+    padding: var(--space-3, 0.75rem) var(--space-5, 1.5rem);
+    border-radius: var(--radius-md, 6px);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--color-accent, #007bff);
+    color: var(--color-bg, #fff);
+    font-weight: 500;
+    border: none;
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-strong, #0056b3);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-text, #fff);
+    border: 1px solid var(--color-border-strong, #555);
+  }
+  .btn-secondary:hover {
+    background: var(--color-accent-soft, #333);
+    color: var(--color-accent, #007bff);
+  }
+
+  /* ─── Audio toggle (floating button) ─── */
+  .audio-player {
+    position: fixed;
+    bottom: var(--space-5, 1.5rem);
+    right: var(--space-5, 1.5rem);
+    z-index: var(--z-nav, 1000);
+  }
+
+  .audio-toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-accent, #007bff);
+    color: var(--color-bg, #fff);
+    font-size: var(--text-lg, 1.25rem);
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .audio-toggle-btn:hover {
+    transform: scale(1.08);
+    box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+  }
+  .audio-toggle-btn.is-playing {
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<script>
+  class AudioPlayerController extends HTMLElement {
+    connectedCallback() {
+      this.overlay = this.querySelector('[data-welcome-overlay]');
+      this.audio = this.querySelector('[data-audio]');
+      this.toggleBtn = this.querySelector('[data-audio-toggle]');
+      this.acceptBtn = this.querySelector('[data-welcome-accept]');
+      this.declineBtn = this.querySelector('[data-welcome-decline]');
+
+      this.sessionKey = 'audio-choice';
+
+      this.initLogic();
+      this.bindEvents();
+    }
+
+    getChoice() {
+      try {
+        const v = sessionStorage.getItem(this.sessionKey);
+        if (v === 'yes' || v === 'no') return v;
+      } catch {}
+      return null;
+    }
+
+    setChoice(value) {
+      try { sessionStorage.setItem(this.sessionKey, value); } catch {}
+    }
+
+    setToggleState(playing) {
+      this.toggleBtn.textContent = playing ? '🎵' : '🔇';
+      this.toggleBtn.classList.toggle('is-playing', playing);
+    }
+
+    initLogic() {
+      const choice = this.getChoice();
+      if (choice === null) {
+        // Xóa thuộc tính hidden để hộp thoại tự bật lên giữa màn hình
+        this.overlay.removeAttribute('hidden');
+        document.body.classList.add('is-locked');
+      } else if (choice === 'yes') {
+        this.audio.play().then(() => this.setToggleState(true)).catch(() => {});
+      }
+    }
+
+    closeOverlay() {
+      // Gắn lại hidden để giấu nó đi
+      this.overlay.setAttribute('hidden', '');
+      document.body.classList.remove('is-locked');
+    }
+
+    bindEvents() {
+      this.acceptBtn.addEventListener('click', () => {
+        this.setChoice('yes');
+        this.closeOverlay();
+        this.audio.play().then(() => this.setToggleState(true)).catch(() => {});
+      });
+
+      this.declineBtn.addEventListener('click', () => {
+        this.setChoice('no');
+        this.closeOverlay();
+      });
+
+      this.toggleBtn.addEventListener('click', () => {
+        if (this.audio.paused) {
+          this.audio.play().then(() => this.setToggleState(true)).catch(() => {});
+        } else {
+          this.audio.pause();
+          this.setToggleState(false);
+        }
+      });
+    }
+  }
+
+  customElements.define('audio-player-controller', AudioPlayerController);
+</script>

@@ -1,0 +1,42 @@
+---
+/**
+ * PageHeader — block tiêu đề chung dùng đầu các trang con
+ * (Blog, Books, Projects, Assignments, Summary, CV).
+ *
+ * Props:
+ *  - `eyebrow`: text nhỏ phía trên (vd: "// Blog")
+ *  - `title`: tiêu đề chính
+ *  - `subtitle`: mô tả phụ (optional)
+ */
+export interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { eyebrow, title, subtitle } = Astro.props;
+---
+
+<header class="page-header reveal">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1 class="title">{title}</h1>
+  {subtitle && <p class="subtitle">{subtitle}</p>}
+</header>
+
+<style>
+  .page-header {
+    padding-top: var(--space-9);
+    margin-bottom: var(--space-7);
+  }
+  .title {
+    font-size: clamp(2rem, 4vw + 1rem, 3rem);
+    margin-top: var(--space-2);
+    color: var(--color-heading);
+  }
+  .subtitle {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--text-md);
+    max-width: 60ch;
+  }
+</style>

@@ -1,0 +1,115 @@
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  Typography
+ *  Quy ước về font-weight / line-height / spacing cho tiêu đề
+ *  và đoạn văn. Class `.prose` áp dụng cho thân bài blog —
+ *  định dạng dài, dễ đọc, kiểu Cal Newport / Brittany Chiang.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-heading);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  font-size: var(--text-3xl);
+}
+h2 {
+  font-size: var(--text-2xl);
+}
+h3 {
+  font-size: var(--text-xl);
+}
+h4 {
+  font-size: var(--text-lg);
+}
+
+p {
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/*
+ * `.prose` — long-form content (blog body, page body).
+ * Đặt max-width hẹp (~720px) để mỗi dòng có 60-75 ký tự —
+ * theo nguyên tắc typography truyền thống dễ đọc nhất.
+ */
+.prose {
+  max-width: var(--container-reading);
+  margin-inline: auto;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+.prose > * + * {
+  margin-top: 1.4em; /* dùng em để scale theo size đoạn cha */
+}
+
+.prose h2 {
+  font-size: var(--text-xl);
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose h3 {
+  font-size: var(--text-lg);
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-soft);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition-fast);
+}
+.prose a:hover {
+  text-decoration-color: var(--color-accent);
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: var(--space-4);
+  color: var(--color-text-soft);
+  font-style: italic;
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+  margin-inline: auto;
+}
+
+/*
+ * `.eyebrow` — small label above titles (vd: "// Blog", "01. Về tôi")
+ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+}
+
+/*
+ * `.section-number` — số la mã / số thứ tự trên các tiêu đề
+ * section (Brittany Chiang aesthetic).
+ */
+.section-number {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  font-size: 0.75em;
+  font-weight: 400;
+  margin-right: 0.5em;
+}

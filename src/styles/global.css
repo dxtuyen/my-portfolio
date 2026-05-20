@@ -1,0 +1,15 @@
+/*
+ * ─────────────────────────────────────────────────────────────
+ *  Global stylesheet entrypoint.
+ *  Layered import: tokens → reset → base → typography → utilities.
+ *  Mọi component-scoped style sẽ load SAU file này.
+ *
+ *  Import 1 lần duy nhất ở BaseLayout.astro.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+@import './tokens.css';
+@import './reset.css';
+@import './base.css';
+@import './typography.css';
+@import './utilities.css';

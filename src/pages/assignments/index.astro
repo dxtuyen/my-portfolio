@@ -1,0 +1,43 @@
+---
+/**
+ * Assignments list page.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/shared/PageHeader.astro';
+import AssignmentCard from '../../components/assignments/AssignmentCard.astro';
+import { getCollection } from 'astro:content';
+
+const assignments = (await getCollection('assignments')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<BaseLayout
+  title="Bài tập"
+  description="Các bài tập học phần trong chương trình tại VNU-UET."
+>
+  <div class="container">
+    <PageHeader
+      eyebrow="// Bài tập"
+      title="Bài tập học phần"
+      subtitle="Các bài tập tôi đã hoàn thành trong chương trình học tại VNU-UET."
+    />
+
+    <div class="assignments-grid">
+      {assignments.map((a) => <AssignmentCard entry={a} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .assignments-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  @media (min-width: 640px) {
+    .assignments-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+</style>

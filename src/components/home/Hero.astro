@@ -1,0 +1,123 @@
+---
+/**
+ * Hero — block đầu tiên người dùng nhìn thấy trên trang chủ.
+ * Có ảnh bìa cover ở trên, tên + tagline + 2 nút CTA bên dưới.
+ */
+import { profile } from '../../data/profile';
+---
+
+<section class="hero">
+  <!-- Cover banner — đặt ngoài container để full-bleed -->
+  <div
+    class="cover"
+    style={`background-image: url(${profile.cover});`}
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container hero-content">
+    <p class="hero-greeting reveal">Xin chào, tôi là</p>
+    <h1 class="hero-name reveal">{profile.name}.</h1>
+    <h2 class="hero-tagline reveal">{profile.tagline2}</h2>
+    <p class="hero-blurb reveal">
+      {profile.tagline}. Hiện đang theo học tại
+      <a href={profile.schoolUrl} target="_blank" rel="noreferrer">
+        {profile.schoolName}
+      </a>. Một người có chiều sâu nội tâm, yêu thích sự tối giản và luôn tò
+      mò về thế giới xung quanh.
+    </p>
+    <div class="hero-actions reveal">
+      <a href="/projects" class="btn-primary">Xem các dự án →</a>
+      <a href="/blog" class="btn-secondary">Đọc Blog</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 64px; /* chừa chỗ cho navbar fixed */
+  }
+  .cover {
+    width: 100%;
+    height: clamp(180px, 30vw, 320px);
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid var(--color-border);
+    /* gradient mờ phía dưới để chuyển êm sang background */
+    position: relative;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, var(--color-bg));
+  }
+
+  .hero-content {
+    padding-top: var(--space-7);
+    padding-bottom: var(--space-7);
+  }
+
+  .hero-greeting {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-md);
+    margin-bottom: var(--space-3);
+  }
+
+  .hero-name {
+    font-size: var(--text-4xl);
+    color: var(--color-heading);
+    line-height: 1.05;
+    margin-bottom: var(--space-3);
+  }
+
+  .hero-tagline {
+    font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem);
+    color: var(--color-text-soft);
+    font-weight: 500;
+    margin-bottom: var(--space-5);
+  }
+
+  .hero-blurb {
+    max-width: 600px;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+    font-size: var(--text-md);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    transition: all var(--transition-fast);
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 500;
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-strong);
+    transform: translateY(-2px);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+  .btn-secondary:hover {
+    background: var(--color-accent-soft);
+    transform: translateY(-2px);
+  }
+</style>

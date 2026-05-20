@@ -1,0 +1,78 @@
+---
+/**
+ * Timeline — section "Hành trình": grid hiển thị các cột mốc.
+ * Mỗi cột mốc lấy từ `data/timeline.ts`.
+ */
+import { timeline } from '../../data/timeline';
+---
+
+<section class="container section">
+  <h2 class="section-title reveal">
+    <span class="section-number">02.</span>Hành trình
+  </h2>
+  <ol class="timeline">
+    {
+      timeline.map((entry) => (
+        <li class="timeline-item reveal">
+          <span class="year">{entry.year}</span>
+          <h3 class="title">{entry.title}</h3>
+          <p class="desc">{entry.description}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    color: var(--color-heading);
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .timeline {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+  }
+
+  .timeline-item {
+    background: var(--color-bg-elevated);
+    padding: var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    border-top: 3px solid var(--color-accent);
+    transition:
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+  .timeline-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .year {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+  .title {
+    font-size: var(--text-lg);
+    color: var(--color-heading);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  .desc {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+</style>

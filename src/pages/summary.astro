@@ -1,0 +1,109 @@
+---
+/**
+ * Summary page — Tổng kết quá trình xây dựng web.
+ *
+ * Lưu ý: Trang này (cùng với data/summary.ts và mục nav tương ứng)
+ * có thể xoá bất cứ lúc nào — bạn nói trước đây là sẽ remove sau.
+ * Để xoá: (1) xoá file này, (2) xoá data/summary.ts, (3) xoá entry
+ * "Tổng kết" trong data/navigation.ts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/shared/PageHeader.astro';
+import { summaryData } from '../data/summary';
+---
+
+<BaseLayout
+  title="Tổng kết"
+  description="Những bài học và thử thách trong quá trình xây dựng portfolio này."
+>
+  <div class="container container-reading">
+    <PageHeader
+      eyebrow="// Tổng kết"
+      title="Hành trình xây dựng"
+      subtitle="Những gì tôi đã học được và những thử thách đã vượt qua."
+    />
+
+    <section class="block reveal">
+      <h2>Những điều đã học được</h2>
+      <ul class="items">
+        {
+          summaryData.learned.map((item) => (
+            <li class="item">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="block reveal">
+      <h2>Những thử thách</h2>
+      <ul class="items">
+        {
+          summaryData.challenges.map((item) => (
+            <li class="item">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="takeaway reveal">
+      <blockquote>{summaryData.takeaway}</blockquote>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .block {
+    margin-bottom: var(--space-7);
+  }
+  .block h2 {
+    color: var(--color-heading);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .items {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-4);
+  }
+  .item {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+  }
+  .item h3 {
+    color: var(--color-heading);
+    font-size: var(--text-md);
+    margin-bottom: var(--space-2);
+  }
+  .item p {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+  .takeaway {
+    text-align: center;
+    padding: var(--space-7) 0;
+  }
+  .takeaway blockquote {
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-5);
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+</style>

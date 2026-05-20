@@ -1,0 +1,35 @@
+---
+/**
+ * Blog detail page — render bài viết theo slug.
+ *
+ * `getStaticPaths()` chạy ở thời điểm BUILD: trả về 1 entry cho mỗi
+ * bài → Astro sinh ra 1 file HTML tĩnh tương ứng. Đây là cốt lõi
+ * của Static Site Generation (SSG).
+ *
+ * VD: bài có slug "linus-torvalds-triet-ly-ma-nguon-mo" sẽ thành
+ * file `dist/blog/linus-torvalds-triet-ly-ma-nguon-mo/index.html`.
+ */
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+
+// File: [slug].astro
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (e) => !e.data.draft);
+  return posts.map((post) => ({
+    // Đổi post.slug thành post.id (hoặc dùng OR để an toàn cho cả bản cũ lẫn mới)
+    params: { slug: post.slug || post.id }, 
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogPostLayout frontmatter={post.data}>
+  <Content />
+</BlogPostLayout>

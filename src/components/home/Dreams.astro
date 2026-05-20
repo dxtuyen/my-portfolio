@@ -1,0 +1,123 @@
+---
+/**
+ * Dreams — section "Ước mơ & Triết lý sống".
+ * Bao gồm:
+ * - Một quote box lớn về ước mơ + kế hoạch tương lai
+ * - 3 lesson card từ content collection `lessons`
+ */
+import { getCollection, render } from 'astro:content'; 
+import { profile } from '../../data/profile';
+
+// Lấy danh sách lessons, sort theo `order` để hiển thị đúng thứ tự bạn muốn.
+const lessons = (await getCollection('lessons')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+// Render body markdown của từng lesson thành HTML chuẩn Astro v6.
+const renderedLessons = await Promise.all(
+  lessons.map(async (lesson) => {
+    const { Content } = await render(lesson); // <-- Đã sửa ở đây
+    return { ...lesson, Content };
+  }),
+);
+---
+
+<section class="container section">
+  <h2 class="section-title reveal">
+    <span class="section-number">04.</span>Ước mơ &amp; Triết lý sống
+  </h2>
+
+  <article class="dream-card reveal">
+    <h3>Ước mơ</h3>
+    <p>{profile.dream}</p>
+    <h3>Kế hoạch sắp tới</h3>
+    <p>{profile.futurePlan}</p>
+  </article>
+
+  <div class="lessons-grid">
+    {
+      renderedLessons.map(({ data, Content }) => (
+        <article class="lesson-card reveal">
+          <span class="icon" aria-hidden="true">{data.icon}</span>
+          <h3 class="lesson-title">{data.title}</h3>
+          <div class="lesson-body">
+            <Content />
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    color: var(--color-heading);
+  }
+
+  .dream-card {
+    background: var(--color-bg-elevated);
+    border-left: 4px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .dream-card h3 {
+    color: var(--color-accent);
+    font-size: var(--text-md);
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-2);
+  }
+  .dream-card h3:not(:first-child) {
+    margin-top: var(--space-5);
+  }
+  .dream-card p {
+    color: var(--color-text-soft);
+    line-height: var(--leading-relaxed);
+  }
+
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  @media (min-width: 640px) {
+    .lessons-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .lesson-card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    text-align: center;
+    transition: transform var(--transition-fast);
+  }
+  .lesson-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+  }
+  .icon {
+    display: inline-block;
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+  .lesson-title {
+    color: var(--color-heading);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-2);
+  }
+  .lesson-body {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+  /* lesson body chỉ có 1 đoạn ngắn — bỏ margin của <p> để gọn */
+  .lesson-body :global(p) {
+    margin: 0;
+  }
+</style>

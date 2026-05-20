@@ -1,0 +1,49 @@
+---
+/**
+ * CurrentWork — section "Việc đang làm".
+ * Một block ngắn giới thiệu công việc/học tập hiện tại.
+ */
+import { profile } from '../../data/profile';
+---
+
+<section class="container section">
+  <h2 class="section-title reveal">
+    <span class="section-number">05.</span>Việc đang làm
+  </h2>
+  <article class="current-card reveal">
+    <p>{profile.currentWork}</p>
+    <a href="/projects" class="cta">Xem dự án →</a>
+  </article>
+</section>
+
+<style>
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    color: var(--color-heading);
+  }
+
+  .current-card {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .current-card p {
+    color: var(--color-text-soft);
+    font-size: var(--text-md);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-4);
+  }
+  .cta {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+  .cta:hover {
+    color: var(--color-accent-strong);
+  }
+</style>

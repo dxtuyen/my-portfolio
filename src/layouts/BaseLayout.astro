@@ -1,0 +1,54 @@
+---
+// Import thêm ClientRouter ở đầu file
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Navbar from '../components/nav/Navbar.astro';
+import Footer from '../components/shared/Footer.astro';
+import AudioPlayer from '../components/audio/AudioPlayer.astro';
+import { profile } from '../data/profile';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = profile.tagline } = Astro.props;
+const siteName = profile.name;
+const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
+---
+
+<!doctype html>
+<html lang="vi" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <ClientRouter />
+
+    <title>{fullTitle}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') {
+            document.documentElement.setAttribute('data-theme', stored);
+            return;
+          }
+          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <Navbar />
+    <main id="main-content"><slot /></main>
+    <Footer />
+    
+    <AudioPlayer />
+
+    <script src="../scripts/theme.ts"></script>
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/menu.ts"></script>
+  </body>
+</html>

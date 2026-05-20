@@ -1,0 +1,86 @@
+---
+/**
+ * Skills — section "Năng lực": grid 3 cột, mỗi cột là 1 SkillGroup.
+ */
+import { skillGroups } from '../../data/skills';
+---
+
+<section class="container section">
+  <h2 class="section-title reveal">
+    <span class="section-number">03.</span>Năng lực
+  </h2>
+  <div class="skills-grid">
+    {
+      skillGroups.map((group) => (
+        <article class="skill-group reveal">
+          <h3 class="group-title">{group.category}</h3>
+          <ul class="skill-list">
+            {group.items.map((item) => (
+              <li>
+                <span class="bullet" aria-hidden="true">▹</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+    color: var(--color-heading);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 640px) {
+    .skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+  }
+
+  .skill-group {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    transition: transform var(--transition-fast);
+  }
+  .skill-group:hover {
+    transform: translateY(-4px);
+  }
+
+  .group-title {
+    color: var(--color-heading);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .skill-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .skill-list li {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .bullet {
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+  }
+</style>
