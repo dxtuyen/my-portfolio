@@ -13,14 +13,14 @@ export const skillGroups: SkillGroup[] = [
   {
     category: 'Tư duy & Kỹ năng',
     items: [
-      'Mô hình hóa toán học',
       'Tư duy hệ thống & logic',
-      'Giải quyết vấn đề thực tế',
+      'Lập trình cơ bản',
+      'Sử dụng ngoại ngữ khá ( English )',
     ],
   },
   {
     category: 'Ngôn ngữ & Công cụ',
-    items: ['Python', 'Java', 'Git & GitHub', 'VS Code'],
+    items: ['Python', 'Java', 'Javascript & TypeScript cơ bản ','Git & GitHub', 'VS Code'],
   },
   {
     category: 'Sở thích',
@@ -28,6 +28,7 @@ export const skillGroups: SkillGroup[] = [
       'Đọc sách',
       'Tối ưu hoá năng suất (Productivity)',
       'Học hỏi tri thức mới',
+      'Đi dạo ngắm hoàng hôn'
     ],
   },
 ];

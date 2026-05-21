@@ -21,6 +21,9 @@ const cls = statusClass[status] ?? 'idea';
 ---
 
 <article class="project-card reveal">
+  {/* THÊM MỚI: Link tàng hình phủ toàn bộ thẻ Card */}
+  <a href={`/projects/${entry.id}`} class="stretched-link" aria-label={`Xem chi tiết dự án ${name}`}></a>
+
   <header class="header">
     <h3 class="title">{name}</h3>
     <span class:list={['status', cls]}>{status}</span>
@@ -62,7 +65,21 @@ const cls = statusClass[status] ?? 'idea';
     display: flex;
     flex-direction: column;
     height: 100%;
+    
+    /* THÊM MỚI: Biến Card thành hệ quy chiếu gốc cho link tàng hình */
+    position: relative; 
   }
+
+  /* THÊM MỚI: CSS cho lớp kính tàng hình */
+  .stretched-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1; /* Nằm ngay trên nền Card */
+  }
+
   .project-card:hover {
     transform: translateY(-4px);
     border-color: var(--color-accent);
@@ -128,6 +145,10 @@ const cls = statusClass[status] ?? 'idea';
     gap: var(--space-4);
     border-top: 1px solid var(--color-border);
     padding-top: var(--space-3);
+    
+    /* THÊM MỚI: Nâng các nút link nội bộ lên trên lớp kính */
+    position: relative;
+    z-index: 2; 
   }
   .link {
     color: var(--color-accent);

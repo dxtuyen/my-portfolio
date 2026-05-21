@@ -1,7 +1,6 @@
 ---
-icon: "▲"
-title: "Tư duy dẫn dắt"
+icon: ▲
+title: Tư duy
 order: 1
 ---
-
-Đề cao tư duy biện chứng, nhìn mọi thứ dưới góc nhìn đa chiều, phù hợp thực tế.
+Tích cực rèn luyện trong mình tư duy phát triển ( growth-mindset ) khi học hỏi và tiếp cận vấn đề trong cuộc sống.

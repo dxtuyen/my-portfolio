@@ -45,18 +45,18 @@ export interface Profile {
 export const profile: Profile = {
   name: 'Đỗ Xuân Tuyên',
   shortName: 'Tuyên',
-  tagline: 'Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu',
+  tagline: 'Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu ( Computer Networking & Data Communication )',
   tagline2: 'Đam mê dẫn lối. Bền bỉ thực thi.',
   avatar: '/images/avatar.jpg',
   cover: '/images/cover.jpg',
   about:
-    'Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Tôi có tính cách tò mò, luôn muốn tìm hiểu về mọi thứ chỉ vì niềm vui thuần túy của việc khám phá tri thức.',
+    'Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Nơi mà người ta thường nói về code và robot, và tôi cũng không ngoại lệ, nhưng có lẽ pha vào đó một chút lãng mạn hơn.😄✨',
   about2:
-    'Ngoài việc học tập khoa học công nghệ, tôi dành thời gian tối ưu hóa không gian quản lý kiến thức cá nhân và trau dồi kỹ năng mềm. Tôi thích tư duy logic, tính kỷ luật và theo đuổi chủ nghĩa tối giản. Luôn tò mò và bị hấp dẫn bởi sự giao thoa giữa công nghệ và toán học.',
+    'Ngoài việc học tập khoa học công nghệ, tôi dành thời gian tối ưu hóa không gian quản lý kiến thức cá nhân và trau dồi kỹ năng mềm để hoàn thiện bản thân mỗi ngày. Tôi thích tư duy logic kết hợp với thực tế, theo đuổi chủ nghĩa tối giản. Luôn tò mò và bị hấp dẫn bởi sự giao thoa giữa công nghệ và và các lĩnh vực khoa học tự nhiên.',
   philosophy:
     'Tôi muốn ngày càng học cách nhìn nhận sự tất yếu của vạn vật như một cái đẹp; rồi tôi sẽ trở thành một trong những người làm cho vạn vật trở nên đẹp đẽ. Amor fati: từ nay trở đi, mong sao điều đó sẽ là tình yêu của tôi! — Friedrich Nietzsche',
   currentWork:
-    'Tập trung vào các môn khoa học cơ bản và lập trình tại trường, đồng thời xây dựng các dự án cá nhân.',
+    'Tập trung vào các môn khoa học cơ bản và lập trình tại trường, đồng thời xây dựng các dự án cá nhân và nhóm.',
   dream:
     'Trở thành một chuyên gia trong lĩnh vực Điện toán Đám mây (Cloud Computing), dùng công nghệ để giải quyết các vấn đề xã hội và nâng cao đời sống con người.',
   futurePlan:

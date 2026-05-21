@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+// 1. THÊM HÀM render VÀO ĐÂY
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allProjects = await getCollection('projects');
+  return allProjects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { name, description } = entry.data;
+
+// 2. SỬA CÚ PHÁP RENDER TẠI ĐÂY
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={name} description={description}>
+  <article class="container project-detail">
+    <header class="project-header">
+      <a href="/projects" class="back-link">← Quay lại danh sách</a>
+      <h1>{name}</h1>
+      <p class="desc">{description}</p>
+    </header>
+
+    <hr class="divider" />
+
+    <div class="markdown-content">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-detail {
+    padding: var(--space-8) 0;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  .project-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-2);
+  }
+  .divider {
+    margin: var(--space-6) 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+  }
+  .markdown-content :global(h2) {
+    font-size: 1.8rem;
+    margin-top: var(--space-6);
+  }
+  .markdown-content :global(p) {
+    line-height: 1.6;
+    margin-bottom: var(--space-4);
+  }
+</style>
