@@ -49,6 +49,7 @@ const { Content } = await render(entry);
   .project-header h1 {
     font-size: 2.5rem;
     margin-bottom: var(--space-2);
+    line-height: 1.2;
   }
   .divider {
     margin: var(--space-6) 0;
@@ -64,15 +65,38 @@ const { Content } = await render(entry);
     margin-bottom: var(--space-4);
   }
 
-  /* --- BẢN VÁ LỖI RESPONSIVE CHO ĐIỆN THOẠI --- */
+  /* --- BẢN VÁ LỖI RESPONSIVE TOÀN DIỆN CHO MOBILE --- */
   @media (max-width: 768px) {
     .project-detail {
-      /* Thêm khoảng đệm 1rem (khoảng 16px) ở hai bên viền màn hình */
-      padding: var(--space-4) 1rem; 
+      /* Tăng padding-top lên 5.5rem để đẩy toàn bộ nội dung xuống dưới, 
+        tránh hoàn toàn việc bị thanh điều hướng (<Tuyen/>) che khuất.
+      */
+      padding: 5.5rem 1.25rem var(--space-6) 1.25rem; 
     }
+    
     .project-header h1 {
-      /* Thu nhỏ cỡ chữ tiêu đề trên mobile cho cân đối */
-      font-size: 1.8rem; 
+      font-size: 1.75rem; /* Hạ cỡ chữ tiêu đề chính xuống để không bị thô */
+      line-height: 1.3;   /* Nới rộng khoảng cách giữa các dòng của tiêu đề */
+      margin-top: 0.5rem;
+    }
+
+    .project-header .desc {
+      font-size: 0.95rem;   /* Thu nhỏ nhẹ đoạn mô tả dự án */
+      line-height: 1.5;
+      margin-top: 0.5rem;
+    }
+
+    /* Tối ưu lại toàn bộ phần nội dung Markdown từ file .md đổ ra */
+    .markdown-content :global(p) {
+      font-size: 1rem;
+      line-height: 1.65;      /* Tăng độ giãn dòng để mắt người đọc dễ nhìn hơn */
+      margin-bottom: 1.25rem; /* Tạo khoảng cách vừa vặn giữa các đoạn văn */
+    }
+
+    .markdown-content :global(h2) {
+      font-size: 1.4rem;      /* Thu nhỏ các tiêu đề h2 trong bài viết */
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
     }
   }
 </style>
