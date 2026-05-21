@@ -63,4 +63,16 @@ const { Content } = await render(entry);
     line-height: 1.6;
     margin-bottom: var(--space-4);
   }
+
+  /* --- BẢN VÁ LỖI RESPONSIVE CHO ĐIỆN THOẠI --- */
+  @media (max-width: 768px) {
+    .project-detail {
+      /* Thêm khoảng đệm 1rem (khoảng 16px) ở hai bên viền màn hình */
+      padding: var(--space-4) 1rem; 
+    }
+    .project-header h1 {
+      /* Thu nhỏ cỡ chữ tiêu đề trên mobile cho cân đối */
+      font-size: 1.8rem; 
+    }
+  }
 </style>
