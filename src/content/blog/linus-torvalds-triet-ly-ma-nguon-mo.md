@@ -1,9 +1,11 @@
 ---
 title: "Linus Torvalds: Kẻ độc tài nhân từ và triết lý định hình thế giới mã nguồn mở"
-description: "Cha đẻ của Linux và Git — người mà những dòng code đang âm thầm vận hành cả thế giới. Khám phá tính cách độc đáo, sự thẳng thắn và triết lý thực dụng của ông."
+description: Cha đẻ của Linux và Git — người mà những dòng code đang âm thầm vận hành cả thế giới. Khám phá tính cách độc đáo, sự thẳng thắn và triết lý thực dụng của ông.
 date: 2026-05-18
-readTime: "7 phút đọc"
-tags: ["công nghệ", "open-source", "linux"]
+readTime: 7 phút đọc
+tags:
+  - open-source
+  - linux
 ---
 
 Khi nhắc đến những nhân vật có tầm ảnh hưởng lớn nhất trong thế giới công nghệ, chúng ta thường nghĩ đến Steve Jobs, Bill Gates hay Mark Zuckerberg. Nhưng có một người mà những dòng code của ông đang âm thầm vận hành cả thế giới: từ hệ điều hành trên máy tính, máy chủ đám mây, cho đến chiếc điện thoại Android trong túi bạn.
