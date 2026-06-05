@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//var/home/doxuantuyen/.nvm/versions/**)",
+      "Read(//usr/local/bin/**)",
+      "Bash(find /var/home/doxuantuyen -name \"node\" -type f 2>/dev/null | head -5; find /usr -name \"node\" -type f 2>/dev/null | head -5; find /nix -name \"node\" -type f 2>/dev/null | head -3)",
+      "Read(//var/home/doxuantuyen/**)",
+      "Read(//usr/**)"
+    ]
+  }
+}

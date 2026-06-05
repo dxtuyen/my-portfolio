@@ -33,10 +33,21 @@ class ThemeToggle extends HTMLElement {
 
 customElements.define('theme-toggle', ThemeToggle);
 
-// --- NGĂN ASTRO RESET MÀU KHI CHUYỂN TRANG ---
+// Áp dụng theme lên document MỚI trước khi Astro swap (không có flash)
+document.addEventListener('astro:before-swap', (ev) => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+    const theme: Theme = (stored === 'light' || stored === 'dark')
+      ? stored
+      : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    (ev as any).newDocument.documentElement.setAttribute('data-theme', theme);
+  } catch {}
+});
+
+// Backup: đồng bộ lại sau swap phòng trường hợp before-swap không đủ
 document.addEventListener('astro:after-swap', () => {
   try {
-    const stored = localStorage.getItem('theme');
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === 'light' || stored === 'dark') {
       document.documentElement.setAttribute('data-theme', stored);
     }

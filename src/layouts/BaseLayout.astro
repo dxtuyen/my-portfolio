@@ -26,6 +26,13 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     <ClientRouter />
 
     <title>{fullTitle}</title>
+
+    <!-- Inline style: ngăn flash màu trắng trước khi CSS ngoài load -->
+    <style is:inline>
+      html { background-color: #0a192f; }
+      html[data-theme="light"] { background-color: #fdfdfc; }
+    </style>
+
     <script is:inline>
       (() => {
         try {
