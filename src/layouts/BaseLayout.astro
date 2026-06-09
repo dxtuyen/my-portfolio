@@ -29,7 +29,7 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
 
     <!-- Inline style: ngăn flash màu trắng trước khi CSS ngoài load -->
     <style is:inline>
-      html { background-color: #0a192f; }
+      html { background-color: #080f1e; }
       html[data-theme="light"] { background-color: #fdfdfc; }
     </style>
 
@@ -39,23 +39,29 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
           const stored = localStorage.getItem('theme');
           if (stored === 'light' || stored === 'dark') {
             document.documentElement.setAttribute('data-theme', stored);
-            return;
           }
-          const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-          document.documentElement.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
+          // Không có stored → giữ nguyên data-theme="dark" mặc định từ HTML
         } catch {}
       })();
     </script>
   </head>
   <body>
+    <!-- Nebula background image (dark mode only) -->
+    <div class="space-nebula" aria-hidden="true"></div>
+    <!-- Animated starfield canvas (persists qua page transitions) -->
+    <canvas id="starfield-canvas" aria-hidden="true" transition:persist></canvas>
+
+    <div class="scroll-progress" aria-hidden="true"></div>
     <Navbar />
     <main id="main-content"><slot /></main>
     <Footer />
-    
+
     <AudioPlayer />
 
     <script src="../scripts/theme.ts"></script>
     <script src="../scripts/reveal.ts"></script>
     <script src="../scripts/menu.ts"></script>
+    <script src="../scripts/effects.ts"></script>
+    <script src="../scripts/starfield.ts"></script>
   </body>
 </html>

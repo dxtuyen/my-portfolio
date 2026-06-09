@@ -112,4 +112,9 @@ p {
   font-size: 0.75em;
   font-weight: 400;
   margin-right: 0.5em;
+  text-shadow: 0 0 12px rgba(100, 255, 218, 0.4);
+}
+
+html[data-theme='light'] .section-number {
+  text-shadow: 0 0 10px rgba(13, 148, 136, 0.3);
 }

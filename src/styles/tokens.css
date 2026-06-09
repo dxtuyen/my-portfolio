@@ -23,11 +23,11 @@
  */
 :root,
 [data-theme='dark'] {
-  /* ─── Color palette ─── */
-  --color-bg: #0a192f;
-  --color-bg-elevated: #112240;
-  --color-bg-subtle: #233554;
-  --color-surface: #112240;
+  /* ─── Color palette — deep space ─── */
+  --color-bg: #080f1e;
+  --color-bg-elevated: #0d1a2e;
+  --color-bg-subtle: #152338;
+  --color-surface: #0d1a2e;
 
   --color-text: #ccd6f6;
   --color-text-muted: #8892b0;

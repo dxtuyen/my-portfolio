@@ -8,10 +8,27 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-bg);
+}
+
+
+/* Scroll progress bar — thanh tiến trình mảnh ở đầu trang */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-strong));
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 60ms linear;
+  box-shadow: 0 0 8px var(--color-accent);
 }
 
 body {
-  background: var(--color-bg);
+  /* Transparent trong dark mode để canvas starfield hiển thị qua */
+  background: transparent;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -25,6 +42,37 @@ body {
 
 body.is-locked {
   overflow: hidden;
+}
+
+/* Light theme: body solid white (không cần starfield) */
+html[data-theme='light'] body {
+  background: var(--color-bg);
+}
+
+/* Nebula + starfield canvas: ẩn trong light theme */
+.space-nebula,
+#starfield-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.space-nebula {
+  background: url('/images/space-bg.jpg') center / cover no-repeat;
+  opacity: 0.28;
+  z-index: -2;
+}
+
+#starfield-canvas {
+  z-index: -1;
+}
+
+html[data-theme='light'] .space-nebula,
+html[data-theme='light'] #starfield-canvas {
+  opacity: 0 !important;
 }
 
 ::selection {
@@ -118,3 +166,4 @@ ul,
 ol {
   padding-left: var(--space-5);
 }
+

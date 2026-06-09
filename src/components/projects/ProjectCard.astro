@@ -20,7 +20,7 @@ const statusClass: Record<string, string> = {
 const cls = statusClass[status] ?? 'idea';
 ---
 
-<article class="project-card reveal">
+<article class="project-card reveal" data-tilt>
   {/* THÊM MỚI: Link tàng hình phủ toàn bộ thẻ Card */}
   <a href={`/projects/${entry.id}`} class="stretched-link" aria-label={`Xem chi tiết dự án ${name}`}></a>
 

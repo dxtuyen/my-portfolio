@@ -58,6 +58,21 @@
   transform: translateY(0);
 }
 
+/* Staggered reveal delays — dùng kết hợp với .reveal để tạo hiệu ứng lệch pha */
+.reveal-d1 { transition-delay: 100ms; }
+.reveal-d2 { transition-delay: 200ms; }
+.reveal-d3 { transition-delay: 350ms; }
+.reveal-d4 { transition-delay: 500ms; }
+.reveal-d5 { transition-delay: 650ms; }
+
+/* Gradient text — text đổ màu từ heading sang accent */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-heading) 30%, var(--color-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Section spacing standard */
 .section {
   padding-block: var(--space-8);
