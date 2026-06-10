@@ -122,6 +122,34 @@ function initClouds(): void {
     ctx.fill();
   }
 
+  /* ─── Đồi xa ở chân trời (lấp khoảng trống phía dưới, phối cảnh khí quyển) ─── */
+  function hillY(x: number, baseY: number, amp: number, seed: number): number {
+    const u = x / W;
+    return baseY - amp * (
+      0.6 * Math.sin(u * Math.PI * 2 * 1.2 + seed) +
+      0.4 * Math.sin(u * Math.PI * 2 * 2.3 + seed * 1.7)
+    );
+  }
+
+  function drawHills() {
+    const layers = [
+      { base: 0.80, amp: 0.045, seed: 0.5, color: 'rgba(150, 186, 214, 0.22)' }, // xa nhất, nhạt
+      { base: 0.87, amp: 0.05, seed: 2.1, color: 'rgba(128, 170, 205, 0.32)' },
+      { base: 0.93, amp: 0.045, seed: 3.7, color: 'rgba(108, 154, 196, 0.42)' }, // gần nhất, đậm
+    ];
+    for (const L of layers) {
+      const baseY = H * L.base;
+      const amp = H * L.amp;
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+      for (let x = 0; x <= W; x += 12) ctx.lineTo(x, hillY(x, baseY, amp, L.seed));
+      ctx.lineTo(W, H);
+      ctx.closePath();
+      ctx.fillStyle = L.color;
+      ctx.fill();
+    }
+  }
+
   /* ─── Vòng lặp ─── */
   let last = performance.now();
 
@@ -140,6 +168,7 @@ function initClouds(): void {
       ctx.drawImage(c.sprite, c.x, y, c.w, c.h);
     }
     ctx.globalAlpha = 1;
+    drawHills();
     requestAnimationFrame(frame);
   }
 
