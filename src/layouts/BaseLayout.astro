@@ -18,19 +18,21 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="vi" data-theme="dark">
+<html lang="vi" data-theme="dark" style="background-color:#080f1e">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+    <!-- Màu thanh trình duyệt (mobile, in-app browser như Zalo) -->
+    <meta name="theme-color" content="#080f1e" />
+
     <ClientRouter />
 
     <title>{fullTitle}</title>
 
     <!-- Inline style: ngăn flash màu trắng trước khi CSS ngoài load -->
     <style is:inline>
-      html { background-color: #080f1e; }
-      html[data-theme="light"] { background-color: #fdfdfc; }
+      html { background-color: #080f1e; color-scheme: dark; }
+      html[data-theme="light"] { background-color: #fdfdfc; color-scheme: light; }
     </style>
 
     <script is:inline>
