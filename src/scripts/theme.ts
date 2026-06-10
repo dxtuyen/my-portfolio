@@ -34,12 +34,12 @@ class ThemeToggle extends HTMLElement {
 customElements.define('theme-toggle', ThemeToggle);
 
 // Áp dụng theme lên document MỚI trước khi Astro swap (không có flash)
+// Chính sách: mặc định LUÔN tối — không theo prefers-color-scheme của hệ thống.
+// Chỉ hiển thị sáng khi người dùng đã tự bấm nút (giá trị 'light' lưu trong localStorage).
 document.addEventListener('astro:before-swap', (ev) => {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-    const theme: Theme = (stored === 'light' || stored === 'dark')
-      ? stored
-      : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    const stored = localStorage.getItem(STORAGE_KEY);
+    const theme: Theme = stored === 'light' ? 'light' : 'dark';
     (ev as any).newDocument.documentElement.setAttribute('data-theme', theme);
   } catch {}
 });
