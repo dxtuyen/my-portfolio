@@ -58,26 +58,28 @@
  * độ tương phản đủ trên nền sáng.
  */
 [data-theme='light'] {
-  --color-bg: #fdfdfc;
-  --color-bg-elevated: #f4f3ef;
-  --color-bg-subtle: #e8e6df;
+  /* Nền xám-xanh nhạt để card/nav trắng "nổi" lên — phong cách SaaS (Stripe/Linear) */
+  --color-bg: #f4f6fa;
+  --color-bg-elevated: #ffffff;
+  --color-bg-subtle: #e7ebf2;
   --color-surface: #ffffff;
 
-  --color-text: #2d3142;
-  --color-text-muted: #5c6378;
-  --color-text-soft: #444a5e;
-  --color-heading: #1a1d2e;
+  --color-text: #2b3040;
+  --color-text-muted: #5a6173;
+  --color-text-soft: #434a5c;
+  --color-heading: #161a27;
 
   --color-accent: #0d9488;
   --color-accent-soft: rgba(13, 148, 136, 0.08);
   --color-accent-strong: #0f766e;
 
-  --color-border: rgba(45, 49, 66, 0.1);
-  --color-border-strong: rgba(45, 49, 66, 0.2);
+  --color-border: rgba(38, 44, 64, 0.1);
+  --color-border-strong: rgba(38, 44, 64, 0.18);
 
-  --shadow-sm: 0 4px 8px -2px rgba(13, 17, 26, 0.06);
-  --shadow-md: 0 10px 30px -15px rgba(13, 17, 26, 0.12);
-  --shadow-lg: 0 20px 30px -15px rgba(13, 17, 26, 0.15);
+  /* Bóng đổ nhiều lớp, mềm — cảm giác cao cấp như UI SaaS */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 12px -2px rgba(16, 24, 40, 0.08), 0 2px 6px -2px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 12px 32px -8px rgba(16, 24, 40, 0.12), 0 4px 12px -4px rgba(16, 24, 40, 0.06);
 }
 
 /*

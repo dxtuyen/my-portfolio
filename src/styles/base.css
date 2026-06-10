@@ -44,9 +44,9 @@ body.is-locked {
   overflow: hidden;
 }
 
-/* Light theme: body solid white (không cần starfield) */
+/* Light theme: body trong suốt để lớp nền .space-nebula (aurora) hiện qua */
 html[data-theme='light'] body {
-  background: var(--color-bg);
+  background: transparent;
 }
 
 /* Nebula + starfield canvas: ẩn trong light theme */
@@ -70,9 +70,27 @@ html[data-theme='light'] body {
   z-index: -1;
 }
 
-html[data-theme='light'] .space-nebula,
+/* Light theme: ẩn starfield động (đặc trưng riêng của dark theme) */
 html[data-theme='light'] #starfield-canvas {
   opacity: 0 !important;
+}
+
+/*
+ * Light theme: tái sử dụng lớp .space-nebula làm nền "chuyên nghiệp".
+ * Thay ảnh vũ trụ bằng: vầng sáng aurora teal/blue dịu ở các góc +
+ * lưới chấm rất mảnh → tạo chiều sâu, hiện đại kiểu SaaS, hết phẳng đơn điệu.
+ */
+html[data-theme='light'] .space-nebula {
+  opacity: 1 !important;
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle at center, rgba(38, 44, 64, 0.05) 1px, transparent 1.6px),
+    radial-gradient(46rem 40rem at 0% 0%, rgba(13, 148, 136, 0.22), transparent 55%),
+    radial-gradient(44rem 38rem at 100% 6%, rgba(59, 130, 246, 0.16), transparent 55%),
+    radial-gradient(52rem 42rem at 50% 120%, rgba(99, 102, 241, 0.12), transparent 60%);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-position: 0 0, center, center, center;
 }
 
 ::selection {
