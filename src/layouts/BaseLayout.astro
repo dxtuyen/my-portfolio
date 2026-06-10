@@ -32,7 +32,7 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     <!-- Inline style: ngăn flash màu trắng trước khi CSS ngoài load -->
     <style is:inline>
       html { background-color: #080f1e; color-scheme: dark; }
-      html[data-theme="light"] { background-color: #f4f6fa; color-scheme: light; }
+      html[data-theme="light"] { background-color: #eef6fd; color-scheme: light; }
     </style>
 
     <script is:inline>
@@ -48,10 +48,11 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     </script>
   </head>
   <body>
-    <!-- Nebula background image (dark mode only) -->
+    <!-- Lớp nền: dark = ảnh vũ trụ / light = bầu trời xanh-trắng (gradient CSS) -->
     <div class="space-nebula" aria-hidden="true"></div>
-    <!-- Animated starfield canvas (persists qua page transitions) -->
+    <!-- Dark: canvas sao băng | Light: canvas mây trôi (đều persist qua chuyển trang) -->
     <canvas id="starfield-canvas" aria-hidden="true" transition:persist></canvas>
+    <canvas id="cloud-canvas" aria-hidden="true" transition:persist></canvas>
 
     <div class="scroll-progress" aria-hidden="true"></div>
     <Navbar />
@@ -65,5 +66,6 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     <script src="../scripts/menu.ts"></script>
     <script src="../scripts/effects.ts"></script>
     <script src="../scripts/starfield.ts"></script>
+    <script src="../scripts/clouds.ts"></script>
   </body>
 </html>

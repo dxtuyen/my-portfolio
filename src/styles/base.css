@@ -49,9 +49,10 @@ html[data-theme='light'] body {
   background: transparent;
 }
 
-/* Nebula + starfield canvas: ẩn trong light theme */
+/* Các lớp nền cố định (chung style) */
 .space-nebula,
-#starfield-canvas {
+#starfield-canvas,
+#cloud-canvas {
   position: fixed;
   inset: 0;
   width: 100%;
@@ -60,37 +61,43 @@ html[data-theme='light'] body {
   transition: opacity 0.5s ease;
 }
 
+/* Dark: ảnh nebula vũ trụ */
 .space-nebula {
   background: url('/images/space-bg.jpg') center / cover no-repeat;
   opacity: 0.28;
   z-index: -2;
 }
 
+/* Dark: canvas sao băng (ẩn ở light) */
 #starfield-canvas {
   z-index: -1;
 }
-
-/* Light theme: ẩn starfield động (đặc trưng riêng của dark theme) */
 html[data-theme='light'] #starfield-canvas {
   opacity: 0 !important;
 }
 
+/* Light: canvas mây trôi (ẩn ở dark) */
+#cloud-canvas {
+  z-index: -1;
+  opacity: 0;
+}
+html[data-theme='light'] #cloud-canvas {
+  opacity: 1;
+}
+
 /*
- * Light theme: tái sử dụng lớp .space-nebula làm nền "chuyên nghiệp".
- * Thay ảnh vũ trụ bằng: vầng sáng aurora teal/blue dịu ở các góc +
- * lưới chấm rất mảnh → tạo chiều sâu, hiện đại kiểu SaaS, hết phẳng đơn điệu.
+ * Light theme: .space-nebula thành BẦU TRỜI xanh–trắng (đối cực dark = vũ trụ
+ * đêm). Sky gradient dịu; mây trắng do canvas #cloud-canvas vẽ trôi phía trên.
  */
 html[data-theme='light'] .space-nebula {
   opacity: 1 !important;
-  background-color: var(--color-bg);
-  background-image:
-    radial-gradient(circle at center, rgba(38, 44, 64, 0.05) 1px, transparent 1.6px),
-    radial-gradient(46rem 40rem at 0% 0%, rgba(13, 148, 136, 0.22), transparent 55%),
-    radial-gradient(44rem 38rem at 100% 6%, rgba(59, 130, 246, 0.16), transparent 55%),
-    radial-gradient(52rem 42rem at 50% 120%, rgba(99, 102, 241, 0.12), transparent 60%);
-  background-size: 24px 24px, 100% 100%, 100% 100%, 100% 100%;
-  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-  background-position: 0 0, center, center, center;
+  background: linear-gradient(
+    180deg,
+    #9eccf2 0%,
+    #b6dbf6 28%,
+    #d0e8fb 58%,
+    #e6f3fd 100%
+  );
 }
 
 ::selection {
