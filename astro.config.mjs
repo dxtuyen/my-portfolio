@@ -6,12 +6,12 @@ import sitemap from '@astrojs/sitemap';
 /**
  * Astro configuration.
  * Đổi `site` thành domain thật của bạn sau khi mua tên miền hoặc deploy chính thức.
- * Netlify sẽ dùng giá trị này để sinh sitemap.xml và RSS feed.
+ * Vercel sẽ dùng giá trị này để sinh sitemap.xml và RSS feed.
  */
 export default defineConfig({
   // Domain công khai của site (dùng cho sitemap, RSS, og:image absolute URLs).
-  // Hiện tại để placeholder; sau khi deploy, đổi sang URL Netlify hoặc tên miền riêng.
-  site: 'https://example.netlify.app',
+  // Đang deploy trên Vercel; đổi sang tên miền riêng sau khi gắn domain.
+  site: 'https://my-portfolio-opal-two-46.vercel.app',
 
   integrations: [
     // Cho phép viết file .mdx (markdown + JSX) khi cần component bên trong bài viết.
