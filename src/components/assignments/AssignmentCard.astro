@@ -1,6 +1,6 @@
 ---
 /**
- * AssignmentCard — thẻ 1 bài tập với link tải file đính kèm.
+ * AssignmentCard — thẻ 1 bài tập với link xem file đính kèm.
  */
 import type { CollectionEntry } from 'astro:content';
 
@@ -11,8 +11,10 @@ export interface Props {
 const { entry } = Astro.props;
 const { title, topic, description, fileUrl } = entry.data;
 
+// Bài chưa có file (đang chờ cập nhật) sẽ để trống fileUrl → link rỗng
+const hasFile = Boolean(fileUrl);
 // Suy ra loại file từ extension để hiển thị nhãn
-const ext = fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE';
+const ext = hasFile ? (fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE') : '—';
 ---
 
 <article class="assign-card reveal">
@@ -22,8 +24,8 @@ const ext = fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE';
   </div>
   <p class="topic">{topic}</p>
   <p class="description">{description}</p>
-  <a href={fileUrl} target="_blank" rel="noreferrer" class="download">
-    ⤓ Tải file
+  <a href={hasFile ? fileUrl : undefined} target="_blank" rel="noreferrer" class="view-link">
+    ↗ Xem file
   </a>
 </article>
 
@@ -75,16 +77,19 @@ const ext = fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE';
     line-height: var(--leading-normal);
     margin-bottom: var(--space-4);
   }
-  .download {
+  .view-link {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     color: var(--color-accent);
     font-family: var(--font-mono);
     font-size: var(--text-sm);
+    cursor: pointer;
     transition: gap var(--transition-fast);
   }
-  .download:hover {
+  /* Bài chưa có file vẫn giữ y hệt: cùng màu xanh, cùng hover — chỉ là bấm
+     không mở gì (thẻ <a> không có href nên không điều hướng). */
+  .view-link:hover {
     gap: var(--space-3);
   }
 </style>
