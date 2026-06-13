@@ -214,6 +214,11 @@ const MUSIC_URL = '/music/background.mp3';
       document.body.classList.remove('is-locked');
     }
 
+    // Báo cho thành phần khác (vd: gợi ý đổi theme) biết user đã chọn nhạc xong
+    private notifyChoice(choice: 'yes' | 'no') {
+      document.dispatchEvent(new CustomEvent('audio-choice-made', { detail: choice }));
+    }
+
     // ── Khởi tạo trạng thái ban đầu ────────────────────────────
     private init() {
       const choice = this.getChoice();
@@ -242,6 +247,7 @@ const MUSIC_URL = '/music/background.mp3';
         this.setChoice('yes');
         this.savePlayState(true);
         this.closeOverlay();
+        this.notifyChoice('yes');
         this.audio.play()
           .then(() => this.setIcon(true))
           .catch(() => {});
@@ -251,6 +257,7 @@ const MUSIC_URL = '/music/background.mp3';
         this.setChoice('no');
         this.savePlayState(false);
         this.closeOverlay();
+        this.notifyChoice('no');
       });
 
       this.toggleBtn.addEventListener('click', () => {

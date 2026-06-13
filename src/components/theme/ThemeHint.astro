@@ -137,8 +137,8 @@
       toggle?.addEventListener('click', dismiss, { once: true });
     }
 
-    // Hiện sau khi trang ổn định một chút + nhấp nháy nút theme cho dễ thấy
-    window.setTimeout(() => {
+    // Hiện gợi ý + nhấp nháy nút theme cho dễ thấy + hẹn giờ tự ẩn
+    const showHint = () => {
       // Người dùng có thể đã tắt gợi ý (bấm × hoặc bấm nút theme) trong lúc chờ
       let s: string | null = null;
       try { s = localStorage.getItem('themeHintSeen'); } catch {}
@@ -150,12 +150,32 @@
         void (toggle as HTMLElement).offsetWidth; // ép reflow để chạy lại animation
         toggle.classList.add('attn');
       }
-    }, 900);
 
-    // Tự ẩn sau 9 giây nếu người dùng không tương tác
-    window.setTimeout(() => {
-      if (!hint.hidden) dismiss();
-    }, 9900);
+      // Tự ẩn sau 9 giây kể từ khi hiện nếu người dùng không tương tác
+      window.setTimeout(() => {
+        if (!hint.hidden) dismiss();
+      }, 9000);
+    };
+
+    // Nếu popup hỏi bật nhạc đang chờ trả lời (chưa chọn) thì đợi người dùng
+    // bấm Bật/Không xong rồi mới hiện hint — tránh hai cái đè lên nhau.
+    let musicChosen = true;
+    try { musicChosen = sessionStorage.getItem('audio-choice') !== null; } catch { musicChosen = false; }
+
+    if (musicChosen) {
+      window.setTimeout(showHint, 900);
+    } else {
+      let shown = false;
+      const trigger = () => { if (shown) return; shown = true; showHint(); };
+      // Chờ người dùng bấm Bật/Không trong popup nhạc rồi mới hiện
+      document.addEventListener(
+        'audio-choice-made',
+        () => window.setTimeout(trigger, 600),
+        { once: true },
+      );
+      // Phòng hờ: nếu vì lý do nào đó không có popup nhạc, vẫn hiện sau 15s
+      window.setTimeout(trigger, 15000);
+    }
   }
 
   document.addEventListener('astro:page-load', initThemeHint);
