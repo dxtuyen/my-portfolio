@@ -13,8 +13,9 @@ const { title, topic, description, fileUrl } = entry.data;
 
 // Bài chưa có file (đang chờ cập nhật) sẽ để trống fileUrl → link rỗng
 const hasFile = Boolean(fileUrl);
-// Suy ra loại file từ extension để hiển thị nhãn
-const ext = hasFile ? (fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE') : '—';
+// Suy ra loại file từ extension để hiển thị nhãn; bài chưa có file mặc định "PDF"
+// để thẻ nhìn y hệt các thẻ khác (badge ở góc vẫn hiện "PDF").
+const ext = hasFile ? (fileUrl.split('.').pop()?.toUpperCase() ?? 'FILE') : 'PDF';
 ---
 
 <article class="assign-card reveal">
