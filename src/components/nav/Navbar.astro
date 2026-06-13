@@ -137,11 +137,39 @@ function isActive(href: string): boolean {
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-accent-soft);
     color: var(--color-accent);
     font-size: var(--text-lg);
-    transition: background var(--transition-fast);
+    cursor: pointer;
+    transition:
+      background var(--transition-fast),
+      border-color var(--transition-fast),
+      color var(--transition-fast),
+      transform var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
-  .theme-toggle:hover { background: var(--color-accent-soft); }
+  .theme-toggle:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-color: var(--color-accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .theme-toggle:active { transform: translateY(0); }
+
+  /* Nhấp nháy vòng sáng để người dùng chú ý nút đổi giao diện (kèm gợi ý ThemeHint) */
+  @keyframes theme-attn {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); }
+    70%  { box-shadow: 0 0 0 9px color-mix(in srgb, var(--color-accent) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 0%, transparent); }
+  }
+  .theme-toggle.attn {
+    animation: theme-attn 1.3s ease-out 3;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .theme-toggle.attn { animation: none; }
+  }
 
   /* ─── CSS HIỆU ỨNG BIẾN HÌNH HAMBURGER THÀNH DẤU X ─── */
   .hamburger {

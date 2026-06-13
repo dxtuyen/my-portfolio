@@ -1,0 +1,147 @@
+---
+/**
+ * ThemeHint — bong bóng gợi ý nhỏ chỉ vào nút đổi giao diện ở góc trên bên phải.
+ * Hiện ở trang chủ, chỉ với khách lần đầu (chưa từng đổi theme / chưa tắt gợi ý).
+ * Không chặn thao tác — tự ẩn sau ít giây hoặc khi người dùng bấm tắt / bấm nút theme.
+ */
+---
+
+<div id="theme-hint" class="th-hint" role="status" hidden>
+  <button type="button" class="th-close" data-th-close aria-label="Đóng gợi ý">×</button>
+  <p class="th-text">
+    <span class="th-spark" aria-hidden="true">✨</span>
+    Bấm vào đây để đổi giao diện <strong>Sáng / Tối</strong> — thử trải nghiệm màu khác nhé!
+  </p>
+</div>
+
+<style>
+  .th-hint {
+    position: fixed;
+    top: 58px;
+    right: var(--space-4);
+    z-index: var(--z-toast);
+    max-width: 248px;
+    padding: var(--space-3) var(--space-5) var(--space-3) var(--space-4);
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    animation: th-in 0.4s cubic-bezier(0.34, 1.3, 0.7, 1);
+  }
+  .th-hint[hidden] { display: none; }
+
+  /* Mũi tên nhỏ chỉ ngược lên nút đổi theme */
+  .th-hint::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 22px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--color-accent);
+  }
+
+  .th-text {
+    margin: 0;
+    font-size: var(--text-xs);
+    line-height: var(--leading-normal);
+    font-weight: 500;
+  }
+  .th-text strong { font-weight: 700; }
+  .th-spark { margin-right: 2px; }
+
+  .th-close {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--color-bg);
+    opacity: 0.7;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: opacity var(--transition-fast);
+  }
+  .th-close:hover { opacity: 1; }
+
+  @media (max-width: 767px) {
+    /* Mobile: nút theme nằm bên trái nút hamburger → dời mũi tên sang trái */
+    .th-hint::before { right: 64px; }
+  }
+
+  @keyframes th-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .th-hint { animation: none; }
+  }
+</style>
+
+<script>
+  function initThemeHint() {
+    const hint = document.getElementById('theme-hint');
+    if (!hint) return;
+
+    // Chỉ hiện ở trang chủ
+    if (window.location.pathname !== '/') {
+      hint.hidden = true;
+      return;
+    }
+
+    let seen: string | null = null;
+    try {
+      seen = localStorage.getItem('themeHintSeen');
+    } catch {}
+
+    // Chỉ ẩn khi người dùng đã tắt gợi ý — còn lại hiện cho mọi khách (1 lần)
+    if (seen === '1') {
+      hint.hidden = true;
+      return;
+    }
+
+    const toggle = document.querySelector('.theme-toggle');
+
+    const dismiss = () => {
+      hint.hidden = true;
+      try { localStorage.setItem('themeHintSeen', '1'); } catch {}
+      toggle?.classList.remove('attn');
+    };
+
+    if (hint.dataset.bound !== 'true') {
+      hint.dataset.bound = 'true';
+      hint.querySelector('[data-th-close]')?.addEventListener('click', dismiss);
+      // Bấm vào chính nút theme cũng coi như đã hiểu gợi ý
+      toggle?.addEventListener('click', dismiss, { once: true });
+    }
+
+    // Hiện sau khi trang ổn định một chút + nhấp nháy nút theme cho dễ thấy
+    window.setTimeout(() => {
+      // Người dùng có thể đã tắt gợi ý (bấm × hoặc bấm nút theme) trong lúc chờ
+      let s: string | null = null;
+      try { s = localStorage.getItem('themeHintSeen'); } catch {}
+      if (s === '1') return;
+
+      hint.hidden = false;
+      if (toggle) {
+        toggle.classList.remove('attn');
+        void (toggle as HTMLElement).offsetWidth; // ép reflow để chạy lại animation
+        toggle.classList.add('attn');
+      }
+    }, 900);
+
+    // Tự ẩn sau 9 giây nếu người dùng không tương tác
+    window.setTimeout(() => {
+      if (!hint.hidden) dismiss();
+    }, 9900);
+  }
+
+  document.addEventListener('astro:page-load', initThemeHint);
+</script>
