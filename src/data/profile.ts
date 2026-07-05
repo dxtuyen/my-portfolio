@@ -58,7 +58,7 @@ export const profile: Profile = {
   currentWork:
     'Tập trung vào các môn khoa học cơ bản và lập trình tại trường, đồng thời xây dựng các dự án cá nhân và nhóm.',
   dream:
-    'Trở thành một chuyên gia trong lĩnh vực Điện toán Đám mây (Cloud Computing), dùng công nghệ để giải quyết các vấn đề xã hội và nâng cao đời sống con người.',
+    'Trở thành một chuyên gia trong lĩnh vực An ninh mạng (Cybersecurity) và Điện toán đám mây (Cloud Computing), dùng công nghệ để giải quyết các vấn đề xã hội và nâng cao đời sống con người.',
   futurePlan:
     'Trong tương lai có thể học thêm một số chứng chỉ cần thiết phục vụ công việc sau này.',
   email: 'tuyendoxuan05@gmail.com',
