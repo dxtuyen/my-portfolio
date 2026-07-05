@@ -47,7 +47,7 @@ export const profile: Profile = {
   shortName: 'Tuyên',
   tagline: 'Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu ( Computer Networking & Data Communication )',
   tagline2: 'Đam mê dẫn lối. Bền bỉ thực thi.',
-  avatar: '/images/avatar.jpg',
+  avatar: '/images/avatar.png',
   cover: '/images/cover.jpg',
   about:
     'Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Nơi mà người ta thường nói về code và robot, và tôi cũng không ngoại lệ, nhưng có lẽ pha vào đó một chút lãng mạn hơn.😄✨',
