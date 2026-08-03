@@ -63,18 +63,6 @@ const projects = defineCollection({
   }),
 });
 
-/* ─── Assignments ─── */
-const assignments = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/assignments" }),
-  schema: z.object({
-    title: z.string(),
-    topic: z.string(),
-    description: z.string(),
-    fileUrl: z.string(), // đường dẫn tới file trong public/assets/
-    order: z.number().default(0),
-  }),
-});
-
 /* ─── Lessons (small cards on homepage) ─── */
 const lessons = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/lessons" }),
@@ -85,4 +73,4 @@ const lessons = defineCollection({
   }),
 });
 
-export const collections = { blog, books, projects, assignments, lessons };
+export const collections = { blog, books, projects, lessons };
