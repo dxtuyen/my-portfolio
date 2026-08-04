@@ -170,26 +170,28 @@ import { tutorData } from '../data/tutor';
 </BaseLayout>
 
 <script>
-  const modal = document.getElementById('lightbox-modal');
-  const modalImg = document.getElementById('lightbox-img');
-  const links = document.querySelectorAll('.evidence-image-link');
+  document.addEventListener('astro:page-load', () => {
+    const modal = document.getElementById('lightbox-modal') as HTMLDialogElement;
+    const modalImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const links = document.querySelectorAll('.evidence-image-link');
 
-  if (modal && modalImg) {
-    links.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        modalImg.src = link.getAttribute('href');
-        modal.showModal();
+    if (modal && modalImg) {
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          modalImg.src = link.getAttribute('href') || '';
+          modal.showModal();
+        });
       });
-    });
 
-    // Đóng modal khi click ra ngoài ảnh
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.close();
-      }
-    });
-  }
+      // Đóng modal khi click ra ngoài ảnh
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.close();
+        }
+      });
+    }
+  });
 </script>
 
 <style>
