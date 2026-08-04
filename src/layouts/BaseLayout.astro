@@ -41,8 +41,10 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
           const stored = localStorage.getItem('theme');
           if (stored === 'light' || stored === 'dark') {
             document.documentElement.setAttribute('data-theme', stored);
+          } else {
+            const systemTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', systemTheme);
           }
-          // Không có stored → giữ nguyên data-theme="dark" mặc định từ HTML
         } catch {}
       })();
     </script>

@@ -22,6 +22,11 @@ export const timeline: TimelineEntry[] = [
     description: 'Hoàn thành chương trình trung học phổ thông.',
   },
   {
+    year: '2023',
+    title: 'Vào VNU-HUS',
+    description: 'Trở thành sinh viên Khoa Toán - Cơ - Tin học tại Đại học Khoa học Tự nhiên.',
+  },
+  {
     year: '2025',
     title: 'Vào VNU-UET',
     description: 'Bắt đầu hành trình tại Đại học Công nghệ — VNU.',

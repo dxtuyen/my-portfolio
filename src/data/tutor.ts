@@ -77,9 +77,9 @@ export interface TutorData {
 
 export const tutorData: TutorData = {
   title: 'Gia sư Toán, Vật lí & Tin học',
-  subtitle: 'Học chắc bản chất, luyện bài có hệ thống và tiến bộ theo từng giai đoạn.',
+  subtitle: 'Gia sư đồng hành: Thấu hiểu tâm lý học sinh, truyền tải kiến thức dễ hiểu và tạo động lực học tập.',
   intro:
-    'Tôi là Đỗ Xuân Tuyên, sinh viên VNU-UET. Nền tảng học thuật của tôi nằm ở các môn tự nhiên: giải Nhì HSG Toán cấp tỉnh lớp 12, điểm thi THPT 2023 Toán 9.4 và Vật lí 9.75. Khi dạy, tôi ưu tiên giúp học sinh hiểu bản chất, biết trình bày lời giải và sửa lỗi sai một cách có hệ thống.',
+    'Tôi là Đỗ Xuân Tuyên, sinh viên Đại học Công nghệ (VNU-UET) và từng theo học Khoa Toán tại Đại học Khoa học Tự nhiên (VNU-HUS). Tự mình trải qua 2 kỳ thi THPT Quốc gia (2023 và 2025) để định hướng lại đam mê, tôi thấu hiểu sâu sắc áp lực phòng thi, những sai lầm dễ mắc phải và tâm lý hoang mang của học sinh khi ôn tập. Chính kinh nghiệm thực chiến này giúp tôi biết cách đồng hành cùng các em không chỉ về mặt kiến thức cốt lõi, mà còn ở phương pháp học tối ưu và tâm lý vững vàng để bứt phá điểm số.',
   portrait: profile.avatar,
   contactNote:
     'Zalo: 0396505336 · Email: tuyen.doxuan.tech@gmail.com',
@@ -127,7 +127,7 @@ export const tutorData: TutorData = {
     {
       title: 'Kết quả học sinh',
       description:
-        'Có học sinh trúng tuyển Đại học Bách khoa Hà Nội.',
+        '<ul style="list-style-type: disc; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.25rem;"><li>Có Học Sinh trúng tuyển các đại học top như Đại học Bách khoa Hà Nội.</li><li>Từ mất gốc đến tự tin môn học.</li><li>Học sinh lười học tìm ra mục đích việc học và ham học.</li></ul>',
     },
   ],
   teachingStyle: [
@@ -139,7 +139,7 @@ export const tutorData: TutorData = {
     {
       title: 'Dạy cách học hiệu quả',
       description:
-        'Hướng dẫn phương pháp tự học, tư duy phân tích, cách nhận diện dạng bài và tối ưu trình bày.',
+        'Hiểu rõ cơ chế hoạt động của não bộ để giúp học sinh tìm ra phương pháp học thông minh, tiếp thu nhanh và ghi nhớ dài hạn.',
     },
     {
       title: 'Truyền đam mê',
@@ -206,19 +206,19 @@ export const tutorData: TutorData = {
   ],
   method: [
     {
-      title: '1. Chẩn đoán nền tảng',
+      title: 'Tìm ra lỗ hổng',
       description:
-        'Xem bài cũ, trao đổi mục tiêu và làm bài ngắn để biết học sinh đang hổng ở đâu.',
+        'Kiểm tra nhẹ nhàng để biết học sinh đang vướng mắc ở đâu trước khi bắt đầu.',
     },
     {
-      title: '2. Học theo chuyên đề',
+      title: 'Hiểu bản chất trước, luyện đề sau',
       description:
-        'Mỗi chuyên đề đi từ bản chất, ví dụ mẫu, dạng bài thường gặp đến lỗi sai cần tránh.',
+        'Đi từ bản chất lý thuyết đến bài tập, đảm bảo hiểu sâu chứ không nhảy cóc.',
     },
     {
-      title: '3. Luyện tập có phản hồi',
+      title: 'Sửa lỗi và rút kinh nghiệm',
       description:
-        'Sau mỗi buổi có phần bài tập, nhận xét lỗi sai và việc cần ôn trước buổi tiếp theo.',
+        'Cùng xem lại các bài làm chưa đúng để hiểu lý do sai, đảm bảo không vấp lại lỗi tương tự.',
     },
   ],
   studentResults: [],
@@ -226,19 +226,19 @@ export const tutorData: TutorData = {
   gallery: [],
   process: [
     {
-      title: 'Trao đổi mục tiêu',
+      title: 'Nhắn tin trao đổi',
       description:
-        'Phụ huynh gửi lớp học, môn cần học, tình trạng hiện tại và mục tiêu mong muốn qua Zalo hoặc email.',
+        'Phụ huynh chia sẻ ngắn gọn về tình hình học tập và mong muốn qua Zalo.',
     },
     {
-      title: 'Học thử / đánh giá',
+      title: 'Sắp xếp học thử',
       description:
-        'Một buổi ngắn để kiểm tra nền tảng, cách học và mức độ phù hợp giữa gia sư và học sinh.',
+        'Một buổi học nhẹ nhàng để xem phong cách dạy có thực sự phù hợp hay không.',
     },
     {
-      title: 'Chốt lịch học',
+      title: 'Bắt đầu đồng hành',
       description:
-        'Thống nhất lịch, hình thức học, học phí và cách báo cáo tiến độ.',
+        'Thống nhất lịch học và cùng nhau hướng tới sự tiến bộ của học sinh.',
     },
   ],
   faq: [

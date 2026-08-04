@@ -13,6 +13,10 @@ class ThemeToggle extends HTMLElement {
       const next: Theme = this.currentTheme() === 'dark' ? 'light' : 'dark';
       this.applyTheme(next);
     });
+
+    window.addEventListener('system-theme-changed', (e: any) => {
+      this.updateToggleButton(e.detail);
+    });
   }
 
   currentTheme(): Theme {
@@ -34,12 +38,15 @@ class ThemeToggle extends HTMLElement {
 customElements.define('theme-toggle', ThemeToggle);
 
 // Áp dụng theme lên document MỚI trước khi Astro swap (không có flash)
-// Chính sách: mặc định LUÔN tối — không theo prefers-color-scheme của hệ thống.
-// Chỉ hiển thị sáng khi người dùng đã tự bấm nút (giá trị 'light' lưu trong localStorage).
 document.addEventListener('astro:before-swap', (ev) => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    const theme: Theme = stored === 'light' ? 'light' : 'dark';
+    let theme: Theme = 'dark';
+    if (stored === 'light' || stored === 'dark') {
+      theme = stored;
+    } else {
+      theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
     (ev as any).newDocument.documentElement.setAttribute('data-theme', theme);
   } catch {}
 });
@@ -48,8 +55,21 @@ document.addEventListener('astro:before-swap', (ev) => {
 document.addEventListener('astro:after-swap', () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
+    let theme: Theme = 'dark';
     if (stored === 'light' || stored === 'dark') {
-      document.documentElement.setAttribute('data-theme', stored);
+      theme = stored;
+    } else {
+      theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
     }
+    document.documentElement.setAttribute('data-theme', theme);
   } catch {}
+});
+
+// Lắng nghe thay đổi theme từ hệ thống (nếu người dùng chưa chọn thủ công)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+  if (!localStorage.getItem(STORAGE_KEY)) {
+    const theme = e.matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    window.dispatchEvent(new CustomEvent('system-theme-changed', { detail: theme }));
+  }
 });

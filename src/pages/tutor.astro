@@ -11,7 +11,6 @@ import { tutorData } from '../data/tutor';
     <section class="tutor-hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <p class="eyebrow">// Gia sư</p>
           <h1>{tutorData.title}</h1>
           <p class="subtitle">{tutorData.subtitle}</p>
           <p class="intro">{tutorData.intro}</p>
@@ -64,15 +63,14 @@ import { tutorData } from '../data/tutor';
 
     <section class="container tutor-section">
       <div class="section-heading reveal">
-        <p class="eyebrow">// Kinh nghiệm giảng dạy</p>
-        <h2>3 năm đồng hành cùng học sinh THPT</h2>
+        <h2>Kinh nghiệm giảng dạy</h2>
       </div>
       <div class="card-grid">
         {
           tutorData.experience.map((item) => (
             <article class="info-card reveal">
               <h3>{item.title}</h3>
-              <p>{item.description}</p>
+              <div class="card-desc" set:html={item.description} />
             </article>
           ))
         }
@@ -81,32 +79,30 @@ import { tutorData } from '../data/tutor';
 
     <section class="container tutor-section">
       <div class="section-heading reveal">
-        <p class="eyebrow">// Phong cách giảng dạy</p>
-        <h2>Không chỉ truyền đạt kiến thức mà còn rèn luyện tư duy</h2>
+        <h2>Phong cách giảng dạy</h2>
       </div>
       <div class="card-grid">
         {
           tutorData.teachingStyle.map((item) => (
             <article class="info-card reveal">
               <h3>{item.title}</h3>
-              <p>{item.description}</p>
+              <div class="card-desc" set:html={item.description} />
             </article>
           ))
         }
       </div>
     </section>
-
+môn
     <section class="container tutor-section">
       <div class="section-heading reveal">
-        <p class="eyebrow">// Đối tượng học</p>
-        <h2>Phù hợp với học sinh cần học chắc và tiến bộ có lộ trình</h2>
+        <h2>Học sinh phù hợp</h2>
       </div>
       <div class="card-grid">
         {
           tutorData.subjects.map((item) => (
             <article class="info-card reveal">
               <h3>{item.title}</h3>
-              <p>{item.description}</p>
+              <div class="card-desc" set:html={item.description} />
             </article>
           ))
         }
@@ -115,8 +111,7 @@ import { tutorData } from '../data/tutor';
 
     <section class="container tutor-section">
       <div class="section-heading reveal">
-        <p class="eyebrow">// Hồ sơ năng lực</p>
-        <h2>Nền tảng Toán - Lý được chứng minh bằng kết quả cụ thể</h2>
+        <h2>Thành tích và nền tảng chuyên môn</h2>
       </div>
       <div class="evidence-grid">
         {
@@ -150,8 +145,7 @@ import { tutorData } from '../data/tutor';
     <section class="method-band">
       <div class="container tutor-section">
         <div class="section-heading reveal">
-          <p class="eyebrow">// Phương pháp</p>
-          <h2>Một lộ trình học nên rõ từ buổi đầu tiên</h2>
+          <h2>Lộ trình học tập rõ ràng và vừa sức</h2>
         </div>
         <div class="timeline-list">
           {
@@ -163,24 +157,6 @@ import { tutorData } from '../data/tutor';
             ))
           }
         </div>
-      </div>
-    </section>
-
-    <section class="container tutor-section process-section">
-      <div class="section-heading reveal">
-        <p class="eyebrow">// Đăng ký học</p>
-        <h2>Quy trình trao đổi nên đơn giản</h2>
-      </div>
-      <div class="process-grid">
-        {
-          tutorData.process.map((item, index) => (
-            <article class="process-card reveal">
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))
-        }
       </div>
     </section>
 
@@ -445,6 +421,7 @@ import { tutorData } from '../data/tutor';
   }
 
   .info-card p,
+  .info-card .card-desc,
   .evidence-card p,
   .result-card p,
   .feedback-card blockquote,
@@ -458,6 +435,7 @@ import { tutorData } from '../data/tutor';
   }
 
   .info-card p,
+  .info-card .card-desc,
   .gallery-card p,
   .process-card p,
   .timeline-item p {
