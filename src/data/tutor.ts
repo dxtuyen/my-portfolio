@@ -79,7 +79,7 @@ export const tutorData: TutorData = {
   title: 'Gia sư Toán, Vật lí & Tin học',
   subtitle: 'Gia sư đồng hành: Thấu hiểu tâm lý học sinh, truyền tải kiến thức dễ hiểu và tạo động lực học tập.',
   intro:
-    'Tôi là Đỗ Xuân Tuyên, sinh viên Đại học Công nghệ (VNU-UET) và từng theo học Khoa Toán tại Đại học Khoa học Tự nhiên (VNU-HUS). Tự mình trải qua 2 kỳ thi THPT Quốc gia (2023 và 2025) để định hướng lại đam mê, tôi thấu hiểu sâu sắc áp lực phòng thi, những sai lầm dễ mắc phải và tâm lý hoang mang của học sinh khi ôn tập. Chính kinh nghiệm thực chiến này giúp tôi biết cách đồng hành cùng các em không chỉ về mặt kiến thức cốt lõi, mà còn ở phương pháp học tối ưu và tâm lý vững vàng để bứt phá điểm số.',
+    'Tôi là Đỗ Xuân Tuyên, sinh viên Đại học Công nghệ (VNU-UET) và từng theo học Khoa Toán tại Đại học Khoa học Tự nhiên (VNU-HUS). Tự mình trải qua 2 kỳ thi THPT Quốc gia (2023 và 2025) để định hướng lại đam mê, Tuyên thấu hiểu sâu sắc áp lực phòng thi, những sai lầm dễ mắc phải và tâm lý hoang mang của học sinh khi ôn tập. Chính kinh nghiệm thực chiến này giúp Tuyên biết cách đồng hành cùng các em không chỉ về mặt kiến thức cốt lõi, mà còn ở phương pháp học tối ưu và tâm lý vững vàng để bứt phá điểm số.',
   portrait: profile.avatar,
   contactNote:
     'Zalo: 0396505336 · Email: tuyen.doxuan.tech@gmail.com',
