@@ -1,0 +1,724 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { tutorData } from '../data/tutor';
+---
+
+<BaseLayout
+  title="Gia sư"
+  description="Gia sư Toán, Vật lí và Tin học: hồ sơ năng lực, phương pháp học và thông tin liên hệ."
+>
+  <div class="tutor-page">
+    <section class="tutor-hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">// Gia sư</p>
+          <h1>{tutorData.title}</h1>
+          <p class="subtitle">{tutorData.subtitle}</p>
+          <p class="intro">{tutorData.intro}</p>
+          <div class="hero-actions">
+            {
+              tutorData.contactLinks.map((link) => (
+                <a
+                  href={link.href}
+                  class={link.primary ? 'btn-primary' : 'btn-secondary'}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noreferrer' : undefined}
+                >
+                  {link.label}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="hero-panel reveal reveal-d1">
+          <img src={tutorData.portrait} alt="Ảnh đại diện gia sư" />
+          <div class="contact-note">
+            <span>Liên hệ</span>
+            <p>{tutorData.contactNote}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container stats-band reveal">
+      {
+        tutorData.stats.map((stat) => (
+          <div class="stat-item">
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+            {stat.items && (
+              <div class="stat-score-list">
+                {stat.items.map((item) => (
+                  <p class="stat-score">
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="container tutor-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">// Kinh nghiệm giảng dạy</p>
+        <h2>3 năm đồng hành cùng học sinh THPT</h2>
+      </div>
+      <div class="card-grid">
+        {
+          tutorData.experience.map((item) => (
+            <article class="info-card reveal">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="container tutor-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">// Phong cách giảng dạy</p>
+        <h2>Không chỉ truyền đạt kiến thức mà còn rèn luyện tư duy</h2>
+      </div>
+      <div class="card-grid">
+        {
+          tutorData.teachingStyle.map((item) => (
+            <article class="info-card reveal">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="container tutor-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">// Đối tượng học</p>
+        <h2>Phù hợp với học sinh cần học chắc và tiến bộ có lộ trình</h2>
+      </div>
+      <div class="card-grid">
+        {
+          tutorData.subjects.map((item) => (
+            <article class="info-card reveal">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="container tutor-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">// Hồ sơ năng lực</p>
+        <h2>Nền tảng Toán - Lý được chứng minh bằng kết quả cụ thể</h2>
+      </div>
+      <div class="evidence-grid">
+        {
+          tutorData.achievements.map((item) => (
+            <article class="evidence-card reveal">
+              {item.image && (
+                <a
+                  class="evidence-image-link"
+                  href={item.image}
+                  aria-label={`Mở ảnh ${item.title}`}
+                >
+                  <img src={item.image} alt={item.title} />
+                </a>
+              )}
+              <div>
+                <span>{item.type}</span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                {item.fileUrl && (
+                  <a href={item.fileUrl} target="_blank" rel="noreferrer">
+                    Xem file
+                  </a>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="method-band">
+      <div class="container tutor-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">// Phương pháp</p>
+          <h2>Một lộ trình học nên rõ từ buổi đầu tiên</h2>
+        </div>
+        <div class="timeline-list">
+          {
+            tutorData.method.map((step) => (
+              <article class="timeline-item reveal">
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="container tutor-section process-section">
+      <div class="section-heading reveal">
+        <p class="eyebrow">// Đăng ký học</p>
+        <h2>Quy trình trao đổi nên đơn giản</h2>
+      </div>
+      <div class="process-grid">
+        {
+          tutorData.process.map((item, index) => (
+            <article class="process-card reveal">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <dialog id="lightbox-modal" class="lightbox">
+      <form method="dialog" class="lightbox-close-form">
+        <button class="lightbox-close" aria-label="Đóng">✕</button>
+      </form>
+      <img id="lightbox-img" src="" alt="Phóng to ảnh" />
+    </dialog>
+  </div>
+</BaseLayout>
+
+<script>
+  const modal = document.getElementById('lightbox-modal');
+  const modalImg = document.getElementById('lightbox-img');
+  const links = document.querySelectorAll('.evidence-image-link');
+
+  if (modal && modalImg) {
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        modalImg.src = link.getAttribute('href');
+        modal.showModal();
+      });
+    });
+
+    // Đóng modal khi click ra ngoài ảnh
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.close();
+      }
+    });
+  }
+</script>
+
+<style>
+  .tutor-page {
+    padding-bottom: var(--space-9);
+  }
+
+  .tutor-hero {
+    padding-block: var(--space-9) var(--space-7);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .hero-copy h1,
+  .section-heading h2 {
+    color: var(--color-heading);
+    line-height: var(--leading-tight);
+  }
+
+  .hero-copy h1 {
+    max-width: 760px;
+    margin-top: var(--space-2);
+    font-size: var(--text-4xl);
+  }
+
+  .subtitle {
+    max-width: 680px;
+    margin-top: var(--space-4);
+    color: var(--color-text-soft);
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+
+  .intro {
+    max-width: 720px;
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    transition:
+      transform var(--transition-fast),
+      background var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: 600;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-accent);
+    background: var(--color-bg-elevated);
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+  }
+
+  .hero-panel {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+
+  .hero-panel img {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .contact-note {
+    max-width: 320px;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .contact-note span,
+  .eyebrow,
+  .evidence-card span,
+  .process-card span {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    text-transform: uppercase;
+  }
+
+  .contact-note p {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .stats-band {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .stat-item {
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
+  }
+
+  .stat-item > strong {
+    color: var(--color-heading);
+    font-size: var(--text-2xl);
+    line-height: 1;
+  }
+
+  .stat-item > span {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .stat-score-list {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .stat-score {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    color: var(--color-text-soft);
+    line-height: var(--leading-snug);
+  }
+
+  .stat-score strong {
+    min-width: 58px;
+    color: var(--color-heading);
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+  }
+
+  .stat-score span {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .tutor-section {
+    padding-top: var(--space-8);
+  }
+
+  .section-heading {
+    max-width: 720px;
+    margin-bottom: var(--space-5);
+  }
+
+  .section-heading h2 {
+    margin-top: var(--space-2);
+    font-size: var(--text-2xl);
+  }
+
+  .card-grid,
+  .evidence-grid,
+  .feedback-grid,
+  .gallery-grid,
+  .process-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .info-card,
+  .evidence-card,
+  .result-card,
+  .feedback-card,
+  .gallery-card,
+  .process-card,
+  .faq-item {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .info-card,
+  .result-card,
+  .feedback-card,
+  .gallery-card,
+  .process-card {
+    padding: var(--space-5);
+  }
+
+  .info-card h3,
+  .evidence-card h3,
+  .result-card strong,
+  .gallery-card h3,
+  .process-card h3,
+  .timeline-item h3 {
+    color: var(--color-heading);
+    font-size: var(--text-md);
+  }
+
+  .info-card p,
+  .evidence-card p,
+  .result-card p,
+  .feedback-card blockquote,
+  .gallery-card p,
+  .process-card p,
+  .timeline-item p,
+  .faq-item p {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    line-height: var(--leading-relaxed);
+  }
+
+  .info-card p,
+  .gallery-card p,
+  .process-card p,
+  .timeline-item p {
+    margin-top: var(--space-2);
+  }
+
+  .evidence-card {
+    overflow: hidden;
+  }
+
+  .evidence-image-link {
+    display: block;
+    background: var(--color-bg-subtle);
+    cursor: zoom-in;
+  }
+
+  .evidence-card img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: center;
+    background: var(--color-bg-subtle);
+    transition: transform var(--transition-base), opacity var(--transition-base);
+  }
+
+  .evidence-image-link:hover img {
+    opacity: 0.92;
+    transform: scale(1.015);
+  }
+
+  .evidence-card div {
+    padding: var(--space-5);
+  }
+
+  .evidence-card h3 {
+    margin-top: var(--space-2);
+  }
+
+  .evidence-card a,
+  .gallery-card a {
+    display: inline-flex;
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .method-band {
+    margin-top: var(--space-8);
+    padding-bottom: var(--space-8);
+    background: color-mix(in srgb, var(--color-bg-elevated) 66%, transparent);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .timeline-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .timeline-item {
+    padding-left: var(--space-5);
+    border-left: 2px solid var(--color-accent);
+  }
+
+  .result-list {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .result-student {
+    color: var(--color-accent) !important;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
+
+  .result-card strong {
+    display: block;
+    margin-top: var(--space-3);
+  }
+
+  .feedback-card {
+    margin: 0;
+  }
+
+  .feedback-card img {
+    width: 100%;
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  .feedback-card blockquote {
+    margin: 0;
+    font-style: italic;
+  }
+
+  .feedback-card figcaption {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-4);
+  }
+
+  .feedback-card figcaption strong {
+    color: var(--color-heading);
+  }
+
+  .feedback-card figcaption span {
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+  }
+
+  .placeholder-box {
+    display: grid;
+    place-items: center;
+    min-height: 160px;
+    margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) var(--space-4);
+    background:
+      linear-gradient(135deg, var(--color-accent-soft), transparent),
+      var(--color-bg-subtle);
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .gallery-card img {
+    width: calc(100% + var(--space-10));
+    max-width: none;
+    height: 180px;
+    margin: calc(var(--space-5) * -1) calc(var(--space-5) * -1) var(--space-4);
+    object-fit: cover;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .process-card span {
+    display: inline-flex;
+    margin-bottom: var(--space-3);
+  }
+
+  @media (min-width: 720px) {
+    .stats-band,
+    .card-grid,
+    .feedback-grid,
+    .gallery-grid,
+    .process-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .result-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .evidence-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+
+    .hero-panel {
+      justify-items: end;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-actions a {
+      width: 100%;
+    }
+  }
+
+  /* Lightbox Styles */
+  .lightbox {
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    padding: 0;
+    max-width: 85vw;
+    max-height: 90vh;
+    margin: auto;
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .lightbox[open] {
+    animation: lightbox-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .lightbox[open]::backdrop {
+    animation: backdrop-fade-in 0.3s ease-out forwards;
+  }
+
+  @keyframes lightbox-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes backdrop-fade-in {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+    to {
+      opacity: 1;
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  #lightbox-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* Ẩn scrollbar mặc định của trình duyệt để lightbox đẹp hơn */
+  .lightbox::-webkit-scrollbar {
+    width: 6px;
+  }
+  .lightbox::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  .lightbox-close-form {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 10;
+  }
+
+  .lightbox-close {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    transition: background var(--transition-fast);
+  }
+
+  .lightbox-close:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
+</style>

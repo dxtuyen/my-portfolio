@@ -4,7 +4,6 @@ import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import Navbar from '../components/nav/Navbar.astro';
 import Footer from '../components/shared/Footer.astro';
-import AudioPlayer from '../components/audio/AudioPlayer.astro';
 import ThemeHint from '../components/theme/ThemeHint.astro';
 import { profile } from '../data/profile';
 
@@ -60,8 +59,6 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     <ThemeHint />
     <main id="main-content"><slot /></main>
     <Footer />
-
-    <AudioPlayer />
 
     <script src="../scripts/theme.ts"></script>
     <script src="../scripts/reveal.ts"></script>

@@ -18,5 +18,6 @@ export const navItems: NavItem[] = [
   { href: '/blog', label: 'Blog' },
   { href: '/books', label: 'Tủ sách' },
   { href: '/projects', label: 'Dự án' },
+  { href: '/tutor', label: 'Gia sư' },
   { href: '/cv', label: 'CV' },
 ];
