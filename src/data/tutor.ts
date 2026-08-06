@@ -95,7 +95,14 @@ export const tutorData: TutorData = {
     },
   ],
   stats: [
-    { value: 'Giải Nhì', label: 'HSG Toán cấp tỉnh lớp 12' },
+    {
+      value: 'HSG Cấp Tỉnh',
+      label: 'Thành tích nổi bật',
+      items: [
+        { value: 'Giải Nhất', label: 'môn Vật lí lớp 12' },
+        { value: 'Giải Ba', label: 'môn Toán lớp 11' },
+      ],
+    },
     {
       value: 'THPT 2023',
       label: 'Điểm thi tốt nghiệp',
@@ -183,11 +190,18 @@ export const tutorData: TutorData = {
   ],
   achievements: [
     {
-      title: 'Giải Nhì HSG Toán cấp tỉnh lớp 12',
+      title: 'Giải Nhất HSG Vật lí cấp tỉnh lớp 12',
       type: 'Thành tích',
       description:
         'Chứng nhận của Sở Giáo dục và Đào tạo Thái Bình, năm học 2022 - 2023.',
-      image: '/images/tutor/hsg-toan-tinh-2023.png',
+      image: '/images/tutor/hsgly.png',
+    },
+    {
+      title: 'Giải Ba HSG Toán cấp tỉnh lớp 11',
+      type: 'Thành tích',
+      description:
+        'Chứng nhận của Sở Giáo dục và Đào tạo Thái Bình, năm học 2021 - 2022.',
+      image: '/images/tutor/hsgtoan.png',
     },
     {
       title: 'Điểm thi tốt nghiệp THPT 2023',
