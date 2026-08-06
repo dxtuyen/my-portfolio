@@ -208,7 +208,7 @@ export const tutorData: TutorData = {
       type: 'Hồ sơ học tập',
       description:
         'Toán 9.4, Vật lí 9.75, Hóa học 8.0, Tiếng Anh 8.8.',
-      image: '/images/tutor/diem-thpt-2023.jpg',
+      image: '/images/tutor/tnpt2023.png',
     },
     {
       title: 'Kết quả THPT 2025 nổi bật',
