@@ -124,7 +124,7 @@ export const tutorData: TutorData = {
     {
       title: '3 năm kinh nghiệm',
       description:
-        'Gia sư Toán - Vật lí cho học sinh THPT, từ củng cố nền tảng đến luyện đề.',
+        'Gia sư Toán - Vật lí cho học sinh THPT, THCS và ôn thi vào lớp 10, từ củng cố nền tảng đến luyện đề.',
     },
     {
       title: 'Chuyên ôn thi đại học',
@@ -169,6 +169,11 @@ export const tutorData: TutorData = {
       title: 'Tin học / lập trình cơ bản',
       description:
         'Làm quen tư duy thuật toán, đọc đề, chia nhỏ bài toán và tự kiểm tra lỗi qua từng bài tập.',
+    },
+    {
+      title: 'Ôn thi ĐGNL & ĐGTD',
+      description:
+        'Luyện tập tư duy phân tích, giải quyết vấn đề cho phần Khoa học Tự nhiên trong các kỳ thi Đánh giá năng lực và Đánh giá tư duy.',
     },
   ],
   strengths: [
