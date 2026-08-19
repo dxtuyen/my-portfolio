@@ -134,7 +134,7 @@ export const tutorData: TutorData = {
     {
       title: 'Kết quả học sinh',
       description:
-        '<ul style="list-style-type: disc; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.25rem;"><li>Đỗ vào các trường THPT chuyên và cấp 3 công lập top đầu.</li><li>Trúng tuyển các đại học top như Đại học Bách khoa Hà Nội.</li><li>Từ mất gốc đến tự tin môn học.</li><li>Học sinh lười học tìm ra mục đích việc học và ham học.</li></ul>',
+        '<ul style="list-style-type: disc; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.25rem;"><li>Đỗ vào các trường THPT công lập top đầu Hà Nội.</li><li>Trúng tuyển các đại học top như Đại học Bách khoa Hà Nội.</li><li>Từ mất gốc đến tự tin môn học.</li><li>Học sinh lười học tìm ra mục đích việc học và ham học.</li></ul>',
     },
   ],
   teachingStyle: [
