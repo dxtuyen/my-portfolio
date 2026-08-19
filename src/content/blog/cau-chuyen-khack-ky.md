@@ -27,4 +27,4 @@ Và đây là một lời răn từ Hoàng đế La Mã Marcus Aurelius, để b
 
 "Nếu ai đó khinh miệt ta, đó là việc của anh ta. Việc của ta là không bao giờ làm hay nói bất cứ điều gì đáng để bị khinh miệt".
 
-Trong số những lời phán xét mà bạn từng nghe gần đây, có lời nào vẫn còn đang âm ỉ làm bạn vướng bận
+Trong số những lời phán xét mà bạn từng nghe gần đây, có lời nào vẫn còn đang âm ỉ làm bạn vướng bận?

@@ -1,6 +1,7 @@
 ---
 /**
- * Navbar — thanh điều hướng toàn site (Hỗ trợ hiệu ứng X và Vuốt chạm Mobile).
+ * Navbar — thanh điều hướng toàn site.
+ * Logic mở/đóng menu, vuốt chạm và hiệu ứng scroll xử lý trong src/scripts/menu.ts.
  */
 import { profile } from '../../data/profile';
 import { navItems } from '../../data/navigation';
@@ -171,7 +172,7 @@ function isActive(href: string): boolean {
     .theme-toggle.attn { animation: none; }
   }
 
-  /* ─── CSS HIỆU ỨNG BIẾN HÌNH HAMBURGER THÀNH DẤU X ─── */
+  /* ─── Hiệu ứng biến hình hamburger thành dấu X ─── */
   .hamburger {
     width: 40px;
     height: 40px;
@@ -217,7 +218,7 @@ function isActive(href: string): boolean {
   .hamburger-inner::before { top: -8px; }
   .hamburger-inner::after { bottom: -8px; }
 
-  /* Khi menu mở: Xoay các nét cắt tạo thành dấu X hoàn hảo */
+  /* Khi menu mở: Xoay các nét cắt tạo thành dấu X */
   .hamburger[aria-expanded="true"] .hamburger-inner {
     transform: rotate(45deg);
   }
@@ -234,7 +235,7 @@ function isActive(href: string): boolean {
     .hamburger { display: none; }
   }
 
-  /* ─── Mobile menu CSS (Đã fix lỗi cao và tối ưu cuộn) ─── */
+  /* ─── Mobile menu ─── */
   @media (max-width: 767px) {
     .nav-links {
       position: fixed;
@@ -252,21 +253,17 @@ function isActive(href: string): boolean {
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
-      
-      /* ĐÃ SỬA: Khoảng đệm lý tưởng ban đầu bình thường, có thể cuộn lên giữa trang */
-      padding: 100px var(--space-6) 150px; 
-      scroll-padding-bottom: 100px;
-      
+      padding: 100px var(--space-6) 150px;
       gap: var(--space-4);
       transform: translateX(100%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: var(--shadow-lg);
     }
-    
+
     .nav-links.is-open {
       transform: translateX(0);
     }
-    
+
     .nav-link {
       font-size: var(--text-md);
       flex-direction: column;
@@ -276,86 +273,3 @@ function isActive(href: string): boolean {
     }
   }
 </style>
-
-<script>
-  function initMobileMenu() {
-    const menu = document.querySelector('[data-menu]') as HTMLElement; 
-    const hamburgerBtn = document.querySelector('[data-menu-toggle]') as HTMLElement;
-
-    if (!menu || !hamburgerBtn) return;
-
-    if (hamburgerBtn.dataset.initialized === 'true') return;
-    hamburgerBtn.dataset.initialized = 'true';
-
-    const toggleMenu = (forceClose = false) => {
-      const isOpen = menu.classList.contains('is-open');
-      if (isOpen || forceClose) {
-        menu.classList.remove('is-open');
-        hamburgerBtn.setAttribute('aria-expanded', 'false');
-      } else {
-        menu.classList.add('is-open');
-        hamburgerBtn.setAttribute('aria-expanded', 'true');
-      }
-    };
-
-    // 1. Click nút Hamburger (Biến hình X / Menu)
-    hamburgerBtn.addEventListener('click', (event) => {
-      event.stopPropagation(); 
-      toggleMenu();
-    });
-
-    // 2. Click ra ngoài để đóng
-    document.addEventListener('click', (event) => {
-      if (window.innerWidth >= 768) return; 
-      const isOpen = menu.classList.contains('is-open');
-      if (!isOpen) return;
-      
-      if (!menu.contains(event.target as Node) && !hamburgerBtn.contains(event.target as Node)) {
-        toggleMenu(true);
-      }
-    });
-
-    // 3. Phím ESC để đóng
-    document.addEventListener('keydown', (event) => {
-      if (window.innerWidth >= 768) return; 
-      if (event.key === 'Escape' && menu.classList.contains('is-open')) {
-        toggleMenu(true);
-      }
-    });
-
-    // ─── LẬP TRÌNH HÀNH VI VUỐT CHẠM (TOUCH GESTURES) ───
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    // Bắt đầu chạm ngón tay
-    document.addEventListener('touchstart', (e) => {
-      if (window.innerWidth >= 768) return;
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    // Nhấc ngón tay lên
-    document.addEventListener('touchend', (e) => {
-      if (window.innerWidth >= 768) return;
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-      const swipeDistance = touchEndX - touchStartX;
-      const isOpen = menu.classList.contains('is-open');
-
-      // Ngưỡng vuốt tối thiểu (đơn vị pixel) để tránh kích hoạt nhầm khi cuộn dọc
-      const minSwipeThreshold = 60; 
-
-      if (isOpen && swipeDistance > minSwipeThreshold) {
-        // Vuốt từ trái sang phải (Swipe Right) -> Đóng menu
-        toggleMenu(true);
-      } else if (!isOpen && swipeDistance < -minSwipeThreshold && touchStartX > window.innerWidth * 0.8) {
-        // Vuốt từ lề phải sang trái (Swipe Left từ mép màn hình) -> Mở menu
-        toggleMenu();
-      }
-    }
-  }
-
-  document.addEventListener('astro:page-load', initMobileMenu);
-</script>
