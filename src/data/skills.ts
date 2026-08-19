@@ -15,12 +15,12 @@ export const skillGroups: SkillGroup[] = [
     items: [
       'Tư duy hệ thống & logic',
       'Lập trình cơ bản',
-      'Sử dụng ngoại ngữ khá ( English )',
+      'Sử dụng tiếng Anh ổn cho công việc và học thuật',
     ],
   },
   {
     category: 'Ngôn ngữ & Công cụ',
-    items: ['Python', 'Java', 'Javascript & TypeScript cơ bản ','Git & GitHub', 'VS Code'],
+    items: ['Python', 'Java', 'JavaScript & TypeScript cơ bản', 'Git & GitHub', 'VS Code'],
   },
   {
     category: 'Sở thích',
