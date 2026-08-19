@@ -12,8 +12,7 @@ export interface Props {
 const { entry } = Astro.props;
 const { title, author, rating, cover, category } = entry.data;
 
-// ĐÃ SỬA: Đổi entry.slug thành entry.id
-const href = `/books/${entry.id}`; 
+const href = `/books/${entry.id}`;
 
 // Render rating thành 5 sao "lấp đầy / rỗng"
 const stars = Array.from({ length: 5 }, (_, i) => i < rating);
@@ -75,9 +74,34 @@ const stars = Array.from({ length: 5 }, (_, i) => i < rating);
     place-items: center;
     margin-bottom: var(--space-3);
     border: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Gradient nền theo category — nhẹ, có hệ thống, giúp bìa emoji nổi bật */
+  .book-card[data-category='tech'] .cover {
+    background: linear-gradient(160deg, rgba(100, 255, 218, 0.18), rgba(13, 148, 136, 0.08));
+  }
+  .book-card[data-category='philosophy'] .cover {
+    background: linear-gradient(160deg, rgba(167, 139, 250, 0.2), rgba(88, 28, 135, 0.08));
+  }
+  .book-card[data-category='psychology'] .cover {
+    background: linear-gradient(160deg, rgba(251, 191, 36, 0.18), rgba(180, 83, 9, 0.08));
+  }
+  .book-card[data-category='science'] .cover {
+    background: linear-gradient(160deg, rgba(96, 165, 250, 0.2), rgba(30, 64, 175, 0.08));
+  }
+  .book-card[data-category='fiction-world'] .cover {
+    background: linear-gradient(160deg, rgba(244, 114, 182, 0.18), rgba(131, 24, 67, 0.08));
+  }
+  .book-card[data-category='fiction-vietnam'] .cover {
+    background: linear-gradient(160deg, rgba(251, 146, 60, 0.18), rgba(154, 52, 18, 0.08));
+  }
+  .book-card[data-category='other'] .cover {
+    background: linear-gradient(160deg, rgba(148, 163, 184, 0.2), rgba(51, 65, 85, 0.08));
   }
   .emoji {
     font-size: 3rem;
+    filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--color-bg) 40%, transparent));
   }
   .title {
     color: var(--color-heading);

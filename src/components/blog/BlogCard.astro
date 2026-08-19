@@ -14,7 +14,6 @@ export interface Props {
 const { entry } = Astro.props;
 const { title, description, date, readTime, tags } = entry.data;
 
-// ĐÃ SỬA: Đổi entry.slug thành entry.id
 const href = `/blog/${entry.id}`;
 ---
 
@@ -96,4 +95,23 @@ const href = `/blog/${entry.id}`;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-
+    margin-bottom: var(--space-4);
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+  }
+  .read-more {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    transition: color var(--transition-fast);
+  }
+  .card:hover .read-more {
+    color: var(--color-accent-strong);
+  }
+</style>

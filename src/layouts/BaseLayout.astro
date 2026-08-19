@@ -15,6 +15,7 @@ export interface Props {
 const { title, description = profile.tagline } = Astro.props;
 const siteName = profile.name;
 const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
+const ogImage = new URL('/images/og-image.svg', Astro.site).toString();
 ---
 
 <!doctype html>
@@ -24,6 +25,17 @@ const fullTitle = title === siteName ? siteName : `${title} · ${siteName}`;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Màu thanh trình duyệt (mobile, in-app browser như Zalo) -->
     <meta name="theme-color" content="#080f1e" />
+
+    <!-- Social preview (Open Graph / Twitter Card) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <ClientRouter />
 

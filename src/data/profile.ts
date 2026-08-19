@@ -45,16 +45,15 @@ export interface Profile {
 export const profile: Profile = {
   name: 'Đỗ Xuân Tuyên',
   shortName: 'Tuyên',
-  tagline: 'Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu ( Computer Networking & Data Communication )',
+  tagline: 'Sinh viên ngành Mạng máy tính và Truyền thông dữ liệu (Computer Networking & Data Communication)',
   tagline2: 'Đam mê dẫn lối. Bền bỉ thực thi.',
   avatar: '/images/avatar.png',
   cover: '/images/cover.jpg',
   about:
-    'Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Nơi mà người ta thường nói về code và robot, và tôi cũng không ngoại lệ, nhưng có lẽ pha vào đó một chút lãng mạn hơn.😄✨',
+    'Tôi là sinh viên ngành Mạng máy tính và Truyền thông dữ liệu tại Đại học Công nghệ (VNU-UET). Nơi mọi người nói về code và robot — tôi cũng vậy, chỉ là có thêm chút lãng mạn.',
   about2:
-    'Ngoài việc học tập khoa học công nghệ, tôi dành thời gian tối ưu hóa không gian quản lý kiến thức cá nhân và trau dồi kỹ năng mềm để hoàn thiện bản thân mỗi ngày. Tôi thích tư duy logic kết hợp với thực tế, theo đuổi chủ nghĩa tối giản. Luôn tò mò và bị hấp dẫn bởi sự giao thoa giữa công nghệ và và các lĩnh vực khoa học tự nhiên.',
-  philosophy:
-    'Tôi muốn ngày càng học cách nhìn nhận sự tất yếu của vạn vật như một cái đẹp; rồi tôi sẽ trở thành một trong những người làm cho vạn vật trở nên đẹp đẽ. Amor fati: từ nay trở đi, mong sao điều đó sẽ là tình yêu của tôi! — Friedrich Nietzsche',
+    'Ngoài học tập, tôi dành thời gian tổ chức hệ thống kiến thức cá nhân và rèn kỹ năng mềm để hoàn thiện bản thân mỗi ngày. Tôi yêu thích sự tối giản, tư duy logic gắn với thực tế, và luôn tò mò về sự giao thoa giữa công nghệ với khoa học tự nhiên.',
+  philosophy: 'Amor fati — hãy yêu lấy định mệnh của mình. — Friedrich Nietzsche',
   currentWork:
     'Tập trung vào các môn khoa học cơ bản và lập trình tại trường, đồng thời xây dựng các dự án cá nhân và nhóm.',
   dream:

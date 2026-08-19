@@ -13,7 +13,7 @@
  */
 
 import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders'; // <-- Imported the required loader
+import { glob } from 'astro/loaders';
 
 /* ─── Blog posts ─── */
 const blog = defineCollection({
@@ -22,7 +22,7 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(), // tóm tắt ngắn — hiển thị ở list & meta tag
     date: z.coerce.date(), // YYYY-MM-DD trong frontmatter → tự parse
-    readTime: z.string().optional(), // VD: "5 phút đọc". Có thể auto-tính sau.
+    readTime: z.string().optional(), // VD: "5 phút đọc"
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false), // true → ẩn khỏi production
   }),

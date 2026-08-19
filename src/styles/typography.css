@@ -116,5 +116,5 @@ p {
 }
 
 html[data-theme='light'] .section-number {
-  text-shadow: 0 0 10px rgba(13, 148, 136, 0.3);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }

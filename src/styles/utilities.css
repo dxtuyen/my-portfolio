@@ -83,3 +83,59 @@
     padding-block: var(--space-9);
   }
 }
+
+/*
+ * Buttons — dùng chung toàn site (.btn-primary / .btn-secondary).
+ * Component có nhu cầu riêng có thể bổ sung modifier class.
+ */
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+.btn-primary:hover {
+  background: var(--color-accent-strong);
+  color: var(--color-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+.btn-secondary:hover {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  transform: translateY(-2px);
+}
+
+/* Light theme — giảm cường độ glow cho vừa mắt */
+html[data-theme='light'] .btn-primary:hover {
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+html[data-theme='light'] .btn-secondary:hover {
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-accent) 14%, transparent);
+}

@@ -9,7 +9,7 @@ import { profile } from '../../data/profile';
   <div class="container hero-content">
     <p class="hero-greeting reveal">Xin chào, tôi là</p>
 
-    <h1 class="hero-name">{profile.name}.</h1>
+    <h1 class="hero-name"><span class="text-gradient">{profile.name}</span>.</h1>
 
     <h2
       class="hero-tagline reveal reveal-d3"
@@ -22,7 +22,7 @@ import { profile } from '../../data/profile';
       <a href={profile.schoolUrl} target="_blank" rel="noreferrer">
         {profile.schoolName}
       </a>. Một người có chiều sâu nội tâm, yêu thích sự tối giản và luôn tò
-      mò về thế giới xung quanh.
+      mò về thế giới.
     </p>
 
     <div class="hero-actions reveal reveal-d5">
@@ -74,11 +74,19 @@ import { profile } from '../../data/profile';
 
   .hero-name {
     font-size: var(--text-4xl);
+    font-weight: 700;
     line-height: 1.15;
     padding-top: 0.1em;
     margin-bottom: var(--space-3);
     color: var(--color-heading);
     animation: name-slide-in 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) 150ms both;
+  }
+  .hero-name .text-gradient {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-heading) 25%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -119,43 +127,12 @@ import { profile } from '../../data/profile';
     gap: var(--space-3);
   }
 
-  /* ─── Buttons ─── */
-  .btn-primary,
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-3) var(--space-5);
-    font-size: var(--text-sm);
-    border-radius: var(--radius-md);
-    font-family: var(--font-mono);
-    transition: background var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+  /* Buttons dùng chung từ utilities.css — chỉ giữ class scoped nếu cần glow mạnh hơn */
+  .hero .btn-primary:hover {
+    box-shadow: 0 0 28px color-mix(in srgb, var(--color-accent) 50%, transparent), 0 8px 24px rgba(0, 0, 0, 0.35);
   }
-
-  .btn-primary {
-    background: var(--color-accent);
-    color: var(--color-bg);
-    font-weight: 500;
-  }
-  .btn-primary:hover {
-    background: var(--color-accent-strong);
-    box-shadow: 0 0 28px rgba(100, 255, 218, 0.5), 0 8px 24px rgba(0, 0, 0, 0.35);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
-  }
-  .btn-secondary:hover {
-    background: var(--color-accent-soft);
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.3), 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  html[data-theme='light'] .btn-primary:hover {
-    box-shadow: 0 0 28px rgba(13, 148, 136, 0.35), 0 8px 20px rgba(0, 0, 0, 0.1);
-  }
-  html[data-theme='light'] .btn-secondary:hover {
-    box-shadow: 0 0 20px rgba(13, 148, 136, 0.2), 0 8px 20px rgba(0, 0, 0, 0.06);
+  .hero .btn-secondary:hover {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-accent) 30%, transparent), 0 8px 20px rgba(0, 0, 0, 0.2);
   }
 </style>
 
